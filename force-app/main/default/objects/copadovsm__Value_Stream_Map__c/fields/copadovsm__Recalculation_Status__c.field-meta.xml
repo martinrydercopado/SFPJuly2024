@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copadovsm__Recalculation_Status__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Value Stream Map Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not Required</fullName>
+                <default>true</default>
+                <label>Recalculation Not Required</label>
+            </value>
+            <value>
+                <fullName>Required</fullName>
+                <default>false</default>
+                <label>Recalculation Required</label>
+            </value>
+            <value>
+                <fullName>Calculating</fullName>
+                <default>false</default>
+                <label>Calculating</label>
+            </value>
+            <value>
+                <fullName>Failed</fullName>
+                <default>false</default>
+                <label>Recalculation Failed</label>
+            </value>
+            <value>
+                <fullName>Snapshot Failed</fullName>
+                <default>false</default>
+                <label>Snapshot Failed</label>
+            </value>
+            <value>
+                <fullName>Snapshot In Progress</fullName>
+                <default>false</default>
+                <label>Snapshot In Progress</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

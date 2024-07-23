@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__Status__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Only &quot;Ready&quot; environment definitions can be used by regular Users, and &quot;Developing&quot; only mocks the creation of Orgs (see the documentation for details).</description>
+    <inlineHelpText>Only &quot;Ready&quot; environment definitions can be used by regular Users, and &quot;Developing&quot; only mocks the creation of Orgs (see the documentation for details).</inlineHelpText>
+    <label>Status</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Developing</fullName>
+                <default>true</default>
+                <label>Developing</label>
+            </value>
+            <value>
+                <fullName>Testing</fullName>
+                <default>false</default>
+                <label>Testing</label>
+            </value>
+            <value>
+                <fullName>Ready</fullName>
+                <default>false</default>
+                <label>Ready</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

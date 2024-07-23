@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__ParentEnvironment__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Sandbox Parent or DevHub Environment</description>
+    <inlineHelpText>Sandbox Parent or DevHub Environment</inlineHelpText>
+    <label>Parent Environment</label>
+    <referenceTo>copado__Environment__c</referenceTo>
+    <relationshipLabel>Environment Definitions</relationshipLabel>
+    <relationshipName>Environment_Definitions</relationshipName>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

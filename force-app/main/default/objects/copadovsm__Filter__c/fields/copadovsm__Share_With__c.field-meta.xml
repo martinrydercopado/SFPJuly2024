@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copadovsm__Share_With__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Share With</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Only me</fullName>
+                <default>true</default>
+                <label>Only me</label>
+            </value>
+            <value>
+                <fullName>All users</fullName>
+                <default>false</default>
+                <label>All users</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

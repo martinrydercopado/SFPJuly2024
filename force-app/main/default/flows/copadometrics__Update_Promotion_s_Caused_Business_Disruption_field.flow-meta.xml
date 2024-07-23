@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <description>Checks if a promotion whose destination org is a Production environment has caused business disruption and sets the Caused Business Disruption field as checked.</description>
+    <label>Update Promotion&apos;s Caused Business Disruption field</label>
+    <processMetadataValues>
+        <name>AssociatedRecord</name>
+        <value/>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+</Flow>

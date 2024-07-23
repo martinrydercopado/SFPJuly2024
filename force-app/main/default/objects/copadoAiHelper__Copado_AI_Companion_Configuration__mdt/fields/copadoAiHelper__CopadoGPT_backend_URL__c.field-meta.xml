@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copadoAiHelper__CopadoGPT_backend_URL__c</fullName>
+    <deprecated>false</deprecated>
+    <description>By default, if this is empty, AI Companion will use the url of the named credential &quot;mc-backend&quot; (API Name mc_backend). You can set this field if a different URL is needed for your installation</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>By default, if this is empty, AI Companion will use the url of the named credential &quot;mc-backend&quot; (API Name mc_backend). You can set this field if a different URL is needed for your installation</inlineHelpText>
+    <label>CopadoGPT backend URL</label>
+    <required>false</required>
+    <type>Url</type>
+</CustomField>

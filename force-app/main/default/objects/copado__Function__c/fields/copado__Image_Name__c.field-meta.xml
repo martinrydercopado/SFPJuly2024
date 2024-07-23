@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__Image_Name__c</fullName>
+    <defaultValue>&quot;copado-function-core:v1&quot;</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Name of the Image required to run the function.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The docker image name provided by Copado. You will find available image paths in the Copado documentation. An image name is made up of slash-separated name components, prefixed by a registry hostname.</inlineHelpText>
+    <label>Image Name</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

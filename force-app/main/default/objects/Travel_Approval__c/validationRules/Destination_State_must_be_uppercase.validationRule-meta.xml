@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Destination_State_must_be_uppercase</fullName>
+    <active>true</active>
+    <errorConditionFormula>Destination_State__c &lt;&gt; UPPER( Destination_State__c )</errorConditionFormula>
+    <errorDisplayField>Destination_State__c</errorDisplayField>
+    <errorMessage>Destination State must be entered in UPPERCASE</errorMessage>
+</ValidationRule>

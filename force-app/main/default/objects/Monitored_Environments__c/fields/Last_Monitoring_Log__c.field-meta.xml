@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Monitoring_Log__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Last Monitoring Log</label>
+    <referenceTo>Monitoring_Log__c</referenceTo>
+    <relationshipLabel>Monitored Environments</relationshipLabel>
+    <relationshipName>Monitored_Environments</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copadoAiHelper__OpenAI_Model__c</fullName>
+    <defaultValue>&quot;gpt-3.5-turbo&quot;</defaultValue>
+    <deprecated>false</deprecated>
+    <description>ID of the AI model to use. Consult the Copado documentation to see all of the available models</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>ID of the AI model to use. Consult the Copado documentation to see all of the available models</inlineHelpText>
+    <label>Copado AI Model</label>
+    <length>128</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

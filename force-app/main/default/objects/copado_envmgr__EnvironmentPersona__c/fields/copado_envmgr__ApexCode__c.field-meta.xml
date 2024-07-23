@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__ApexCode__c</fullName>
+    <defaultValue>&quot;User user = new User();&quot; &amp;BR()&amp; &quot;user.ProfileId = [SELECT Id FROM Profile WHERE Name = &apos;Standard User&apos;].Id;&quot; &amp;BR()&amp; &quot;user.LastName = &apos;USERNAME&apos;;&quot; &amp;BR()&amp; &quot;user.Email = &apos;EMAIL&apos;;&quot; &amp;BR()&amp; &quot;user.Username = &apos;USERNAME&apos;;&quot; &amp;BR()&amp; &quot;user.Alias = &apos;nr&apos;;&quot; &amp;BR()&amp; &quot;user.TimeZoneSidKey = &apos;America/Los_Angeles&apos;;&quot; &amp;BR()&amp; &quot;user.EmailEncodingKey = &apos;UTF-8&apos;;&quot; &amp;BR()&amp; &quot;user.LanguageLocaleKey = &apos;en_US&apos;;&quot; &amp;BR()&amp; &quot;user.LocaleSidKey = &apos;en_US&apos;;&quot; &amp;BR()&amp; &quot;insert user;&quot; &amp;BR()&amp; &quot;System.resetPassword(user.Id, true);&quot; &amp;BR()&amp; &quot;&quot;</defaultValue>
+    <deprecated>false</deprecated>
+    <description>This Apex code will be executed when creating a User for an Environment.
+You can not only create the user, but assign profiles, permissionsets, licenses, and any other need.</description>
+    <inlineHelpText>This Apex code will be executed when creating a User for an Environment.
+You can not only create the user, but assign profiles, permissionsets, licenses, and any other need.</inlineHelpText>
+    <label>Apex Code</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

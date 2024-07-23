@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__DefinitionJson__c</fullName>
+    <defaultValue>&quot;{&quot; &amp;BR()&amp;
+&quot;     \&quot;sandboxName\&quot;: \&quot;deveopment-org-{&quot;&amp;&quot;!&quot;&amp;&quot;RANDOM}\&quot;,&quot; &amp;BR()&amp;
+&quot;     \&quot;licenseType\&quot;: \&quot;Developer\&quot;,&quot; &amp;BR()&amp;
+&quot;     \&quot;autoActivate\&quot;: true&quot; &amp;BR()&amp;
+&quot;}&quot; &amp;BR()</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Sandbox or Scratch Org JSON. See Salesforce documentation for details</description>
+    <inlineHelpText>Sandbox or Scratch Org JSON. See Salesforce documentation for details</inlineHelpText>
+    <label>Definition Json</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

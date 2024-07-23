@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__JobTemplate__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Customizable Job Template that will be executed when requesting a new Persona</description>
+    <inlineHelpText>Customizable Job Template that will be executed when requesting a new Persona</inlineHelpText>
+    <label>Create Job Template</label>
+    <referenceTo>copado__JobTemplate__c</referenceTo>
+    <relationshipLabel>Environment Personas</relationshipLabel>
+    <relationshipName>Environment_Personas</relationshipName>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__PackageInstallationJson__c</fullName>
+    <deprecated>false</deprecated>
+    <description>JSON in the format {&quot;package id&quot;: {&quot;name&quot;: &quot;package name and version&quot;, &quot;installation-key&quot;: &quot;&quot;, ... } Remember: package ID&apos;s are the ones starting with &quot;04t&quot;</description>
+    <inlineHelpText>JSON in the format {&quot;package id&quot;: {&quot;name&quot;: &quot;package name and version&quot;, &quot;installation-key&quot;: &quot;&quot;, ... } Remember: package ID&apos;s are the ones starting with &quot;04t&quot;</inlineHelpText>
+    <label>Package Installation Json</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

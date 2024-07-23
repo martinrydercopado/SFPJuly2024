@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__Restrict_Standard_Persona_Modification</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND(copado__Is_Standard__c, ISCHANGED(copado__Config_JSON__c))</errorConditionFormula>
+    <errorMessage>Standard persona definitions can not be modified. Please create a custom persona definition.</errorMessage>
+</ValidationRule>

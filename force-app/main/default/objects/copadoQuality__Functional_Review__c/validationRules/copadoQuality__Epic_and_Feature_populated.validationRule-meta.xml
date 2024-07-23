@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copadoQuality__Epic_and_Feature_populated</fullName>
+    <active>true</active>
+    <description>A Functional Review cannot be linked to both an Epic and a Feature.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(copadoQuality__Epic__c)),NOT(ISBLANK(copadoQuality__Feature__c)))</errorConditionFormula>
+    <errorMessage>Review session can be created only for one epic or feature. Both values can not be provided at the same time.</errorMessage>
+</ValidationRule>

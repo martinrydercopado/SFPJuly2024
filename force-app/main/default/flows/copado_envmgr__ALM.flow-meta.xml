@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Email_of_Log_0</name>
+        <label>Send Email of Log</label>
+        <locationX>314</locationX>
+        <locationY>314</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>$Record.copado_envmgr__Log__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>ALMLogging; {!Short}</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <name>Check_last_name_of_the_user</name>
+        <label>Check last name of the user</label>
+        <locationX>182</locationX>
+        <locationY>194</locationY>
+        <defaultConnector>
+            <targetReference>Send_Email_of_Log_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>If_it_is_save_in_Tasks</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Summary</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>(4);</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Summary</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>(5);</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Summary</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>(6);</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Task</targetReference>
+            </connector>
+            <label>Save task</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <description>Short text of the</description>
+        <name>Short</name>
+        <dataType>String</dataType>
+        <expression>{!TEXT($Record.CreatedDate)+&quot;; &quot;+LEFT($Record.Log__c, 68)}</expression>
+    </formulas>
+    <formulas>
+        <description>only 4906 characters of the logs</description>
+        <name>Summary</name>
+        <dataType>String</dataType>
+        <expression>{!LEFT($Record.Log__c, 4096)}</expression>
+    </formulas>
+    <interviewLabel>ALM Send Email {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>ALM: Apex Logging Manager</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Task</name>
+        <label>Create Task</label>
+        <locationX>50</locationX>
+        <locationY>314</locationY>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Summary</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Short</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_last_name_of_the_user</targetReference>
+        </connector>
+        <object>copado_envmgr__ALM__e</object>
+        <triggerType>PlatformEvent</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

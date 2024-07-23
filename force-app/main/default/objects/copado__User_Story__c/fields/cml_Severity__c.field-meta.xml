@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cml_Severity__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Used to track the severity on User Stories of type Bug</description>
+    <label>Severity</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>P0 - Blocker - Business Disruption</fullName>
+                <default>false</default>
+                <label>P0 - Blocker - Business Disruption</label>
+            </value>
+            <value>
+                <fullName>P1 - Critical - No Workaround</fullName>
+                <default>false</default>
+                <label>P1 - Critical - No Workaround</label>
+            </value>
+            <value>
+                <fullName>P2 - Major</fullName>
+                <default>false</default>
+                <label>P2 - Major</label>
+            </value>
+            <value>
+                <fullName>P3 - Minor</fullName>
+                <default>false</default>
+                <label>P3 - Minor</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

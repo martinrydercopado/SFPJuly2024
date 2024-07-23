@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__All</fullName>
+    <columns>NAME</columns>
+    <columns>copado_envmgr__Status__c</columns>
+    <columns>copado_envmgr__Environment__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>copado_envmgr__ExpirationDate__c</columns>
+    <columns>copado_envmgr__EnvironmentDefinition__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

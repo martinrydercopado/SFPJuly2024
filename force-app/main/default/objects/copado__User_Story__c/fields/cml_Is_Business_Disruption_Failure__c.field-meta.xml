@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cml_Is_Business_Disruption_Failure__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates if this User Story is considered a Business Disrupting Failure (i.e. a P0 or P1 severity issue)</description>
+    <formula>IF(OR(TEXT(cml_Severity__c) == &apos;P0 - Blocker - Business Disruption&apos;, TEXT(cml_Severity__c) == &apos;P1 - Critical - No Workaround&apos;), true, false)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Business Disruption Failure</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

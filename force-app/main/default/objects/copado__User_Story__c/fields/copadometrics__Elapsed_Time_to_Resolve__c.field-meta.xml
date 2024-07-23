@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copadometrics__Elapsed_Time_to_Resolve__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>TEXT(IF(
+ISBLANK(copadometrics__First_Time_Promoted_to_Production__c),
+FLOOR(NOW() - CreatedDate)
+,
+FLOOR(copadometrics__First_Time_Promoted_to_Production__c - CreatedDate)
+))
+
+&amp; &quot; days &quot; &amp;
+
+TEXT(IF(
+ISBLANK(copadometrics__First_Time_Promoted_to_Production__c),
+FLOOR(MOD((NOW() - CreatedDate)*24, 24))
+,
+FLOOR(MOD((copadometrics__First_Time_Promoted_to_Production__c - CreatedDate)*24, 24))
+))
+ 
+&amp; &quot; hours &quot; &amp; 
+
+TEXT(IF(
+ISBLANK(copadometrics__First_Time_Promoted_to_Production__c),
+ROUND(MOD((NOW() - CreatedDate)*1440, 60), 0)
+,
+ROUND(MOD((copadometrics__First_Time_Promoted_to_Production__c - CreatedDate)*1440, 60), 0)
+)) &amp; &quot; minutes&quot;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Elapsed Time to Resolve</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__Pipeline__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>copado_envmgr__Project__r.copado__Deployment_Flow__c</formula>
+    <label>Pipeline</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

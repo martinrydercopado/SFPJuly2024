@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <description>Update the First Time Promoted to Production field on the Promotion&apos;s child user stories when a deployment is successful.</description>
+    <label>Update User Story&apos;s First Time Promoted to Production</label>
+    <processMetadataValues>
+        <name>AssociatedRecord</name>
+        <value/>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+</Flow>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copadoAiHelper__Allowed_Objects__c</fullName>
+    <deprecated>false</deprecated>
+    <description>List of Object names (one per line) that are allowed to query, beside the Copado Objects.
+E.g.
+Case
+Lead
+Contact</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>List of Object names (one per line) that are allowed to query, beside the Copado Objects.</inlineHelpText>
+    <label>Allowed Objects</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

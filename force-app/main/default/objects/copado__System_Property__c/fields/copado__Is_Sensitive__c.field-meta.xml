@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__Is_Sensitive__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Select this checbox to hide the sensitive information.</description>
+    <inlineHelpText>If this field is selected, the value won&apos;t be accessible to any user, and it will be securely saved. The value will remain hidden unless the field is unchecked</inlineHelpText>
+    <label>Hide Value</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

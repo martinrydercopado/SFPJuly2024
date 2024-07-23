@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado_envmgr__OrgId__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <deprecated>false</deprecated>
+    <description>Salesforce Org Id, used as an External ID that must match copado__Environment__r.copado__Org_ID__c</description>
+    <externalId>true</externalId>
+    <inlineHelpText>Salesforce Org Id, used as an External ID that must match copado__Environment__r.copado__Org_ID__c</inlineHelpText>
+    <label>OrgId</label>
+    <length>18</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
