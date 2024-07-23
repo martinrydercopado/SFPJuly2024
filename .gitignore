@@ -1,57 +1,15 @@
-# Excluded Managed Package Metadata
-# Still allows customization, but doesn't track unchangeable files
-# Add all installed managed packages to this list
+# This file is used for Git repositories to specify intentionally untracked files that Git should ignore. 
+# If you are not using git, you can delete this file. For more information see: https://git-scm.com/docs/gitignore
+# For useful gitignore templates see: https://github.com/github/gitignore
 
-# Excluded Managed Packages - non editable components
-
-# Wildcard for All Managed Packages: If you want to exclude all managed packages 
-# regardless of their namespace, you can use a wildcard pattern that matches any file 
-# containing two underscores, which is a common convention for namespaced components 
-# in Salesforce:
-#*__*
-
-# Ignore any component containing namespace__
-#*namespace__*
-
-# Copado Deployer base package
-**/classes/copado__*
-**/triggers/copado__*
-**/pages/copado__*
-
-# Copado CICD for Source Format Pipelines
-**/classes/cmcSf__*
-**/triggers/cmcSf__*
-**/pages/cmcSf__*
-
-# Copado Quality Integration Framework
-**/classes/copadoQuality__*
-**/triggers/copadoQuality__*
-**/pages/copadoQuality__*
-
-# Excluded Metadata Types - Performance / Data-like
-**/documents/*
-**/dashboards/*
-**/installedPackages/*
-**/reports/*
-**/staticresources/*
-
-
-# Excluded Metadata Types - Security
-**/authprovider/*
-**/samlssoconfigs/*
-
-# Excluded Metadata Types - Obsolete as of API v44
-**/flowdefinitions/*
-
-
-# Default SFDX - Dreamhouse .gitignore content
-
-# Salesforce dev
+# Salesforce cache
+.sf/
 .sfdx/
 .localdevserver/
+deploy-options.json
 
 # LWC VSCode autocomplete
-jsconfig.json
+**/lwc/jsconfig.json
 
 # LWC Jest coverage reports
 coverage/
@@ -78,14 +36,12 @@ ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 
-# VS Code project settings
-.vscode/*
-!.vscode/extensions.json
-.pmdCache
-/scan_results.csv
-/quickstart.sh
+# Local environment variables
+.env
 
-# Other
-.sf/
-.copado/
-.config
+# Python Salesforce Functions
+**/__pycache__/
+**/.venv/
+**/venv/
+
+.copado
