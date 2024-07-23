@@ -1,9 +1,36 @@
-# Files matching patterns in this file will be excluded from auto-resolve during merge conflicts
-# The pattern syntax is the same as for .gitignore files
-# here is more documentation:
-# Copado Docs & Samples: https://docs.copado.com/articles/copado-ci-cd-publication/conflict-resolution-in-copado-devops-platform
-# Sample statements for metadata which is frequently excluded.
-# please remove comment (#) to "activate" a statement and start resolving conflicts for specific metadata manually in Copado:
-#**/classes/*.cls
-#**/pages/*.page
-#**/layouts/*.layout-meta.xml
+
+# This is a sample .copado_exclude_autoresolve file
+# Lines starting with '#' are comments and are ignored by Copado
+# Use '**' to match any character across directory levels
+# Use '*' to match any character within a directory level
+# Use specific directory names and file patterns to match certain files
+
+# Exclude all Apex class files from auto-resolve
+**/classes/*.cls
+
+# Exclude all Apex trigger files from auto-resolve
+**/triggers/**
+
+# Exclude all Visualforce page files from auto-resolve
+**/pages/**
+
+# Exclude all Layouts files from auto-resolve
+# **/layouts/**
+
+# Exclude all Lightning component bundle directories from auto-resolve
+**/aura/**
+
+# Exclude all Lightning web component bundle directories from auto-resolve
+**/lwc/**
+
+# Exclude all files in a specific directory (e.g., a directory named 'workflows')
+# workflows/**
+
+# Exclude all files in the 'classes' directory within any 'modules' directory
+# modules/*/classes/**
+
+# Exclude all metadata in an unlocked package with a specific name (e.g., 'mypackage')
+# **/mypackage/**/*
+
+# Exclude a specific metadata type (e.g., CustomObject)
+# **/objects/Account.object
