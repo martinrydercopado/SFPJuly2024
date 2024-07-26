@@ -23,6 +23,10 @@
                 <behavior>Edit</behavior>
                 <field>Account_CheckBox__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>New_account_date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
