@@ -2,6 +2,11 @@
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata"
       xmlns:n1="http://www.w3.org/2001/XMLSchema-instance">
     <custom>false</custom>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>July29Object__c.July29_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>July29Object__c-July29Object Layout</layout>
     </layoutAssignments>
