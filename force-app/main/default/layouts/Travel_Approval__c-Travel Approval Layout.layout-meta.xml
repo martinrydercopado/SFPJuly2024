@@ -23,6 +23,10 @@
                 <behavior>Edit</behavior>
                 <field>Destination_State__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Travel_Required__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
