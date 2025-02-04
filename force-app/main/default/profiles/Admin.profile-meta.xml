@@ -9,6 +9,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ObjectJan25__c.ObjectJan25_Checkbox__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ObjectJan25__c.ObjectJan25_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ObjectJan25__c.ObjectJan25_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ObjectNov24__c.ObjectNov24_Date_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -33,6 +48,9 @@
     <layoutAssignments>
         <layout>July29Object__c-July29Object Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>ObjectJan25__c-ObjectJan25 Layout</layout>
+    </layoutAssignments>
     <loginHours n1:nil="true" />
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -50,6 +68,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>July29Object__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ObjectJan25__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
