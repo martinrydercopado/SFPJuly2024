@@ -4,6 +4,16 @@
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CustomObjectJan28__c.CustomCheckboxFeb26__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CustomObjectJan28__c.CustomTextAreaFeb26__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>July29Object__c.July29_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
