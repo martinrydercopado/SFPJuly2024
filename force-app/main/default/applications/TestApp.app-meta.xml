@@ -16,6 +16,7 @@
     <navType>Standard</navType>
     <tabs>standard-Account</tabs>
     <tabs>standard-Campaign</tabs>
+    <tabs>standard-Contact</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>TestApp_UtilityBar</utilityBar>
 </CustomApplication>
