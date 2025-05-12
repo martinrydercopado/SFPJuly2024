@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <prompts>
+        <name>copado__LicenseManagerWalkThroughForRMApp</name>
+        <promptVersions>
+            <name>License Manager Walkthrough for Release Manager app Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>copado__DataSetWalkthrough</name>
+        <promptVersions>
+            <name>Data Set Walkthrough Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>copado__LicenseManagerWalkThrough</name>
+        <promptVersions>
+            <name>License Manager WalkthroughDeactivated Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+    </prompts>
+</Translations>
