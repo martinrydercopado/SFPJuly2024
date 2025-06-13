@@ -34,6 +34,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>NewObjectJune11__c.NewObjectJune11_Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NewObjectJune11__c.NewObjectJune11_Picklist__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NewObjectJune11__c.NewObjectJune11_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ObjectJan25__c.ObjectJan25_Checkbox__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -77,6 +92,9 @@
         <layout>July29Object__c-July29Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>NewObjectJune11__c-NewObjectJune11 Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ObjectJan25__c-ObjectJan25 Layout</layout>
     </layoutAssignments>
     <loginHours n1:nil="true" />
@@ -113,6 +131,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>NewObjectJune11__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>ObjectJan25__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -125,5 +152,9 @@
         <object>ObjectNov24__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabVisibilities>
+        <tab>NewObjectJune11__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <userLicense>Salesforce</userLicense>
 </Profile>
