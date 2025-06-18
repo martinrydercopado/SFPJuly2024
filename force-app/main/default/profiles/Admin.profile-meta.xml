@@ -24,6 +24,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>NewObjectJune11__c.NewObjectJune11_Currency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>NewObjectJune11__c.NewObjectJune11_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
