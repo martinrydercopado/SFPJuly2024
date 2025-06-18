@@ -1,0 +1,117 @@
+@isTest
+private class NewObjectJune11TriggerTest {
+    @isTest
+    static void testNameUpdate() {
+        // Create test data with all fields
+        NewObjectJune11__c testObj = new NewObjectJune11__c(
+            Name = 'Test Record',
+            NewObjectJune11_Phone__c = '(555) 555-5555',
+            NewObjectJune11_Picklist__c = '1',
+            NewObjectJune11_Text__c = 'TestText'
+        );
+        
+        // Start test
+        Test.startTest();
+        insert testObj;
+        Test.stopTest();
+        
+        // Query the record to verify changes - including all fields
+        NewObjectJune11__c updatedObj = [
+            SELECT Id, Name, NewObjectJune11_Phone__c, 
+                   NewObjectJune11_Picklist__c, NewObjectJune11_Text__c 
+            FROM NewObjectJune11__c 
+            WHERE Id = :testObj.Id
+        ];
+        
+        // Assert the results
+        System.assertEquals('Test Record - New Object Name', updatedObj.Name, 
+                          'Name field should be updated with appended text');
+        System.assertEquals('(555) 555-5555', updatedObj.NewObjectJune11_Phone__c, 
+                          'Phone field should match the input value');
+        System.assertEquals('1', updatedObj.NewObjectJune11_Picklist__c, 
+                          'Picklist field should match the input value');
+        System.assertEquals('TestText', updatedObj.NewObjectJune11_Text__c, 
+                          'Text field should match the input value');
+    }
+    
+    @isTest
+    static void testMultipleRecords() {
+        List<NewObjectJune11__c> testRecords = new List<NewObjectJune11__c>();
+        
+        // Create multiple test records
+        for(Integer i = 1; i <= 3; i++) {
+            testRecords.add(new NewObjectJune11__c(
+                Name = 'Test Record ' + i,
+                NewObjectJune11_Phone__c = '(555) 555-' + (1000 + i),
+                NewObjectJune11_Picklist__c = String.valueOf(i),
+                NewObjectJune11_Text__c = 'Text' + i
+            ));
+        }
+        
+        // Start test
+        Test.startTest();
+        insert testRecords;
+        Test.stopTest();
+        
+        // Query the records to verify changes
+        List<NewObjectJune11__c> updatedRecords = [
+            SELECT Id, Name, NewObjectJune11_Phone__c, 
+                   NewObjectJune11_Picklist__c, NewObjectJune11_Text__c 
+            FROM NewObjectJune11__c 
+            ORDER BY Name
+        ];
+        
+        // Assert the results
+        System.assertEquals(3, updatedRecords.size(), 
+                          'Three records should have been created');
+        
+        for(Integer i = 0; i < updatedRecords.size(); i++) {
+            NewObjectJune11__c record = updatedRecords[i];
+            Integer recordNum = i + 1;
+            
+            System.assertEquals('Test Record ' + recordNum + ' - New Object Name', 
+                              record.Name, 
+                              'Name field should be updated with appended text');
+            System.assertEquals('(555) 555-' + (1000 + recordNum), 
+                              record.NewObjectJune11_Phone__c, 
+                              'Phone field should match the input value');
+            System.assertEquals(String.valueOf(recordNum), 
+                              record.NewObjectJune11_Picklist__c, 
+                              'Picklist field should match the input value');
+            System.assertEquals('Text' + recordNum, 
+                              record.NewObjectJune11_Text__c, 
+                              'Text field should match the input value');
+        }
+    }
+    
+    @isTest
+    static void testNegativeScenarios() {
+        // Test with null name
+        NewObjectJune11__c testObjNullName = new NewObjectJune11__c(
+            NewObjectJune11_Phone__c = '(555) 555-5555',
+            NewObjectJune11_Picklist__c = '1',
+            NewObjectJune11_Text__c = 'TestText'
+        );
+        
+        Test.startTest();
+        insert testObjNullName;
+        Test.stopTest();
+        
+        // Query and verify
+        NewObjectJune11__c updatedObj = [
+            SELECT Id, Name, NewObjectJune11_Phone__c, 
+                   NewObjectJune11_Picklist__c, NewObjectJune11_Text__c 
+            FROM NewObjectJune11__c 
+            WHERE Id = :testObjNullName.Id
+        ];
+        
+        // Just verify that a name was auto-generated and other fields are correct
+        System.assertNotEquals(null, updatedObj.Name, 'Name should not be null');
+        System.assertEquals('(555) 555-5555', updatedObj.NewObjectJune11_Phone__c, 
+                          'Phone field should match the input value');
+        System.assertEquals('1', updatedObj.NewObjectJune11_Picklist__c, 
+                          'Picklist field should match the input value');
+        System.assertEquals('TestText', updatedObj.NewObjectJune11_Text__c, 
+                          'Text field should match the input value');
+    }
+}
