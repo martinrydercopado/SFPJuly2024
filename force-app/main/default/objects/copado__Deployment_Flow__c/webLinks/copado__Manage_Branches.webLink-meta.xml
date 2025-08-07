@@ -6,7 +6,7 @@
     <encodingKey>UTF-8</encodingKey>
     <height>600</height>
     <linkType>url</linkType>
-    <masterLabel>Manage Releases</masterLabel>
+    <masterLabel>Pipeline Manager (MFP)</masterLabel>
     <openType>noSidebar</openType>
     <protected>false</protected>
     <url>/apex/{!IF(CONTAINS($Action.copado__User_Story__c.New, &apos;copado__&apos;), &apos;copado__&apos;, &apos;&apos;)}{!IF(ISPICKVAL(copado__Deployment_Flow__c.copado__Calculate_Based_on__c, &apos;User Story&apos;), &apos;PipelineManager&apos;,&apos;BranchManagement&apos;)}?Id={!copado__Deployment_Flow__c.Id}&amp;mode={!IF(copado__Deployment_Flow__c.copado__Active__c, &apos;manager&apos;, &apos;diagram&apos;)}</url>

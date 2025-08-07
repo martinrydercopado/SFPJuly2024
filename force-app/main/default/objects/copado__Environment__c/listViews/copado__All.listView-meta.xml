@@ -3,6 +3,7 @@
     <fullName>copado__All</fullName>
     <columns>NAME</columns>
     <columns>copado__Type__c</columns>
+    <columns>copado__Platform__c</columns>
     <columns>copado__Minimum_Apex_Test_Coverage__c</columns>
     <columns>copado__Org_ID__c</columns>
     <columns>CREATED_DATE</columns>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>copado__JobStep__c.copado__Status__c</field>
+    </columns>
+    <columns>
+        <field>FK_$copado__JobExecution__c.copado__Destination__c</field>
+    </columns>
+    <columns>
+        <field>FK_$copado__JobExecution__c.copado__Context__c</field>
+    </columns>
+    <columns>
+        <field>FK_$copado__JobExecution__c.copado__Pipeline__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>copado__JobStep__c.copado__CustomType__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Manual Task</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>copado__JobStep__c.copado__Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>In Progress</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>In Progress Manual Tasks</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$copado__JobStep__c@copado__JobStep__c.copado__JobExecution__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

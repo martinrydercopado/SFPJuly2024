@@ -6,7 +6,7 @@
     <description>The maximum number of user stories that will be deployed together when a deployment is scheduled</description>
     <externalId>false</externalId>
     <inlineHelpText>Set to 1 to deploy each story individually. Batching deployments speeds up the process but causes all stories in a batch to succeed or fail together. This can delay the deployment of some stories and make it harder to identify the cause of errors.</inlineHelpText>
-    <label>Scheduled Back-Promotion US Group Size</label>
+    <label>Back-Promotion Batch Size</label>
     <precision>4</precision>
     <required>false</required>
     <scale>0</scale>

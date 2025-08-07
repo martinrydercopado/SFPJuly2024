@@ -27,5 +27,10 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
+    <displayedFields>
+        <field>cmcSf__Ignore_Deployment_Warnings__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
     <label>SFDX Extension Fields</label>
 </FieldSet>

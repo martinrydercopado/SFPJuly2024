@@ -8,6 +8,7 @@
     <columns>copado__Destination__c</columns>
     <columns>copado__ErrorMessage__c</columns>
     <columns>CREATED_DATE</columns>
+    <columns>copado__Context__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

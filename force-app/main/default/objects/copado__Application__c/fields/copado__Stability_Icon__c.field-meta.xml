@@ -10,7 +10,7 @@ CASE( copado__Stability__c,
 &quot;Uncertain&quot;, &quot;/img/samples/flag_yellow.gif&quot;,
 &quot;Unstable&quot;, &quot;/img/samples/flag_red.gif&quot;, 
 &quot;/s.gif&quot;), 
-&quot;Stability Icon&quot;)</formula>
+$Label.copado__Stability_Icon)</formula>
     <label>Stability Status</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

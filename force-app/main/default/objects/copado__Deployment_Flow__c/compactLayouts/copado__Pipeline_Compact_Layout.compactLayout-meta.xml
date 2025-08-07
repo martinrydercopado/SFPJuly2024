@@ -4,7 +4,6 @@
     <fields>Name</fields>
     <fields>copado__Active__c</fields>
     <fields>copado__Platform__c</fields>
-    <fields>copado__Manage_Branches__c</fields>
     <fields>copado__Git_Repository__c</fields>
     <fields>copado__Main_Branch__c</fields>
     <label>Pipeline Compact Layout</label>

@@ -32,11 +32,6 @@
         <isRequired>false</isRequired>
     </availableFields>
     <availableFields>
-        <field>copado__Base_Branch__c</field>
-        <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
-    </availableFields>
-    <availableFields>
         <field>copado__Business_Analyst__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
@@ -327,6 +322,11 @@
         <isRequired>false</isRequired>
     </availableFields>
     <availableFields>
+        <field>copado__US_Feature__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </availableFields>
+    <availableFields>
         <field>copado__Validate_Only__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
@@ -351,7 +351,7 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </availableFields>
-    <description>On CBM2 page</description>
+    <description>Fields displayed in the User Story tables of the Pipeline Manager</description>
     <displayedFields>
         <field>Name</field>
         <isFieldManaged>false</isFieldManaged>
@@ -369,6 +369,11 @@
     </displayedFields>
     <displayedFields>
         <field>copado__Environment__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>copado__Base_Branch__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
@@ -402,5 +407,5 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
-    <label>CBM Fields</label>
+    <label>Pipeline Manager User Story Fields</label>
 </FieldSet>

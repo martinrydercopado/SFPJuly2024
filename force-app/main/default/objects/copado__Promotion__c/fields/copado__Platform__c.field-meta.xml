@@ -3,7 +3,16 @@
     <fullName>copado__Platform__c</fullName>
     <deprecated>false</deprecated>
     <externalId>false</externalId>
-    <formula>IF( NOT(ISBLANK( copado__Project__c )) ,  TEXT(copado__Project__r.copado__Deployment_Flow__r.copado__Platform__c) ,  IF( NOT(ISBLANK( copado__Release__c )),  TEXT(copado__Release__r.copado__Project__r.copado__Deployment_Flow__r.copado__Platform__c) , &apos;Salesforce&apos;) )</formula>
+    <formula>IF(NOT(ISBLANK( copado__Pipeline__c )),
+    TEXT(copado__Pipeline__r.copado__Platform__c),
+    IF(NOT(ISBLANK( copado__Project__c )),  
+        TEXT(copado__Project__r.copado__Deployment_Flow__r.copado__Platform__c),
+        IF(NOT(ISBLANK( copado__Release__c )),  
+            TEXT(copado__Release__r.copado__Project__r.copado__Deployment_Flow__r.copado__Platform__c), 
+            &apos;Salesforce&apos;
+        )
+    )
+)</formula>
     <inlineHelpText>This field auto-populates and displays the pipeline platform.</inlineHelpText>
     <label>Platform</label>
     <required>false</required>

@@ -475,23 +475,4 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <picklistValues>
-        <picklist>copadometrics__Severity__c</picklist>
-        <values>
-            <fullName>P0 - Blocker - Business Disruption</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>P1 - Critical - No Workaround</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>P2 - Major</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>P3 - Minor</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
 </RecordType>

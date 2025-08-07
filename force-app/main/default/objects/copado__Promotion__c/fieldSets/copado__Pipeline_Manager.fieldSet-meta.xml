@@ -81,7 +81,7 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </availableFields>
-    <description>Pipeline Manager</description>
+    <description>Fields displayed in the Promotions and Back-Promotions tables of the Pipeline Manager</description>
     <displayedFields>
         <field>Name</field>
         <isFieldManaged>false</isFieldManaged>
@@ -112,5 +112,10 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
-    <label>Pipeline Manager</label>
+    <displayedFields>
+        <field>copado__Is_Rolled_Back__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <label>Pipeline Manager Promotion Fields</label>
 </FieldSet>

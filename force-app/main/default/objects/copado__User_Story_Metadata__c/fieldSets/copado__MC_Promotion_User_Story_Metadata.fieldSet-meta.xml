@@ -222,7 +222,17 @@
         <isRequired>false</isRequired>
     </availableFields>
     <availableFields>
+        <field>LastReferencedDate</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </availableFields>
+    <availableFields>
         <field>copado__User_Story__r.LastViewedDate</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </availableFields>
+    <availableFields>
+        <field>LastViewedDate</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </availableFields>
@@ -501,7 +511,7 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </availableFields>
-    <description>It is being used at Promotion record page to show User Story Metadata datatable</description>
+    <description>Fields displayed in the Promotion record page and Pipeline Manager</description>
     <displayedFields>
         <field>copado__User_Story__c</field>
         <isFieldManaged>false</isFieldManaged>
@@ -517,5 +527,5 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
-    <label>MC Promotion User Story Metadata</label>
+    <label>Pipeline Manager Metadata Fields</label>
 </FieldSet>

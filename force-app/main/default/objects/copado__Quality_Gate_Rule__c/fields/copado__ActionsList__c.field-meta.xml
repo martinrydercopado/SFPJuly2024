@@ -8,7 +8,7 @@ IF(INCLUDES(copado__Actions__c , &quot;PromotionDeployment&quot; ), &quot;Promot
 IF(INCLUDES(copado__Actions__c , &quot;Commit&quot; ), &quot;Commit; &quot;,null) &amp;
 IF(INCLUDES(copado__Actions__c , &quot;PackageCreation&quot; ), &quot;Package Creation; &quot;,null) &amp;
 IF(INCLUDES(copado__Actions__c , &quot;PackageDistribution&quot; ), &quot;Package Distribution; &quot;,null)</formula>
-    <label>Copado Actions List</label>
+    <label>Copado Actions</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

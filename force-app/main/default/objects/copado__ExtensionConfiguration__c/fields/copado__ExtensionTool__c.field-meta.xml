@@ -65,6 +65,21 @@
                 <default>false</default>
                 <label>CodeScan</label>
             </value>
+            <value>
+                <fullName>Jest</fullName>
+                <default>false</default>
+                <label>Jest</label>
+            </value>
+            <value>
+                <fullName>Checkmarx</fullName>
+                <default>false</default>
+                <label>Checkmarx</label>
+            </value>
+            <value>
+                <fullName>sfdx-scanner</fullName>
+                <default>false</default>
+                <label>sfdx-scanner</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

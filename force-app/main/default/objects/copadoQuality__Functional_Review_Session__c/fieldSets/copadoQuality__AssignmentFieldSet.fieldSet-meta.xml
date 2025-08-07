@@ -18,7 +18,22 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>copadoQuality__Assignee__c</field>
+        <field>copadoQuality__Assignee__r.FirstName</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>copadoQuality__Assignee__r.LastName</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>copadoQuality__Assignee__r.Username</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>copadoQuality__Assignee__r.UserRoleId</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>

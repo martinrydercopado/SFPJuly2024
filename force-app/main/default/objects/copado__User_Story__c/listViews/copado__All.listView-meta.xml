@@ -5,8 +5,10 @@
     <columns>RECORDTYPE</columns>
     <columns>copado__User_Story_Title__c</columns>
     <columns>copado__Status__c</columns>
+    <columns>copado__Org_Credential__c</columns>
     <columns>copado__Environment__c</columns>
     <columns>copado__Project__c</columns>
+    <columns>copado__Has_Apex_Code__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>
