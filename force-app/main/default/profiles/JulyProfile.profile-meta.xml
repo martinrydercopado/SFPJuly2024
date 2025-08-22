@@ -958,14 +958,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MayTaskUtil</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MayTaskUtilTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MicrobatchSelfRegController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1059,18 +1051,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TaskUtil</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TaskUtilTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TaskUtility</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TaskUtilityTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -13083,11 +13063,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Test__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Account.TickerSymbol</field>
         <readable>false</readable>
@@ -13824,11 +13799,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>CodeBuilder__CryptoKey__mdt.CodeBuilder__Value__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>CodeBuilder__SessionData__c.CodeBuilder__CSRFToken__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -14446,16 +14416,6 @@
         <editable>true</editable>
         <field>ContractLineItem.TotalPrice</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>CustomObjectJan28__c.CustomCheckboxFeb26__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>CustomObjectJan28__c.CustomTextAreaFeb26__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -15124,18 +15084,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>NewObjectJune11__c.NewObjectJune11_Required_Text__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>NewObjectJune11__c.NewObjectJune11_Text__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ObjectJan25__c.May25Checkbox__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -15150,11 +15100,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ObjectJan25__c.ObjectJan25_Text__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ObjectNov24__c.MayPicklist__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -17961,11 +17906,6 @@
         <editable>true</editable>
         <field>copado__Copado_Notification__c.copado__status__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>copado__Copado_Protected_Settiing__mdt.copado__Text_Field__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -21208,11 +21148,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>copado__SensitiveProperty__mdt.copado__Value__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>copado__Snapshot_Difference__c.copado__Destination_Git_Commit__c</field>
         <readable>true</readable>
@@ -21745,16 +21680,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>copado__Streaming_Setting__mdt.copado__Timeout__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>copado__SupportedObject__mdt.copado__ExternalIdField__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>copado__SupportedObject__mdt.copado__IsExposed__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -24907,9 +24832,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>copado__Sprint__c-copado__Sprint Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>copado__Sprint__c_hd-copado__Sprint Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>copado__Stage_Connection__c-copado__Stage Connection Layout</layout>
@@ -28095,11 +28017,6 @@
         <apexPage>copado__viewOrg</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Idea.InternalIdeasIdeaRecordType</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>copado__Artifact__c.copado__Git_Artifact</recordType>
