@@ -31,6 +31,7 @@
     <notifyDefaultCaseOwner>false</notifyDefaultCaseOwner>
     <notifyOwnerOnCaseComment>false</notifyOwnerOnCaseComment>
     <notifyOwnerOnCaseOwnerChange>false</notifyOwnerOnCaseOwnerChange>
+    <rtaCaseComment>false</rtaCaseComment>
     <showEmailAttachmentsInCaseAttachmentsRL>true</showEmailAttachmentsInCaseAttachmentsRL>
     <useSystemEmailAddress>true</useSystemEmailAddress>
     <visibleInCssCheckbox>false</visibleInCssCheckbox>
