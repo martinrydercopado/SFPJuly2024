@@ -14,18 +14,10 @@ public class TaskUtil {
             taskPriority = 'Normal';
         }
         
-        return taskPriority;
-    }
-    
-    public static String getTaskUrgency(Integer daysOpen) {
-        if(daysOpen == null) return 'Normal';
-        
-        if(daysOpen > 7) {
-            return 'Urgent';
-        } else if(daysOpen > 3) {
-            return 'High';
-        } else {
-            return 'Normal';
+        if (String.isBlank(leadState) || leadState.length() > 2) {
+            return null;
         }
+        
+        return taskPriority;
     }
 }
