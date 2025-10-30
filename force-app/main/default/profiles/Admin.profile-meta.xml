@@ -106,6 +106,9 @@
         <layout>CustomObjectJan28__c-CustomObjectJan28 Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Event_Registration__c-Event Registration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>July29Object__c-July29Object Layout</layout>
     </layoutAssignments>
     <loginHours n1:nil="true" />
