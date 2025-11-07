@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resolution_Required_When_Closed</fullName>
+    <active>true</active>
+    <description>Resolution field must be populated when ticket status is Resolved or Closed</description>
+    <errorConditionFormula>AND(
+    OR(
+        ISPICKVAL(Status__c, &quot;Resolved&quot;),
+        ISPICKVAL(Status__c, &quot;Closed&quot;)
+    ),
+    ISBLANK(Resolution__c)
+)</errorConditionFormula>
+    <errorDisplayField>Resolution__c</errorDisplayField>
+    <errorMessage>Resolution is required when ticket status is Resolved or Closed</errorMessage>
+</ValidationRule>
