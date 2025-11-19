@@ -1,67 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>62.0</apiVersion>
+    <apiVersion>61.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
-        <name>Set_Due_Date_Critical</name>
-        <label>Set Due Date - Critical</label>
+        <name>Set_Due_Date_Enterprise_Critical</name>
+        <label>Set Due Date - Enterprise Critical (4 hours)</label>
         <locationX>50</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>$Record.Due_Date__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Formula_Critical_Due_Date</elementReference>
+                <elementReference>Formula_Enterprise_Critical</elementReference>
             </value>
         </assignmentItems>
     </assignments>
     <assignments>
-        <name>Set_Due_Date_High</name>
-        <label>Set Due Date - High</label>
-        <locationX>182</locationX>
-        <locationY>242</locationY>
+        <name>Set_Due_Date_Enterprise_High</name>
+        <label>Set Due Date - Enterprise High (1 day)</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>$Record.Due_Date__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Formula_High_Due_Date</elementReference>
+                <elementReference>Formula_Enterprise_High</elementReference>
             </value>
         </assignmentItems>
     </assignments>
     <assignments>
-        <name>Set_Due_Date_Low</name>
-        <label>Set Due Date - Low</label>
-        <locationX>446</locationX>
-        <locationY>242</locationY>
+        <name>Set_Due_Date_Enterprise_Low</name>
+        <label>Set Due Date - Enterprise Low (3 days)</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>$Record.Due_Date__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Formula_Low_Due_Date</elementReference>
+                <elementReference>Formula_Enterprise_Low</elementReference>
             </value>
         </assignmentItems>
     </assignments>
     <assignments>
-        <name>Set_Due_Date_Medium</name>
-        <label>Set Due Date - Medium</label>
+        <name>Set_Due_Date_Enterprise_Medium</name>
+        <label>Set Due Date - Enterprise Medium (2 days)</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Due_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Enterprise_Medium</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Due_Date_Premium_Critical</name>
+        <label>Set Due Date - Premium Critical (12 hours)</label>
         <locationX>314</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>$Record.Due_Date__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Formula_Medium_Due_Date</elementReference>
+                <elementReference>Formula_Premium_Critical</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Due_Date_Premium_High</name>
+        <label>Set Due Date - Premium High (2 days)</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Due_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Premium_High</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Due_Date_Premium_Low</name>
+        <label>Set Due Date - Premium Low (5 days)</label>
+        <locationX>314</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Due_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Premium_Low</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Due_Date_Premium_Medium</name>
+        <label>Set Due Date - Premium Medium (4 days)</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Due_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Premium_Medium</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Due_Date_Standard_Critical</name>
+        <label>Set Due Date - Standard Critical (1 day)</label>
+        <locationX>578</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Due_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Standard_Critical</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Due_Date_Standard_High</name>
+        <label>Set Due Date - Standard High (3 days)</label>
+        <locationX>578</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Due_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Standard_High</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Due_Date_Standard_Low</name>
+        <label>Set Due Date - Standard Low (7 days)</label>
+        <locationX>578</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Due_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Standard_Low</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Due_Date_Standard_Medium</name>
+        <label>Set Due Date - Standard Medium (5 days)</label>
+        <locationX>578</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Due_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Standard_Medium</elementReference>
             </value>
         </assignmentItems>
     </assignments>
     <decisions>
-        <name>Check_Priority</name>
-        <label>Check Priority</label>
+        <name>Decision_Customer_Tier</name>
+        <label>Customer Tier Decision</label>
         <locationX>176</locationX>
         <locationY>134</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnector>
+            <targetReference>Decision_Priority_Standard</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Standard or Null</defaultConnectorLabel>
         <rules>
-            <name>Critical_Priority</name>
+            <name>Outcome_Enterprise</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Customer_Tier__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Enterprise</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Decision_Priority_Enterprise</targetReference>
+            </connector>
+            <label>Enterprise</label>
+        </rules>
+        <rules>
+            <name>Outcome_Premium</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Customer_Tier__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Premium</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Decision_Priority_Premium</targetReference>
+            </connector>
+            <label>Premium</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Decision_Priority_Enterprise</name>
+        <label>Priority Decision - Enterprise</label>
+        <locationX>50</locationX>
+        <locationY>242</locationY>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
+        <rules>
+            <name>Enterprise_Critical</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Priority__c</leftValueReference>
@@ -71,12 +215,12 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_Due_Date_Critical</targetReference>
+                <targetReference>Set_Due_Date_Enterprise_Critical</targetReference>
             </connector>
-            <label>Critical Priority</label>
+            <label>Critical</label>
         </rules>
         <rules>
-            <name>High_Priority</name>
+            <name>Enterprise_High</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Priority__c</leftValueReference>
@@ -86,12 +230,12 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_Due_Date_High</targetReference>
+                <targetReference>Set_Due_Date_Enterprise_High</targetReference>
             </connector>
-            <label>High Priority</label>
+            <label>High</label>
         </rules>
         <rules>
-            <name>Medium_Priority</name>
+            <name>Enterprise_Medium</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Priority__c</leftValueReference>
@@ -101,12 +245,12 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_Due_Date_Medium</targetReference>
+                <targetReference>Set_Due_Date_Enterprise_Medium</targetReference>
             </connector>
-            <label>Medium Priority</label>
+            <label>Medium</label>
         </rules>
         <rules>
-            <name>Low_Priority</name>
+            <name>Enterprise_Low</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Priority__c</leftValueReference>
@@ -116,108 +260,207 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_Due_Date_Low</targetReference>
+                <targetReference>Set_Due_Date_Enterprise_Low</targetReference>
             </connector>
-            <label>Low Priority</label>
+            <label>Low</label>
         </rules>
     </decisions>
-    <description>Automatically sets due dates for Support Tickets based on priority level, accounting for business days (skipping weekends)</description>
+    <decisions>
+        <name>Decision_Priority_Premium</name>
+        <label>Priority Decision - Premium</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
+        <rules>
+            <name>Premium_Critical</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Critical</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Due_Date_Premium_Critical</targetReference>
+            </connector>
+            <label>Critical</label>
+        </rules>
+        <rules>
+            <name>Premium_High</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>High</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Due_Date_Premium_High</targetReference>
+            </connector>
+            <label>High</label>
+        </rules>
+        <rules>
+            <name>Premium_Medium</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Medium</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Due_Date_Premium_Medium</targetReference>
+            </connector>
+            <label>Medium</label>
+        </rules>
+        <rules>
+            <name>Premium_Low</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Low</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Due_Date_Premium_Low</targetReference>
+            </connector>
+            <label>Low</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Decision_Priority_Standard</name>
+        <label>Priority Decision - Standard</label>
+        <locationX>578</locationX>
+        <locationY>242</locationY>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
+        <rules>
+            <name>Standard_Critical</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Critical</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Due_Date_Standard_Critical</targetReference>
+            </connector>
+            <label>Critical</label>
+        </rules>
+        <rules>
+            <name>Standard_High</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>High</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Due_Date_Standard_High</targetReference>
+            </connector>
+            <label>High</label>
+        </rules>
+        <rules>
+            <name>Standard_Medium</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Medium</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Due_Date_Standard_Medium</targetReference>
+            </connector>
+            <label>Medium</label>
+        </rules>
+        <rules>
+            <name>Standard_Low</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Priority__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Low</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Due_Date_Standard_Low</targetReference>
+            </connector>
+            <label>Low</label>
+        </rules>
+    </decisions>
+    <description>Automatically calculates and sets the Due Date for Support Tickets based on Priority and Customer Tier with tiered SLA rules</description>
     <formulas>
-        <name>Formula_Critical_Due_Date</name>
+        <name>Formula_Enterprise_Critical</name>
         <dataType>Date</dataType>
-        <expression>/* Critical: 1 business day */
-CASE(
-    WEEKDAY(TODAY()),
-    /* Sunday (1) - add 1 day to get to Monday */
-    1, TODAY() + 1,
-    /* Monday (2) - add 1 day to get to Tuesday */
-    2, TODAY() + 1,
-    /* Tuesday (3) - add 1 day to get to Wednesday */
-    3, TODAY() + 1,
-    /* Wednesday (4) - add 1 day to get to Thursday */
-    4, TODAY() + 1,
-    /* Thursday (5) - add 1 day to get to Friday */
-    5, TODAY() + 1,
-    /* Friday (6) - add 3 days to get to Monday */
-    6, TODAY() + 3,
-    /* Saturday (7) - add 2 days to get to Monday */
-    7, TODAY() + 2,
-    /* Default */
-    TODAY() + 1
-)</expression>
+        <expression>TODAY() + (4/24)</expression>
     </formulas>
     <formulas>
-        <name>Formula_High_Due_Date</name>
+        <name>Formula_Enterprise_High</name>
         <dataType>Date</dataType>
-        <expression>/* High: 3 business days */
-CASE(
-    WEEKDAY(TODAY()),
-    /* Sunday (1) - add 3 days to get to Wednesday */
-    1, TODAY() + 3,
-    /* Monday (2) - add 3 days to get to Thursday */
-    2, TODAY() + 3,
-    /* Tuesday (3) - add 3 days to get to Friday */
-    3, TODAY() + 3,
-    /* Wednesday (4) - add 5 days to skip weekend, get to Monday */
-    4, TODAY() + 5,
-    /* Thursday (5) - add 5 days to skip weekend, get to Tuesday */
-    5, TODAY() + 5,
-    /* Friday (6) - add 5 days to skip weekend, get to Wednesday */
-    6, TODAY() + 5,
-    /* Saturday (7) - add 4 days to get to Wednesday */
-    7, TODAY() + 4,
-    /* Default */
-    TODAY() + 3
-)</expression>
+        <expression>TODAY() + 1</expression>
     </formulas>
     <formulas>
-        <name>Formula_Low_Due_Date</name>
+        <name>Formula_Enterprise_Low</name>
         <dataType>Date</dataType>
-        <expression>/* Low: 7 business days */
-CASE(
-    WEEKDAY(TODAY()),
-    /* Sunday (1) - add 7 days to get to Sunday, then +1 to Monday */
-    1, TODAY() + 8,
-    /* Monday (2) - add 9 days to skip weekend, get to Wednesday */
-    2, TODAY() + 9,
-    /* Tuesday (3) - add 9 days to skip weekend, get to Thursday */
-    3, TODAY() + 9,
-    /* Wednesday (4) - add 9 days to skip weekend, get to Friday */
-    4, TODAY() + 9,
-    /* Thursday (5) - add 9 days to skip weekend, get to Monday */
-    5, TODAY() + 11,
-    /* Friday (6) - add 9 days to skip weekend, get to Tuesday */
-    6, TODAY() + 11,
-    /* Saturday (7) - add 8 days to get to Sunday, then +1 to Monday */
-    7, TODAY() + 9,
-    /* Default */
-    TODAY() + 7
-)</expression>
+        <expression>TODAY() + 3</expression>
     </formulas>
     <formulas>
-        <name>Formula_Medium_Due_Date</name>
+        <name>Formula_Enterprise_Medium</name>
         <dataType>Date</dataType>
-        <expression>/* Medium: 5 business days */
-CASE(
-    WEEKDAY(TODAY()),
-    /* Sunday (1) - add 5 days to get to Friday */
-    1, TODAY() + 5,
-    /* Monday (2) - add 7 days to skip weekend, get to Monday */
-    2, TODAY() + 7,
-    /* Tuesday (3) - add 7 days to skip weekend, get to Tuesday */
-    3, TODAY() + 7,
-    /* Wednesday (4) - add 7 days to skip weekend, get to Wednesday */
-    4, TODAY() + 7,
-    /* Thursday (5) - add 7 days to skip weekend, get to Thursday */
-    5, TODAY() + 7,
-    /* Friday (6) - add 7 days to skip weekend, get to Friday */
-    6, TODAY() + 7,
-    /* Saturday (7) - add 6 days to get to Friday */
-    7, TODAY() + 6,
-    /* Default */
-    TODAY() + 5
-)</expression>
+        <expression>TODAY() + 2</expression>
     </formulas>
+    <formulas>
+        <name>Formula_Premium_Critical</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + (12/24)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Premium_High</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 2</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Premium_Low</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 5</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Premium_Medium</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 4</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Standard_Critical</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 1</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Standard_High</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 3</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Standard_Low</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 7</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Standard_Medium</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 5</expression>
+    </formulas>
+    <interviewLabel>Support Ticket Set Due Date {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Support Ticket Set Due Date</label>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -242,18 +485,10 @@ CASE(
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Check_Priority</targetReference>
+            <targetReference>Decision_Customer_Tier</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Priority__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
         <object>Support_Ticket__c</object>
-        <recordTriggerType>Create</recordTriggerType>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
