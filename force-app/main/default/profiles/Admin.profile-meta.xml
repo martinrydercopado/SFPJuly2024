@@ -124,6 +124,12 @@
         <layout>July29Object__c-July29Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Store_Inventory__c-Store Inventory Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Store__c-Store Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Support_Ticket__c-Support Ticket Layout</layout>
     </layoutAssignments>
     <loginHours n1:nil="true" />
