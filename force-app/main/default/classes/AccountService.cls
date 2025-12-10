@@ -5,9 +5,12 @@
  */
 public with sharing class AccountService {
     
-    private static final Decimal DEFAULT_REVENUE = 0;
-    private static final Decimal HOT_THRESHOLD = 1000000;
-    private static final Decimal WARM_THRESHOLD = 500000;
+    private static final Decimal DEFAULT_REVENUE = 10000;
+    private static final Decimal HOT_THRESHOLD = 2000000;
+    private static final Decimal WARM_THRESHOLD = 750000;
+    private static final Decimal TECH_BONUS = 1.1;
+    private static final Decimal STANDARD_MULTIPLIER = 1.0;
+    private static final String TECH_INDUSTRY = 'Technology';
     
     /**
      * @description Updates the annual revenue for a list of accounts
@@ -21,8 +24,8 @@ public with sharing class AccountService {
     public static void updateAccountRevenue(Set<Id> accountIds, Decimal revenueMultiplier) {
         validateInputs(accountIds);
         
-        List<Account> accountsToUpdate = queryAccounts(accountIds);
-        List<Account> processedAccounts = calculateRevenueUpdates(accountsToUpdate, revenueMultiplier);
+        List<Account> accountsToUpdate = queryAccountsWithIndustry(accountIds);
+        List<Account> processedAccounts = calculateEnhancedRevenueUpdates(accountsToUpdate, revenueMultiplier);
         
         if (!processedAccounts.isEmpty()) {
             update processedAccounts;
@@ -34,7 +37,7 @@ public with sharing class AccountService {
      * @param revenue Annual revenue amount
      * @return String rating (Hot, Warm, Cold)
      * @example
-     * String rating = AccountService.getAccountRating(1500000); // Returns 'Hot'
+     * String rating = AccountService.getAccountRating(2500000); // Returns 'Hot'
      */
     public static String getAccountRating(Decimal revenue) {
         if (revenue == null) {
@@ -61,13 +64,13 @@ public with sharing class AccountService {
     }
     
     /**
-     * @description Queries accounts by IDs with security enforced
+     * @description Queries accounts by IDs with industry field and security enforced
      * @param accountIds Set of Account IDs to query
-     * @return List of Account records with Id and AnnualRevenue fields
+     * @return List of Account records with Id, AnnualRevenue, and Industry fields
      */
-    private static List<Account> queryAccounts(Set<Id> accountIds) {
+    private static List<Account> queryAccountsWithIndustry(Set<Id> accountIds) {
         return [
-            SELECT Id, AnnualRevenue
+            SELECT Id, AnnualRevenue, Industry
             FROM Account
             WHERE Id IN :accountIds
             WITH SECURITY_ENFORCED
@@ -75,25 +78,36 @@ public with sharing class AccountService {
     }
     
     /**
-     * @description Calculates revenue updates for accounts
+     * @description Calculates enhanced revenue updates for accounts with industry bonus
      * @param accounts List of accounts to process
      * @param multiplier Multiplier to apply to revenue
      * @return List of accounts with updated revenue values
      */
-    private static List<Account> calculateRevenueUpdates(List<Account> accounts, Decimal multiplier) {
+    private static List<Account> calculateEnhancedRevenueUpdates(List<Account> accounts, Decimal multiplier) {
         for (Account acc : accounts) {
-            acc.AnnualRevenue = calculateNewRevenue(acc.AnnualRevenue, multiplier);
+            Decimal industryBonus = getIndustryBonus(acc.Industry);
+            acc.AnnualRevenue = calculateNewRevenue(acc.AnnualRevenue, multiplier, industryBonus);
         }
         return accounts;
     }
     
     /**
-     * @description Calculates new revenue value
+     * @description Determines industry bonus multiplier
+     * @param industry Industry of the account
+     * @return Bonus multiplier (1.1 for Technology, 1.0 otherwise)
+     */
+    private static Decimal getIndustryBonus(String industry) {
+        return (industry == TECH_INDUSTRY) ? TECH_BONUS : STANDARD_MULTIPLIER;
+    }
+    
+    /**
+     * @description Calculates new revenue value with industry bonus
      * @param currentRevenue Current revenue amount
      * @param multiplier Multiplier to apply
+     * @param bonus Industry bonus multiplier
      * @return Calculated revenue value
      */
-    private static Decimal calculateNewRevenue(Decimal currentRevenue, Decimal multiplier) {
-        return (currentRevenue != null) ? currentRevenue * multiplier : DEFAULT_REVENUE;
+    private static Decimal calculateNewRevenue(Decimal currentRevenue, Decimal multiplier, Decimal bonus) {
+        return (currentRevenue != null) ? currentRevenue * multiplier * bonus : DEFAULT_REVENUE;
     }
 }
