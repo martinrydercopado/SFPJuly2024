@@ -13,7 +13,8 @@ private class AccountServiceTest {
         for (Integer i = 0; i < 200; i++) {
             testAccounts.add(new Account(
                 Name = 'Test Account ' + i,
-                AnnualRevenue = 100000 + (i * 1000)
+                AnnualRevenue = 100000 + (i * 1000),
+                Industry = (Math.mod(i, 2) == 0) ? 'Technology' : 'Finance'
             ));
         }
         
@@ -41,10 +42,69 @@ private class AccountServiceTest {
         ];
         
         System.assertEquals(5, updatedAccounts.size(), 'Should update 5 accounts');
-        System.assertEquals(
-            originalRevenue * multiplier, 
+        // Note: Actual revenue will vary based on industry bonus (1.1x for Technology)
+        System.assertNotEquals(
+            originalRevenue, 
             updatedAccounts[0].AnnualRevenue, 
-            'Revenue should be multiplied correctly'
+            'Revenue should be updated'
+        );
+    }
+    
+    @IsTest
+    static void testUpdateAccountRevenue_WithTechnologyBonus() {
+        // Given
+        Account techAccount = new Account(
+            Name = 'Tech Company',
+            AnnualRevenue = 1000000,
+            Industry = 'Technology'
+        );
+        insert techAccount;
+        Decimal expectedRevenue = 1000000 * 2.0 * 1.1; // multiplier * tech bonus
+        
+        // When
+        Test.startTest();
+        AccountService.updateAccountRevenue(new Set<Id>{techAccount.Id}, 2.0);
+        Test.stopTest();
+        
+        // Then
+        Account updatedAccount = [
+            SELECT AnnualRevenue 
+            FROM Account 
+            WHERE Id = :techAccount.Id
+        ];
+        System.assertEquals(
+            expectedRevenue, 
+            updatedAccount.AnnualRevenue, 
+            'Technology accounts should receive 1.1x bonus'
+        );
+    }
+    
+    @IsTest
+    static void testUpdateAccountRevenue_WithoutTechnologyBonus() {
+        // Given
+        Account nonTechAccount = new Account(
+            Name = 'Finance Company',
+            AnnualRevenue = 1000000,
+            Industry = 'Finance'
+        );
+        insert nonTechAccount;
+        Decimal expectedRevenue = 1000000 * 2.0 * 1.0; // multiplier * standard multiplier
+        
+        // When
+        Test.startTest();
+        AccountService.updateAccountRevenue(new Set<Id>{nonTechAccount.Id}, 2.0);
+        Test.stopTest();
+        
+        // Then
+        Account updatedAccount = [
+            SELECT AnnualRevenue 
+            FROM Account 
+            WHERE Id = :nonTechAccount.Id
+        ];
+        System.assertEquals(
+            expectedRevenue, 
+            updatedAccount.AnnualRevenue, 
+            'Non-Technology accounts should not receive bonus'
         );
     }
     
@@ -66,8 +126,8 @@ private class AccountServiceTest {
     
     @IsTest
     static void testUpdateAccountRevenue_NullRevenue() {
-        // Given
-        Account acc = new Account(Name = 'Test Null Revenue', AnnualRevenue = null);
+        // Given - Changed default from 0 to 10000 in Version 2
+        Account acc = new Account(Name = 'Test Null Revenue', AnnualRevenue = null, Industry = 'Retail');
         insert acc;
         
         // When
@@ -77,7 +137,7 @@ private class AccountServiceTest {
         
         // Then
         Account updatedAccount = [SELECT AnnualRevenue FROM Account WHERE Id = :acc.Id];
-        System.assertEquals(0, updatedAccount.AnnualRevenue, 'Null revenue should be set to 0');
+        System.assertEquals(10000, updatedAccount.AnnualRevenue, 'Null revenue should be set to 10000');
     }
     
     @IsTest
@@ -95,29 +155,29 @@ private class AccountServiceTest {
     
     @IsTest
     static void testGetAccountRating_Hot() {
-        // When
-        String rating = AccountService.getAccountRating(1500000);
+        // When - Changed threshold from 1M to 2M in Version 2
+        String rating = AccountService.getAccountRating(2500000);
         
         // Then
-        System.assertEquals('Hot', rating, 'Should return Hot for revenue >= 1M');
+        System.assertEquals('Hot', rating, 'Should return Hot for revenue >= 2M');
     }
     
     @IsTest
     static void testGetAccountRating_Warm() {
-        // When
-        String rating = AccountService.getAccountRating(750000);
+        // When - Changed threshold from 500K to 750K in Version 2
+        String rating = AccountService.getAccountRating(1000000);
         
         // Then
-        System.assertEquals('Warm', rating, 'Should return Warm for revenue >= 500K');
+        System.assertEquals('Warm', rating, 'Should return Warm for revenue >= 750K');
     }
     
     @IsTest
     static void testGetAccountRating_Cold() {
         // When
-        String rating = AccountService.getAccountRating(250000);
+        String rating = AccountService.getAccountRating(500000);
         
         // Then
-        System.assertEquals('Cold', rating, 'Should return Cold for revenue < 500K');
+        System.assertEquals('Cold', rating, 'Should return Cold for revenue < 750K');
     }
     
     @IsTest
@@ -127,5 +187,23 @@ private class AccountServiceTest {
         
         // Then
         System.assertEquals('Cold', rating, 'Should return Cold for null revenue');
+    }
+    
+    @IsTest
+    static void testGetAccountRating_BoundaryHot() {
+        // When - Test exact threshold
+        String rating = AccountService.getAccountRating(2000000);
+        
+        // Then
+        System.assertEquals('Hot', rating, 'Should return Hot at exact 2M threshold');
+    }
+    
+    @IsTest
+    static void testGetAccountRating_BoundaryWarm() {
+        // When - Test exact threshold
+        String rating = AccountService.getAccountRating(750000);
+        
+        // Then
+        System.assertEquals('Warm', rating, 'Should return Warm at exact 750K threshold');
     }
 }
