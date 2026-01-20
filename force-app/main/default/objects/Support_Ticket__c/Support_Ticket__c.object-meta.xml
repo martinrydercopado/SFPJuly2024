@@ -168,15 +168,7 @@
     </nameField>
     <pluralLabel>Support Tickets</pluralLabel>
     <searchLayouts>
-        <searchResultsAdditionalFields>Actual_Hours__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Category__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Customer_Name__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Description__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Due_Date__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Estimated_Hours__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Priority__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Resolution__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+        <massQuickActions>Update</massQuickActions>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
