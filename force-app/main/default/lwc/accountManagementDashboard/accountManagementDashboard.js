@@ -1,1563 +1,1213 @@
 /**
  * @file accountManagementDashboard.js
- * @description Main controller for the Account Management Dashboard LWC.
- * This component aggregates data from Opportunities, Contacts, Cases, and Activities
- * to provide a 360-degree view of an Account.
- * * @version 2.0.0
- * @author System
- * @copyright 2024
+ * @description VERSION 2.0 REFACTOR
+ * COMPLETE OVERHAUL:
+ * - Migrated to strict Schema imports for referential integrity.
+ * - Implemented new "Stream" based data architecture.
+ * - Added comprehensive client-side Localization Dictionary.
+ * - Refactored Chart.js configuration objects.
+ * * @author Enterprise Architecture Team
+ * @branch feature/schema-refactor-v2
  */
 
 import { LightningElement, api, track, wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { refreshApex } from '@salesforce/apex';
 
-// =================================================================================
-// SECTION 1: CONSTANTS & FIELD DEFINITIONS
-// =================================================================================
+// --- SCHEMA IMPORTS (CONFLICT ROOT: Replaces String Arrays) ---
+import ACC_NAME from '@salesforce/schema/Account.Name';
+import ACC_INDUSTRY from '@salesforce/schema/Account.Industry';
+import ACC_REV from '@salesforce/schema/Account.AnnualRevenue';
+import ACC_EMPS from '@salesforce/schema/Account.NumberOfEmployees';
+import ACC_TYPE from '@salesforce/schema/Account.Type';
+import ACC_PHONE from '@salesforce/schema/Account.Phone';
+import ACC_WEB from '@salesforce/schema/Account.Website';
+import ACC_OWNER from '@salesforce/schema/Account.OwnerId';
+import ACC_TICKER from '@salesforce/schema/Account.TickerSymbol';
+import ACC_SITE from '@salesforce/schema/Account.Site';
 
-/**
- * Standard Account Fields to retrieve via Wire Service
- */
-const FIELDS = [
-    'Account.Name',
-    'Account.Industry',
-    'Account.AnnualRevenue',
-    'Account.NumberOfEmployees',
-    'Account.Type',
-    'Account.Rating',
-    'Account.Phone',
-    'Account.Fax',
-    'Account.Website',
-    'Account.BillingStreet',
-    'Account.BillingCity',
-    'Account.BillingState',
-    'Account.BillingPostalCode',
-    'Account.BillingCountry',
-    'Account.ShippingStreet',
-    'Account.ShippingCity',
-    'Account.ShippingState',
-    'Account.ShippingPostalCode',
-    'Account.ShippingCountry',
-    'Account.Description',
-    'Account.OwnerId',
-    'Account.CreatedDate',
-    'Account.LastModifiedDate',
-    'Account.TickerSymbol',
-    'Account.Site'
-];
+const ACCOUNT_SCHEMA = {
+    name: ACC_NAME,
+    industry: ACC_INDUSTRY,
+    revenue: ACC_REV,
+    employees: ACC_EMPS,
+    type: ACC_TYPE,
+    phone: ACC_PHONE,
+    website: ACC_WEB,
+    owner: ACC_OWNER,
+    ticker: ACC_TICKER,
+    site: ACC_SITE
+};
 
 /**
- * Mapped dictionary for Chart Colors to ensure consistency across the dashboard.
+ * ERROR CODE DICTIONARY
+ * Centralized error management system.
  */
-const CHART_COLORS = {
-    revenue: {
-        background: 'rgba(75, 192, 192, 0.2)',
-        border: 'rgba(75, 192, 192, 1)'
+const ERROR_MAP = {
+    E1001: 'Stream initialization failed.',
+    E1002: 'Network timeout during packet transfer.',
+    E1003: 'Data integrity violation: Null reference.',
+    E1004: 'Schema validation error.',
+    E2001: 'User permission denied: READ.',
+    E2002: 'User permission denied: WRITE.',
+    E3001: 'Chart rendering engine failure.',
+    E3002: 'Canvas context lost.',
+    E4001: 'Invalid state transition detected.',
+    E5001: 'Calculation overflow in revenue engine.',
+    E5002: 'Division by zero in margin calculation.'
+};
+
+/**
+ * LOCALIZATION DICTIONARY
+ * Massive constant object for UI labels (simulating i18n file).
+ * Added to increase file line count and simulate "Enterprise" structure.
+ */
+const I18N = {
+    dashboardTitle: 'Enterprise Account Hub',
+    sections: {
+        financial: 'Financial Performance',
+        operational: 'Operational Metrics',
+        strategic: 'Strategic Alignment',
+        support: 'Customer Support Health'
     },
-    pipeline: {
-        background: 'rgba(54, 162, 235, 0.2)',
-        border: 'rgba(54, 162, 235, 1)'
+    metrics: {
+        revenue: {
+            label: 'Recognized Revenue',
+            desc: 'Total GAAP revenue for current fiscal'
+        },
+        pipeline: {
+            label: 'Weighted Pipeline',
+            desc: 'Probability-adjusted opportunity volume'
+        },
+        churn: {
+            label: 'Churn Risk Index',
+            desc: 'AI-driven attrition probability'
+        },
+        activity: {
+            label: 'Engagement Velocity',
+            desc: 'Interactions per week'
+        }
     },
-    cases: {
-        critical: '#ff6384',
-        high: '#ff9f40',
-        medium: '#ffcd56',
-        low: '#4bc0c0'
+    actions: {
+        refresh: 'Synchronize Data',
+        export: 'Download Report',
+        settings: 'Configure View',
+        drilldown: 'View Details'
     },
-    activities: {
-        call: '#36a2eb',
-        email: '#ff6384',
-        meeting: '#4bc0c0',
-        other: '#9966ff'
+    tabs: {
+        overview: 'Executive Summary',
+        sales: 'Sales Pipeline',
+        service: 'Service Requests',
+        audit: 'Audit Logs'
+    },
+    charts: {
+        pipeline: 'Pipeline Velocity by Stage',
+        revenue: 'Revenue Realization Trend',
+        allocation: 'Resource Allocation'
+    },
+    status: {
+        loading: 'Acquiring data streams...',
+        ready: 'System Ready',
+        error: 'System Malfunction',
+        saving: 'Committing transaction...'
     }
 };
 
-/**
- * Help text / Tooltip definitions for the UI
- */
-const HELP_TEXT = {
-    revenue: 'Total revenue calculated from Closed Won opportunities in the current fiscal year.',
-    winRate: 'Percentage of opportunities won vs total closed opportunities.',
-    healthScore: 'AI-calculated score based on recent activity, support cases, and pipeline velocity.',
-    activeContacts: 'Contacts with activity in the last 30 days.'
-};
-
-// =================================================================================
-// SECTION 2: COMPONENT CLASS
-// =================================================================================
-
-export default class AccountManagementDashboard extends LightningElement {
+export default class AccountManagementDashboardRefactor extends NavigationMixin(LightningElement) {
     
-    // --- Public Properties ---
+    // --- Public API ---
     @api recordId;
-    @api objectApiName = 'Account';
-    @api flexipageRegionWidth;
+    @api densityMode = 'compact'; // New Prop
+    @api theme = 'dark'; // New Prop
 
-    // --- Data Tracking ---
-    @track accountData = {};
-    @track opportunities = [];
-    @track contacts = [];
-    @track cases = [];
-    @track activities = [];
-    @track notes = [];
-    @track files = [];
+    // --- Reactive State (Renamed Properties = Conflict) ---
+    @track accountEntity = {}; // Was accountData
+    @track oppStream = [];     // Was opportunities
+    @track contactStream = []; // Was contacts
+    @track caseStream = [];    // Was cases
+    @track logStream = [];     // Was activities
     
-    // --- Metrics & Analytics ---
-    @track metrics = {
-        totalRevenue: 0,
-        openPipeline: 0,
-        winRate: 0,
-        avgDealSize: 0,
-        activeContactsCount: 0,
-        openCasesCount: 0,
-        avgCaseAge: 0,
-        lastActivityDays: 0,
-        healthScore: 0,
-        churnRisk: 'Low'
+    // --- Dashboard State Engine ---
+    @track dashboardState = {
+        isBusy: true,
+        lastSync: null,
+        activeView: 'summary',
+        alerts: []
     };
 
-    // --- UI State Management ---
-    @track isLoading = true;
-    @track isRefeshing = false;
-    @track activeTab = 'overview';
-    @track error = null;
-    @track showModal = false;
-    @track modalConfig = {
-        title: '',
-        body: '',
-        type: '',
-        recordId: null
+    // --- KPI Store (Restructured) ---
+    @track kpiStore = {
+        financial: {
+            grossRevenue: 0,
+            netMargin: 0,
+            burnRate: 0
+        },
+        sales: {
+            conversionRate: 0,
+            avgCycleTime: 0
+        },
+        service: {
+            csat: 0,
+            backlogDepth: 0
+        }
     };
 
-    // --- Search & Filter State ---
-    @track searchKey = '';
-    @track filters = {
-        stage: 'All',
-        priority: 'All',
-        dateRange: 'this_year',
-        type: 'All'
-    };
-    @track sortState = {
-        field: 'Name',
-        direction: 'asc'
-    };
-
-    // --- Pagination State ---
-    @track pagination = {
-        currentPage: 1,
-        pageSize: 10,
-        totalRecords: 0,
-        totalPages: 0
-    };
-
-    // --- Chart Configuration ---
-    @track chartData = {
-        pipeline: null,
-        revenue: null,
-        cases: null,
-        activity: null
+    // --- Chart Configurations ---
+    @track vizConfig = {
+        palette: ['#003f5c', '#58508d', '#bc5090', '#ff6361', '#ffa600'],
+        animations: {
+            tension: 0.4,
+            duration: 1000
+        }
     };
 
     // =================================================================================
-    // SECTION 3: WIRE SERVICES & LIFECYCLE
+    // WIRE SERVICE ADAPTERS
     // =================================================================================
 
-    /**
-     * Wire service to fetch the main Account record data.
-     */
-    @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
-    wiredAccount({ error, data }) {
+    @wire(getRecord, { recordId: '$recordId', fields: Object.values(ACCOUNT_SCHEMA) })
+    wiredEntity({ error, data }) {
         if (data) {
-            console.log('Account Data Received:', data);
-            this.accountData = this.processAccountData(data);
-            this.error = null;
-            
-            // Once account is loaded, trigger the cascade of related data loading
-            this.loadAllDashboardData();
+            this.log('Stream Connected: Account Entity');
+            this.accountEntity = this.mapSchemaToEntity(data);
+            this.orchestrateDataSync(); // Renamed Method
         } else if (error) {
-            console.error('Error loading account:', error);
-            this.error = error;
-            this.handleError('Failed to load Account details.');
+            this.handleException(error);
         }
     }
 
-    /**
-     * Component connected callback.
-     * Initializes the dashboard, sets up event listeners, and configures the refresh interval.
-     */
+    // =================================================================================
+    // LIFECYCLE MANAGEMENT
+    // =================================================================================
+
     connectedCallback() {
-        this.initializeComponent();
-        this.setupRefreshInterval();
-        window.addEventListener('resize', this.handleResize.bind(this));
+        this.log('System Initializing...');
+        this.dashboardState.lastSync = new Date();
+        this.initializeView();
     }
 
-    /**
-     * Component disconnected callback.
-     * Cleans up intervals and event listeners.
-     */
-    disconnectedCallback() {
-        if (this.refreshInterval) {
-            clearInterval(this.refreshInterval);
-        }
-        window.removeEventListener('resize', this.handleResize.bind(this));
-    }
-
-    /**
-     * Component rendered callback.
-     * Used for Chart.js initialization if we were using a third-party library.
-     */
     renderedCallback() {
-        if (this.chartData.pipeline && !this.chartsInitialized) {
-            this.initializeCharts();
-            this.chartsInitialized = true;
+        if (!this.chartsInitialized) {
+            this.renderVisualizations();
         }
     }
 
-    // =================================================================================
-    // SECTION 4: INITIALIZATION LOGIC
-    // =================================================================================
-
-    initializeComponent() {
-        this.isLoading = true;
-        this.loadUserPreferences();
-        // Setup initial default filters
-        this.filters = {
-            stage: 'All',
-            priority: 'All',
-            dateRange: 'this_year',
-            type: 'All'
-        };
+    disconnectedCallback() {
+        this.terminateStreams();
     }
 
-    setupRefreshInterval() {
-        // Refresh data every 5 minutes (300000 ms)
-        this.refreshInterval = setInterval(() => {
-            console.log('Auto-refreshing dashboard...');
-            this.refreshDashboard();
-        }, 300000);
-    }
+    // =================================================================================
+    // CORE ORCHESTRATION LAYER (Conflict: Logic Rewrite)
+    // =================================================================================
 
-    loadUserPreferences() {
+    async orchestrateDataSync() {
+        this.setBusy(true);
         try {
-            const prefs = localStorage.getItem('dashboardPrefs');
-            if (prefs) {
-                const parsed = JSON.parse(prefs);
-                this.pagination.pageSize = parsed.pageSize || 10;
-                this.activeTab = parsed.lastTab || 'overview';
-            }
-        } catch (e) {
-            console.warn('Failed to load user preferences', e);
-        }
-    }
-
-    // =================================================================================
-    // SECTION 5: DATA LOADING & PROCESSING
-    // =================================================================================
-
-    async loadAllDashboardData() {
-        this.isLoading = true;
-        try {
-            // In a real scenario, these would be Apex calls. 
-            // Here we use our Massive Mock Data Generators (defined at bottom of file).
+            // Sequential Stream Loading for Integrity
+            await this.fetchOpportunityStream();
+            await this.fetchContactStream();
+            await this.fetchServiceStream();
+            await this.fetchAuditLogs();
             
-            await Promise.all([
-                this.fetchOpportunities(),
-                this.fetchContacts(),
-                this.fetchCases(),
-                this.fetchActivities()
-            ]);
-
-            this.calculateMetrics();
-            this.generateChartData();
-            this.isLoading = false;
-
-        } catch (error) {
-            this.handleError('Error loading dashboard data: ' + error.message);
-            this.isLoading = false;
+            this.recalculateKPIs();
+            this.setBusy(false);
+            this.showNotification('Sync Complete', 'All data streams active', 'success');
+        } catch (err) {
+            this.handleException(err);
         }
     }
 
-    async fetchOpportunities() {
-        // Simulate network delay
-        await this.simulateDelay(500);
-        this.opportunities = this.getMockOpportunities();
-        this.pagination.totalRecords = this.opportunities.length;
-        this.updatePaginatedData();
+    // --- Stream Fetchers (Renamed Methods) ---
+
+    async fetchOpportunityStream() {
+        await this.simulateLatency(600);
+        this.oppStream = this.getMockOpportunityData(); // Different Mock Data
     }
 
-    async fetchContacts() {
-        await this.simulateDelay(300);
-        this.contacts = this.getMockContacts();
+    async fetchContactStream() {
+        await this.simulateLatency(300);
+        this.contactStream = this.getMockContactData();
     }
 
-    async fetchCases() {
-        await this.simulateDelay(400);
-        this.cases = this.getMockCases();
+    async fetchServiceStream() {
+        await this.simulateLatency(400);
+        this.caseStream = this.getMockCaseData();
     }
 
-    async fetchActivities() {
-        await this.simulateDelay(300);
-        this.activities = this.getMockActivities();
-    }
-
-    // =================================================================================
-    // SECTION 6: METRICS CALCULATION ENGINE
-    // =================================================================================
-
-    calculateMetrics() {
-        // 1. Calculate Total Revenue (Closed Won)
-        const closedWon = this.opportunities.filter(opp => opp.StageName === 'Closed Won');
-        const totalRev = closedWon.reduce((sum, opp) => sum + opp.Amount, 0);
-
-        // 2. Calculate Open Pipeline (Not Closed)
-        const openOpps = this.opportunities.filter(opp => 
-            opp.StageName !== 'Closed Won' && opp.StageName !== 'Closed Lost'
-        );
-        const pipeVal = openOpps.reduce((sum, opp) => sum + opp.Amount, 0);
-
-        // 3. Calculate Win Rate
-        const closed = this.opportunities.filter(opp => 
-            opp.StageName === 'Closed Won' || opp.StageName === 'Closed Lost'
-        );
-        const winRateVal = closed.length > 0 ? (closedWon.length / closed.length) * 100 : 0;
-
-        // 4. Calculate Average Deal Size
-        const avgDeal = closedWon.length > 0 ? totalRev / closedWon.length : 0;
-
-        // 5. Active Contacts (Activity in last 90 days)
-        // (Mock logic for date comparison)
-        const activeContacts = this.contacts.filter(c => c.HasRecentActivity).length;
-
-        // 6. Health Score Calculation
-        // Complex business logic simulation
-        let score = 50; // Base score
-        if (winRateVal > 40) score += 10;
-        if (this.cases.filter(c => c.Priority === 'Critical').length === 0) score += 10;
-        if (activeContacts > 5) score += 10;
-        if (pipeVal > 1000000) score += 10;
-        if (this.activities.length > 20) score += 10;
-
-        // Update Tracked Metrics
-        this.metrics = {
-            totalRevenue: totalRev,
-            openPipeline: pipeVal,
-            winRate: winRateVal,
-            avgDealSize: avgDeal,
-            activeContactsCount: activeContacts,
-            openCasesCount: this.cases.filter(c => c.Status !== 'Closed').length,
-            avgCaseAge: 12, // Mocked
-            lastActivityDays: 2, // Mocked
-            healthScore: score,
-            churnRisk: score < 50 ? 'High' : (score < 75 ? 'Medium' : 'Low')
-        };
+    async fetchAuditLogs() {
+        await this.simulateLatency(200);
+        this.logStream = this.getMockLogData();
     }
 
     // =================================================================================
-    // SECTION 7: EVENT HANDLERS
+    // ANALYTICS ENGINE
     // =================================================================================
 
-    handleTabChange(event) {
-        this.activeTab = event.target.value;
-        this.savePreference('lastTab', this.activeTab);
-    }
+    recalculateKPIs() {
+        // Logic Shift: Using 'reduce' with different object keys
+        const revenue = this.oppStream
+            .filter(op => op.status === 'Won') // Note: 'status' vs 'StageName'
+            .reduce((acc, op) => acc + op.value, 0); // Note: 'value' vs 'Amount'
 
-    handleSearch(event) {
-        this.searchKey = event.target.value.toLowerCase();
-        this.applyFilters();
-    }
+        const pipeline = this.oppStream
+            .filter(op => op.status !== 'Won' && op.status !== 'Lost')
+            .reduce((acc, op) => acc + op.value, 0);
 
-    handleFilterChange(event) {
-        const { name, value } = event.target;
-        this.filters[name] = value;
-        this.applyFilters();
-    }
-
-    handleRefresh() {
-        this.isLoading = true;
-        this.loadAllDashboardData()
-            .then(() => {
-                this.showToast('Success', 'Dashboard refreshed successfully', 'success');
-            })
-            .catch(err => {
-                this.handleError(err);
-            });
-    }
-
-    handleRecordAction(event) {
-        const action = event.detail.action;
-        const rowId = event.detail.row.Id;
-
-        switch (action.name) {
-            case 'edit':
-                this.openEditModal(rowId);
-                break;
-            case 'delete':
-                this.handleDeleteRecord(rowId);
-                break;
-            case 'view':
-                this.navigateToRecord(rowId);
-                break;
-            default:
-                break;
-        }
-    }
-
-    handleResize() {
-        // Debounce resize events
-        clearTimeout(this.resizeTimer);
-        this.resizeTimer = setTimeout(() => {
-            this.generateChartData(); // Redraw charts
-        }, 250);
+        this.kpiStore.financial.grossRevenue = revenue;
+        this.kpiStore.sales.backlog = pipeline;
+        
+        // Complex CSAT Calculation Simulation
+        const resolvedCases = this.caseStream.filter(c => c.state === 'Resolved');
+        this.kpiStore.service.csat = resolvedCases.length * 4.5; 
     }
 
     // =================================================================================
-    // SECTION 8: NAVIGATION & MODALS
+    // UTILITY METHODS
     // =================================================================================
 
-    openEditModal(recordId) {
-        this.modalConfig = {
-            title: 'Edit Record',
-            type: 'edit',
-            recordId: recordId
-        };
-        this.showModal = true;
-    }
-
-    closeModal() {
-        this.showModal = false;
-        this.modalConfig = {};
-    }
-
-    navigateToRecord(recordId) {
-        // NavigationMixin logic would go here
-        console.log('Navigating to ' + recordId);
-    }
-
-    // =================================================================================
-    // SECTION 9: UTILITY HELPER METHODS
-    // =================================================================================
-
-    processAccountData(data) {
-        // Maps wire service data to a cleaner object structure
+    mapSchemaToEntity(data) {
         return {
-            Id: data.id,
-            Name: getFieldValue(data, 'Account.Name'),
-            Industry: getFieldValue(data, 'Account.Industry'),
-            AnnualRevenue: getFieldValue(data, 'Account.AnnualRevenue'),
-            FormattedRevenue: this.formatCurrency(getFieldValue(data, 'Account.AnnualRevenue')),
-            NumberOfEmployees: getFieldValue(data, 'Account.NumberOfEmployees'),
-            Type: getFieldValue(data, 'Account.Type'),
-            Rating: getFieldValue(data, 'Account.Rating'),
-            Phone: getFieldValue(data, 'Account.Phone'),
-            Website: getFieldValue(data, 'Account.Website'),
-            BillingAddress: `${getFieldValue(data, 'Account.BillingCity')}, ${getFieldValue(data, 'Account.BillingCountry')}`
+            uid: data.id, // Changed key from Id to uid
+            displayName: getFieldValue(data, ACCOUNT_SCHEMA.name),
+            sector: getFieldValue(data, ACCOUNT_SCHEMA.industry),
+            fiscal: getFieldValue(data, ACCOUNT_SCHEMA.revenue)
         };
     }
 
-    formatCurrency(value) {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0
-        }).format(value || 0);
+    setBusy(state) {
+        this.dashboardState.isBusy = state;
     }
 
-    simulateDelay(ms) {
+    log(msg) {
+        console.log(`[SYS] ${new Date().toISOString()} : ${msg}`);
+    }
+
+    handleException(error) {
+        console.error(error);
+        this.dashboardState.isBusy = false;
+        this.showNotification('Critical Error', ERROR_MAP.E1001, 'error');
+    }
+
+    showNotification(title, message, variant) {
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
+    }
+
+    simulateLatency(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    savePreference(key, value) {
-        const prefs = JSON.parse(localStorage.getItem('dashboardPrefs') || '{}');
-        prefs[key] = value;
-        localStorage.setItem('dashboardPrefs', JSON.stringify(prefs));
-    }
-
-    showToast(title, message, variant) {
-        this.dispatchEvent(new ShowToastEvent({
-            title, message, variant
-        }));
-    }
-
-    handleError(error) {
-        let message = 'Unknown error';
-        if (typeof error === 'string') {
-            message = error;
-        } else if (Array.isArray(error.body)) {
-            message = error.body.map(e => e.message).join(', ');
-        } else if (typeof error.body.message === 'string') {
-            message = error.body.message;
-        }
-        this.showToast('Error', message, 'error');
-    }
-
     // =================================================================================
-    // SECTION 10: PAGINATION & SORTING LOGIC
+    // MOCK DATA FACTORY (VERSION 2)
+    // NOTE: Keys are different (camelCase vs PascalCase) to force "Content" conflicts.
+    // NOTE: IDs are different format (OPP-xxx vs 006...)
     // =================================================================================
 
-    updatePaginatedData() {
-        // Filter logic would be applied here first
-        let data = [...this.opportunities];
-        
-        // Apply Sort
-        data.sort((a, b) => {
-            let valA = a[this.sortState.field];
-            let valB = b[this.sortState.field];
-            return (valA > valB ? 1 : -1) * (this.sortState.direction === 'asc' ? 1 : -1);
-        });
-
-        const start = (this.pagination.currentPage - 1) * this.pagination.pageSize;
-        const end = start + this.pagination.pageSize;
-        
-        this.paginatedOpportunities = data.slice(start, end);
-        this.pagination.totalPages = Math.ceil(data.length / this.pagination.pageSize);
-    }
-
-    nextPage() {
-        if (this.pagination.currentPage < this.pagination.totalPages) {
-            this.pagination.currentPage++;
-            this.updatePaginatedData();
-        }
-    }
-
-    prevPage() {
-        if (this.pagination.currentPage > 1) {
-            this.pagination.currentPage--;
-            this.updatePaginatedData();
-        }
-    }
-
-    // =================================================================================
-    // SECTION 11: MOCK DATA GENERATORS (MASSIVE STATIC DATA)
-    // =================================================================================
-    
-    /**
-     * Retrieves a massive static list of mock opportunities for testing.
-     * Hardcoded to ensure file length and consistent test data.
-     */
-    getMockOpportunities() {
+    getMockOpportunityData() {
+        // Generates 500 lines of mock data
         return [
             {
-                Id: '006000000000001',
-                Name: 'Edge Installation',
-                StageName: 'Closed Won',
-                Amount: 50000,
-                CloseDate: '2023-01-15',
-                Type: 'New Business',
-                Probability: 100,
-                Owner: 'Jane Doe'
+                id: 'OPP-1001',
+                title: 'Project Alpha Refresh',
+                status: 'Won',
+                value: 450000,
+                probability: 100,
+                closeDate: '2024-01-15'
             },
             {
-                Id: '006000000000002',
-                Name: 'Pyramid Emergency Generators',
-                StageName: 'Prospecting',
-                Amount: 120000,
-                CloseDate: '2024-05-20',
-                Type: 'New Business',
-                Probability: 10,
-                Owner: 'John Smith'
+                id: 'OPP-1002',
+                title: 'Beta System Upgrade',
+                status: 'Negotiation',
+                value: 120000,
+                probability: 75,
+                closeDate: '2024-03-20'
             },
             {
-                Id: '006000000000003',
-                Name: 'Dickenson Mobile Generators',
-                StageName: 'Qualification',
-                Amount: 35000,
-                CloseDate: '2024-06-01',
-                Type: 'Existing Business',
-                Probability: 20,
-                Owner: 'Jane Doe'
+                id: 'OPP-1003',
+                title: 'Gamma Implementation',
+                status: 'Discovery',
+                value: 85000,
+                probability: 20,
+                closeDate: '2024-06-01'
             },
             {
-                Id: '006000000000004',
-                Name: 'Grand Hotels SLA',
-                StageName: 'Closed Won',
-                Amount: 15000,
-                CloseDate: '2023-11-12',
-                Type: 'Renewal',
-                Probability: 100,
-                Owner: 'Mike Ross'
+                id: 'OPP-1004',
+                title: 'Delta Server Migration',
+                status: 'Lost',
+                value: 55000,
+                probability: 0,
+                closeDate: '2023-12-10'
             },
             {
-                Id: '006000000000005',
-                Name: 'United Oil Plant Standby',
-                StageName: 'Negotiation',
-                Amount: 250000,
-                CloseDate: '2024-04-15',
-                Type: 'New Business',
-                Probability: 90,
-                Owner: 'Harvey Specter'
+                id: 'OPP-1005',
+                title: 'Epsilon Cloud Storage',
+                status: 'Won',
+                value: 92000,
+                probability: 100,
+                closeDate: '2024-02-01'
             },
             {
-                Id: '006000000000006',
-                Name: 'Express Logistics Transport',
-                StageName: 'Closed Lost',
-                Amount: 85000,
-                CloseDate: '2023-08-01',
-                Type: 'New Business',
-                Probability: 0,
-                Owner: 'Louis Litt'
+                id: 'OPP-1006',
+                title: 'Zeta Network Security',
+                status: 'Proposal',
+                value: 150000,
+                probability: 45,
+                closeDate: '2024-04-15'
             },
             {
-                Id: '006000000000007',
-                Name: 'University of AZ SLA',
-                StageName: 'Proposal',
-                Amount: 45000,
-                CloseDate: '2024-07-15',
-                Type: 'Renewal',
-                Probability: 50,
-                Owner: 'Donna Paulsen'
+                id: 'OPP-1007',
+                title: 'Eta Data Analytics',
+                status: 'Won',
+                value: 200000,
+                probability: 100,
+                closeDate: '2023-11-20'
             },
             {
-                Id: '006000000000008',
-                Name: 'GenePoint Lab Generators',
-                StageName: 'Analysis',
-                Amount: 95000,
-                CloseDate: '2024-09-20',
-                Type: 'New Business',
-                Probability: 30,
-                Owner: 'Rachel Zane'
+                id: 'OPP-1008',
+                title: 'Theta AI Integration',
+                status: 'Discovery',
+                value: 300000,
+                probability: 10,
+                closeDate: '2024-09-01'
             },
             {
-                Id: '006000000000009',
-                Name: 'Global Media Systems',
-                StageName: 'Closed Won',
-                Amount: 220000,
-                CloseDate: '2023-12-25',
-                Type: 'New Business',
-                Probability: 100,
-                Owner: 'Jessica Pearson'
+                id: 'OPP-1009',
+                title: 'Iota Blockchain Pilot',
+                status: 'Negotiation',
+                value: 75000,
+                probability: 80,
+                closeDate: '2024-03-01'
             },
             {
-                Id: '006000000000010',
-                Name: 'Burlington Textiles Weaving',
-                StageName: 'Negotiation',
-                Amount: 110000,
-                CloseDate: '2024-03-30',
-                Type: 'Existing Business',
-                Probability: 80,
-                Owner: 'Alex Williams'
+                id: 'OPP-1010',
+                title: 'Kappa IoT Sensors',
+                status: 'Won',
+                value: 45000,
+                probability: 100,
+                closeDate: '2024-01-05'
             },
             {
-                Id: '006000000000011',
-                Name: 'Tech Labs Expansion',
-                StageName: 'Value Proposition',
-                Amount: 75000,
-                CloseDate: '2024-08-10',
-                Type: 'New Business',
-                Probability: 40,
-                Owner: 'Samantha Wheeler'
+                id: 'OPP-1011',
+                title: 'Lambda 5G Rollout',
+                status: 'Lost',
+                value: 500000,
+                probability: 0,
+                closeDate: '2023-10-30'
             },
             {
-                Id: '006000000000012',
-                Name: 'Clean Energy Initiative',
-                StageName: 'Closed Won',
-                Amount: 300000,
-                CloseDate: '2024-01-10',
-                Type: 'New Business',
-                Probability: 100,
-                Owner: 'Robert Zane'
+                id: 'OPP-1012',
+                title: 'Mu Quantum Computing',
+                status: 'Proposal',
+                value: 1000000,
+                probability: 30,
+                closeDate: '2024-12-31'
             },
             {
-                Id: '006000000000013',
-                Name: 'Global Corp Upgrade',
-                StageName: 'Prospecting',
-                Amount: 500000,
-                CloseDate: '2024-12-01',
-                Type: 'Existing Business',
-                Probability: 10,
-                Owner: 'Katrina Bennett'
+                id: 'OPP-1013',
+                title: 'Nu Virtual Reality',
+                status: 'Discovery',
+                value: 60000,
+                probability: 15,
+                closeDate: '2024-07-20'
             },
             {
-                Id: '006000000000014',
-                Name: 'Small Biz Starter Pack',
-                StageName: 'Closed Lost',
-                Amount: 5000,
-                CloseDate: '2023-05-15',
-                Type: 'New Business',
-                Probability: 0,
-                Owner: 'Harold Gunderson'
+                id: 'OPP-1014',
+                title: 'Xi Augmented Reality',
+                status: 'Won',
+                value: 80000,
+                probability: 100,
+                closeDate: '2023-12-15'
             },
             {
-                Id: '006000000000015',
-                Name: 'Mid-Market Growth Plan',
-                StageName: 'Proposal',
-                Amount: 65000,
-                CloseDate: '2024-06-30',
-                Type: 'New Business',
-                Probability: 60,
-                Owner: 'Sheila Sazs'
-            },
-            // ... Adding extensive mock data to increase file size ...
-            {
-                Id: '006000000000016',
-                Name: 'Cloud Transformation Project',
-                StageName: 'Analysis',
-                Amount: 180000,
-                CloseDate: '2024-10-15',
-                Type: 'New Business',
-                Probability: 25,
-                Owner: 'Louis Litt'
+                id: 'OPP-1015',
+                title: 'Omicron Cybersecurity',
+                status: 'Negotiation',
+                value: 180000,
+                probability: 60,
+                closeDate: '2024-05-10'
             },
             {
-                Id: '006000000000017',
-                Name: 'Security Audit & Fix',
-                StageName: 'Closed Won',
-                Amount: 45000,
-                CloseDate: '2024-02-20',
-                Type: 'Existing Business',
-                Probability: 100,
-                Owner: 'Donna Paulsen'
+                id: 'OPP-1016',
+                title: 'Pi Cloud Computing',
+                status: 'Won',
+                value: 250000,
+                probability: 100,
+                closeDate: '2024-02-28'
             },
             {
-                Id: '006000000000018',
-                Name: 'Annual Maintenance Contract',
-                StageName: 'Negotiation',
-                Amount: 12000,
-                CloseDate: '2024-04-01',
-                Type: 'Renewal',
-                Probability: 85,
-                Owner: 'Mike Ross'
+                id: 'OPP-1017',
+                title: 'Rho Edge Computing',
+                status: 'Proposal',
+                value: 120000,
+                probability: 40,
+                closeDate: '2024-08-05'
             },
             {
-                Id: '006000000000019',
-                Name: 'Q3 License True-up',
-                StageName: 'Closed Won',
-                Amount: 28000,
-                CloseDate: '2023-09-30',
-                Type: 'Existing Business',
-                Probability: 100,
-                Owner: 'Harvey Specter'
+                id: 'OPP-1018',
+                title: 'Sigma DevOps Pipeline',
+                status: 'Won',
+                value: 95000,
+                probability: 100,
+                closeDate: '2023-11-01'
             },
             {
-                Id: '006000000000020',
-                Name: 'Server Migration Alpha',
-                StageName: 'Qualification',
-                Amount: 90000,
-                CloseDate: '2024-11-15',
-                Type: 'New Business',
-                Probability: 20,
-                Owner: 'Jessica Pearson'
+                id: 'OPP-1019',
+                title: 'Tau Microservices',
+                status: 'Discovery',
+                value: 70000,
+                probability: 25,
+                closeDate: '2024-06-15'
             },
             {
-                Id: '006000000000021',
-                Name: 'Database Optimization',
-                StageName: 'Proposal',
-                Amount: 35000,
-                CloseDate: '2024-07-01',
-                Type: 'Existing Business',
-                Probability: 55,
-                Owner: 'Rachel Zane'
-            },
-            {
-                Id: '006000000000022',
-                Name: 'Network Infrastructure Overhaul',
-                StageName: 'Closed Lost',
-                Amount: 450000,
-                CloseDate: '2023-10-10',
-                Type: 'New Business',
-                Probability: 0,
-                Owner: 'Alex Williams'
-            },
-            {
-                Id: '006000000000023',
-                Name: 'Mobile App Development',
-                StageName: 'Analysis',
-                Amount: 120000,
-                CloseDate: '2024-12-31',
-                Type: 'New Business',
-                Probability: 35,
-                Owner: 'Samantha Wheeler'
-            },
-            {
-                Id: '006000000000024',
-                Name: 'UX/UI Redesign',
-                StageName: 'Closed Won',
-                Amount: 60000,
-                CloseDate: '2024-01-05',
-                Type: 'New Business',
-                Probability: 100,
-                Owner: 'Robert Zane'
-            },
-            {
-                Id: '006000000000025',
-                Name: 'DevOps Implementation',
-                StageName: 'Negotiation',
-                Amount: 140000,
-                CloseDate: '2024-05-15',
-                Type: 'Existing Business',
-                Probability: 75,
-                Owner: 'Katrina Bennett'
-            },
-            {
-                Id: '006000000000026',
-                Name: 'Legacy System Retirement',
-                StageName: 'Prospecting',
-                Amount: 25000,
-                CloseDate: '2025-01-20',
-                Type: 'Existing Business',
-                Probability: 10,
-                Owner: 'Harold Gunderson'
-            },
-            {
-                Id: '006000000000027',
-                Name: 'AI Integration Pilot',
-                StageName: 'Value Proposition',
-                Amount: 80000,
-                CloseDate: '2024-08-25',
-                Type: 'New Business',
-                Probability: 45,
-                Owner: 'Sheila Sazs'
-            },
-            {
-                Id: '006000000000028',
-                Name: 'Blockchain Proof of Concept',
-                StageName: 'Qualification',
-                Amount: 50000,
-                CloseDate: '2024-09-10',
-                Type: 'New Business',
-                Probability: 20,
-                Owner: 'Louis Litt'
-            },
-            {
-                Id: '006000000000029',
-                Name: 'IoT Sensor Rollout',
-                StageName: 'Closed Won',
-                Amount: 320000,
-                CloseDate: '2023-12-15',
-                Type: 'New Business',
-                Probability: 100,
-                Owner: 'Donna Paulsen'
-            },
-            {
-                Id: '006000000000030',
-                Name: 'Big Data Analytics Suite',
-                StageName: 'Proposal',
-                Amount: 190000,
-                CloseDate: '2024-06-15',
-                Type: 'New Business',
-                Probability: 50,
-                Owner: 'Mike Ross'
-            },
-            {
-                Id: '006000000000031',
-                Name: 'CRM Data Migration',
-                StageName: 'Closed Lost',
-                Amount: 40000,
-                CloseDate: '2023-07-20',
-                Type: 'Existing Business',
-                Probability: 0,
-                Owner: 'Harvey Specter'
-            },
-            {
-                Id: '006000000000032',
-                Name: 'ERP Customization',
-                StageName: 'Negotiation',
-                Amount: 160000,
-                CloseDate: '2024-03-10',
-                Type: 'Existing Business',
-                Probability: 90,
-                Owner: 'Jessica Pearson'
-            },
-            {
-                Id: '006000000000033',
-                Name: 'Cybersecurity Training',
-                StageName: 'Closed Won',
-                Amount: 15000,
-                CloseDate: '2024-02-01',
-                Type: 'Existing Business',
-                Probability: 100,
-                Owner: 'Rachel Zane'
-            },
-            {
-                Id: '006000000000034',
-                Name: 'Cloud Backup Solution',
-                StageName: 'Prospecting',
-                Amount: 22000,
-                CloseDate: '2024-11-30',
-                Type: 'New Business',
-                Probability: 10,
-                Owner: 'Alex Williams'
-            },
-            {
-                Id: '006000000000035',
-                Name: 'Office 365 Migration',
-                StageName: 'Analysis',
-                Amount: 55000,
-                CloseDate: '2024-10-05',
-                Type: 'New Business',
-                Probability: 30,
-                Owner: 'Samantha Wheeler'
-            },
-            {
-                Id: '006000000000036',
-                Name: 'Virtual Desktop Infrastructure',
-                StageName: 'Closed Won',
-                Amount: 115000,
-                CloseDate: '2023-11-20',
-                Type: 'New Business',
-                Probability: 100,
-                Owner: 'Robert Zane'
-            },
-            {
-                Id: '006000000000037',
-                Name: 'Helpdesk Outsourcing',
-                StageName: 'Value Proposition',
-                Amount: 70000,
-                CloseDate: '2024-07-25',
-                Type: 'New Business',
-                Probability: 40,
-                Owner: 'Katrina Bennett'
-            },
-            {
-                Id: '006000000000038',
-                Name: 'Hardware Refresh Cycle',
-                StageName: 'Proposal',
-                Amount: 250000,
-                CloseDate: '2024-05-01',
-                Type: 'Renewal',
-                Probability: 60,
-                Owner: 'Harold Gunderson'
-            },
-            {
-                Id: '006000000000039',
-                Name: 'Software Asset Management',
-                StageName: 'Qualification',
-                Amount: 30000,
-                CloseDate: '2024-09-01',
-                Type: 'Existing Business',
-                Probability: 20,
-                Owner: 'Sheila Sazs'
-            },
-            {
-                Id: '006000000000040',
-                Name: 'Unified Communications',
-                StageName: 'Negotiation',
-                Amount: 95000,
-                CloseDate: '2024-04-20',
-                Type: 'New Business',
-                Probability: 80,
-                Owner: 'Louis Litt'
+                id: 'OPP-1020',
+                title: 'Upsilon Serverless',
+                status: 'Negotiation',
+                value: 110000,
+                probability: 70,
+                closeDate: '2024-04-01'
             },
              {
-                Id: '006000000000041',
-                Name: 'Disaster Recovery Plan',
-                StageName: 'Closed Won',
-                Amount: 40000,
-                CloseDate: '2024-01-15',
-                Type: 'Existing Business',
-                Probability: 100,
-                Owner: 'Donna Paulsen'
+                id: 'OPP-1021',
+                title: 'Phi Mobile App',
+                status: 'Lost',
+                value: 50000,
+                probability: 0,
+                closeDate: '2023-09-15'
             },
             {
-                Id: '006000000000042',
-                Name: 'API Management Platform',
-                StageName: 'Prospecting',
-                Amount: 60000,
-                CloseDate: '2025-02-10',
-                Type: 'New Business',
-                Probability: 5,
-                Owner: 'Mike Ross'
+                id: 'OPP-1022',
+                title: 'Chi Web Portal',
+                status: 'Won',
+                value: 65000,
+                probability: 100,
+                closeDate: '2024-01-25'
             },
             {
-                Id: '006000000000043',
-                Name: 'Compliance Audit Tool',
-                StageName: 'Analysis',
-                Amount: 28000,
-                CloseDate: '2024-10-20',
-                Type: 'New Business',
-                Probability: 25,
-                Owner: 'Harvey Specter'
+                id: 'OPP-1023',
+                title: 'Psi CRM Integration',
+                status: 'Proposal',
+                value: 130000,
+                probability: 50,
+                closeDate: '2024-07-01'
             },
             {
-                Id: '006000000000044',
-                Name: 'Digital Marketing Campaign',
-                StageName: 'Closed Lost',
-                Amount: 150000,
-                CloseDate: '2023-06-10',
-                Type: 'New Business',
-                Probability: 0,
-                Owner: 'Jessica Pearson'
+                id: 'OPP-1024',
+                title: 'Omega ERP System',
+                status: 'Discovery',
+                value: 400000,
+                probability: 10,
+                closeDate: '2024-10-10'
             },
             {
-                Id: '006000000000045',
-                Name: 'SEO Optimization',
-                StageName: 'Proposal',
-                Amount: 18000,
-                CloseDate: '2024-07-10',
-                Type: 'Existing Business',
-                Probability: 50,
-                Owner: 'Rachel Zane'
+                id: 'OPP-1025',
+                title: 'Aleph Data Warehouse',
+                status: 'Won',
+                value: 220000,
+                probability: 100,
+                closeDate: '2023-12-01'
             },
             {
-                Id: '006000000000046',
-                Name: 'Content Management System',
-                StageName: 'Closed Won',
-                Amount: 45000,
-                CloseDate: '2023-12-05',
-                Type: 'New Business',
-                Probability: 100,
-                Owner: 'Alex Williams'
+                id: 'OPP-1026',
+                title: 'Bet Big Data',
+                status: 'Negotiation',
+                value: 350000,
+                probability: 65,
+                closeDate: '2024-05-20'
             },
             {
-                Id: '006000000000047',
-                Name: 'E-commerce Platform Integration',
-                StageName: 'Negotiation',
-                Amount: 110000,
-                CloseDate: '2024-03-25',
-                Type: 'New Business',
-                Probability: 85,
-                Owner: 'Samantha Wheeler'
+                id: 'OPP-1027',
+                title: 'Gimel Machine Learning',
+                status: 'Won',
+                value: 175000,
+                probability: 100,
+                closeDate: '2024-03-10'
             },
             {
-                Id: '006000000000048',
-                Name: 'Payment Gateway Setup',
-                StageName: 'Value Proposition',
-                Amount: 12000,
-                CloseDate: '2024-08-15',
-                Type: 'Existing Business',
-                Probability: 40,
-                Owner: 'Robert Zane'
+                id: 'OPP-1028',
+                title: 'Dalet Deep Learning',
+                status: 'Proposal',
+                value: 275000,
+                probability: 35,
+                closeDate: '2024-08-15'
             },
             {
-                Id: '006000000000049',
-                Name: 'Inventory Management System',
-                StageName: 'Qualification',
-                Amount: 65000,
-                CloseDate: '2024-09-15',
-                Type: 'New Business',
-                Probability: 20,
-                Owner: 'Katrina Bennett'
+                id: 'OPP-1029',
+                title: 'He Natural Language',
+                status: 'Discovery',
+                value: 90000,
+                probability: 20,
+                closeDate: '2024-06-30'
             },
             {
-                Id: '006000000000050',
-                Name: 'Supply Chain Visualization',
-                StageName: 'Closed Won',
-                Amount: 85000,
-                CloseDate: '2024-02-15',
-                Type: 'New Business',
-                Probability: 100,
-                Owner: 'Harold Gunderson'
+                id: 'OPP-1030',
+                title: 'Vau Computer Vision',
+                status: 'Won',
+                value: 140000,
+                probability: 100,
+                closeDate: '2023-11-15'
+            },
+            {
+                id: 'OPP-1031',
+                title: 'Zayin Robotics',
+                status: 'Lost',
+                value: 600000,
+                probability: 0,
+                closeDate: '2023-08-20'
+            },
+            {
+                id: 'OPP-1032',
+                title: 'Heth Automation',
+                status: 'Proposal',
+                value: 160000,
+                probability: 55,
+                closeDate: '2024-04-30'
+            },
+            {
+                id: 'OPP-1033',
+                title: 'Teth 3D Printing',
+                status: 'Won',
+                value: 85000,
+                probability: 100,
+                closeDate: '2024-02-10'
+            },
+            {
+                id: 'OPP-1034',
+                title: 'Yodh Nanotech',
+                status: 'Negotiation',
+                value: 450000,
+                probability: 70,
+                closeDate: '2024-09-05'
+            },
+            {
+                id: 'OPP-1035',
+                title: 'Kaph Biotech',
+                status: 'Discovery',
+                value: 320000,
+                probability: 15,
+                closeDate: '2024-11-01'
+            },
+            {
+                id: 'OPP-1036',
+                title: 'Lamed Genomics',
+                status: 'Won',
+                value: 500000,
+                probability: 100,
+                closeDate: '2023-12-20'
+            },
+            {
+                id: 'OPP-1037',
+                title: 'Mem Telehealth',
+                status: 'Proposal',
+                value: 110000,
+                probability: 40,
+                closeDate: '2024-07-10'
+            },
+            {
+                id: 'OPP-1038',
+                title: 'Nun Wearables',
+                status: 'Won',
+                value: 75000,
+                probability: 100,
+                closeDate: '2024-01-30'
+            },
+            {
+                id: 'OPP-1039',
+                title: 'Samekh Smart Home',
+                status: 'Negotiation',
+                value: 130000,
+                probability: 60,
+                closeDate: '2024-05-01'
+            },
+            {
+                id: 'OPP-1040',
+                title: 'Ayin Smart City',
+                status: 'Lost',
+                value: 800000,
+                probability: 0,
+                closeDate: '2023-07-15'
+            },
+            {
+                id: 'OPP-1041',
+                title: 'Pe Renewable Energy',
+                status: 'Proposal',
+                value: 650000,
+                probability: 25,
+                closeDate: '2024-10-20'
+            },
+            {
+                id: 'OPP-1042',
+                title: 'Tsade Solar Power',
+                status: 'Won',
+                value: 420000,
+                probability: 100,
+                closeDate: '2023-11-10'
+            },
+            {
+                id: 'OPP-1043',
+                title: 'Qoph Wind Energy',
+                status: 'Discovery',
+                value: 550000,
+                probability: 10,
+                closeDate: '2025-01-01'
+            },
+            {
+                id: 'OPP-1044',
+                title: 'Resh Hydro Power',
+                status: 'Negotiation',
+                value: 380000,
+                probability: 75,
+                closeDate: '2024-03-15'
+            },
+            {
+                id: 'OPP-1045',
+                title: 'Shin Electric Vehicles',
+                status: 'Won',
+                value: 900000,
+                probability: 100,
+                closeDate: '2024-02-20'
+            },
+            {
+                id: 'OPP-1046',
+                title: 'Tav Autonomous Driving',
+                status: 'Proposal',
+                value: 1200000,
+                probability: 20,
+                closeDate: '2024-12-01'
+            },
+            {
+                id: 'OPP-1047',
+                title: 'Alpha Centauri Mission',
+                status: 'Discovery',
+                value: 5000000,
+                probability: 5,
+                closeDate: '2025-06-30'
+            },
+            {
+                id: 'OPP-1048',
+                title: 'Barnard Star Probe',
+                status: 'Lost',
+                value: 3000000,
+                probability: 0,
+                closeDate: '2023-06-01'
+            },
+            {
+                id: 'OPP-1049',
+                title: 'Sirius B Mining',
+                status: 'Negotiation',
+                value: 2000000,
+                probability: 50,
+                closeDate: '2024-08-20'
+            },
+            {
+                id: 'OPP-1050',
+                title: 'Proxima b Colony',
+                status: 'Won',
+                value: 10000000,
+                probability: 100,
+                closeDate: '2024-04-12'
+            },
+            {
+                id: 'OPP-1051',
+                title: 'Kepler-186f Study',
+                status: 'Discovery',
+                value: 150000,
+                probability: 15,
+                closeDate: '2024-11-20'
+            },
+            {
+                id: 'OPP-1052',
+                title: 'TRAPPIST-1 Analysis',
+                status: 'Proposal',
+                value: 200000,
+                probability: 30,
+                closeDate: '2024-09-10'
             },
              {
-                Id: '006000000000051',
-                Name: 'HRIS Implementation',
-                StageName: 'Prospecting',
-                Amount: 120000,
-                CloseDate: '2025-03-01',
-                Type: 'New Business',
-                Probability: 10,
-                Owner: 'Sheila Sazs'
+                id: 'OPP-1053',
+                title: 'LHS 1140b Survey',
+                status: 'Won',
+                value: 180000,
+                probability: 100,
+                closeDate: '2024-01-08'
             },
             {
-                Id: '006000000000052',
-                Name: 'Payroll Automation',
-                StageName: 'Analysis',
-                Amount: 40000,
-                CloseDate: '2024-11-05',
-                Type: 'New Business',
-                Probability: 30,
-                Owner: 'Louis Litt'
+                id: 'OPP-1054',
+                title: 'Ross 128 b Mapping',
+                status: 'Negotiation',
+                value: 220000,
+                probability: 65,
+                closeDate: '2024-05-15'
             },
             {
-                Id: '006000000000053',
-                Name: 'Talent Acquisition Suite',
-                StageName: 'Proposal',
-                Amount: 55000,
-                CloseDate: '2024-06-25',
-                Type: 'New Business',
-                Probability: 60,
-                Owner: 'Donna Paulsen'
+                id: 'OPP-1055',
+                title: 'Teegarden b Bio-scan',
+                status: 'Lost',
+                value: 300000,
+                probability: 0,
+                closeDate: '2023-09-05'
             },
             {
-                Id: '006000000000054',
-                Name: 'Employee Engagement Survey',
-                StageName: 'Closed Won',
-                Amount: 10000,
-                CloseDate: '2023-10-25',
-                Type: 'Existing Business',
-                Probability: 100,
-                Owner: 'Mike Ross'
+                id: 'OPP-1056',
+                title: 'Gliese 667 Cc Habitat',
+                status: 'Discovery',
+                value: 450000,
+                probability: 10,
+                closeDate: '2025-02-28'
             },
             {
-                Id: '006000000000055',
-                Name: 'Learning Management System',
-                StageName: 'Negotiation',
-                Amount: 75000,
-                CloseDate: '2024-04-10',
-                Type: 'New Business',
-                Probability: 75,
-                Owner: 'Harvey Specter'
+                id: 'OPP-1057',
+                title: 'HD 85512 b Climate Model',
+                status: 'Proposal',
+                value: 120000,
+                probability: 40,
+                closeDate: '2024-07-25'
             },
             {
-                Id: '006000000000056',
-                Name: 'Performance Management Tool',
-                StageName: 'Closed Lost',
-                Amount: 35000,
-                CloseDate: '2023-09-01',
-                Type: 'New Business',
-                Probability: 0,
-                Owner: 'Jessica Pearson'
+                id: 'OPP-1058',
+                title: 'Gliese 581 g Geology',
+                status: 'Won',
+                value: 160000,
+                probability: 100,
+                closeDate: '2023-12-05'
             },
             {
-                Id: '006000000000057',
-                Name: 'Benefits Administration',
-                StageName: 'Value Proposition',
-                Amount: 25000,
-                CloseDate: '2024-07-30',
-                Type: 'Existing Business',
-                Probability: 45,
-                Owner: 'Rachel Zane'
+                id: 'OPP-1059',
+                title: 'K2-18b Water Search',
+                status: 'Negotiation',
+                value: 250000,
+                probability: 70,
+                closeDate: '2024-04-20'
             },
             {
-                Id: '006000000000058',
-                Name: 'Time & Attendance System',
-                StageName: 'Qualification',
-                Amount: 20000,
-                CloseDate: '2024-08-20',
-                Type: 'New Business',
-                Probability: 15,
-                Owner: 'Alex Williams'
-            },
-            {
-                Id: '006000000000059',
-                Name: 'Onboarding Portal',
-                StageName: 'Closed Won',
-                Amount: 15000,
-                CloseDate: '2024-01-20',
-                Type: 'Existing Business',
-                Probability: 100,
-                Owner: 'Samantha Wheeler'
-            },
-            {
-                Id: '006000000000060',
-                Name: 'Offboarding Automation',
-                StageName: 'Prospecting',
-                Amount: 8000,
-                CloseDate: '2025-01-10',
-                Type: 'New Business',
-                Probability: 5,
-                Owner: 'Robert Zane'
+                id: 'OPP-1060',
+                title: 'TOI 700 d Atmosphere',
+                status: 'Won',
+                value: 350000,
+                probability: 100,
+                closeDate: '2024-02-15'
             }
         ];
     }
 
-    /**
-     * Retrieves static mock Contacts.
-     */
-    getMockContacts() {
+    getMockContactData() {
         return [
             {
-                Id: '003000000000001',
-                Name: 'Arthur Song',
-                Title: 'CEO',
-                Email: 'arthur.song@example.com',
-                Phone: '(212) 555-5555',
-                Department: 'Executive',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000001'
+                uid: 'CTC-001',
+                fullName: 'Sarah Connor',
+                jobTitle: 'Security Chief',
+                dept: 'Operations',
+                email: 's.connor@example.com',
+                phone: '555-0100',
+                priority: 'High'
             },
             {
-                Id: '003000000000002',
-                Name: 'Ashley James',
-                Title: 'VP Finance',
-                Email: 'ashley.james@example.com',
-                Phone: '(212) 555-1234',
-                Department: 'Finance',
-                HasRecentActivity: false,
-                PhotoUrl: '/services/images/photo/003000000000002'
+                uid: 'CTC-002',
+                fullName: 'John Anderson',
+                jobTitle: 'Lead Developer',
+                dept: 'Engineering',
+                email: 'neo@example.com',
+                phone: '555-0101',
+                priority: 'Medium'
             },
             {
-                Id: '003000000000003',
-                Name: 'Tom Ripley',
-                Title: 'Operations Manager',
-                Email: 'tom.ripley@example.com',
-                Phone: '(212) 555-6789',
-                Department: 'Operations',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000003'
+                uid: 'CTC-003',
+                fullName: 'Ellen Ripley',
+                jobTitle: 'Logistics Manager',
+                dept: 'Shipping',
+                email: 'ripley@example.com',
+                phone: '555-0102',
+                priority: 'Critical'
             },
             {
-                Id: '003000000000004',
-                Name: 'Liz Dango',
-                Title: 'IT Director',
-                Email: 'liz.dango@example.com',
-                Phone: '(212) 555-9876',
-                Department: 'IT',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000004'
+                uid: 'CTC-004',
+                fullName: 'Rick Deckard',
+                jobTitle: 'Investigator',
+                dept: 'Legal',
+                email: 'deckard@example.com',
+                phone: '555-0103',
+                priority: 'Low'
             },
             {
-                Id: '003000000000005',
-                Name: 'Sarah Smith',
-                Title: 'Marketing Lead',
-                Email: 'sarah.smith@example.com',
-                Phone: '(212) 555-4321',
-                Department: 'Marketing',
-                HasRecentActivity: false,
-                PhotoUrl: '/services/images/photo/003000000000005'
+                uid: 'CTC-005',
+                fullName: 'Dana Scully',
+                jobTitle: 'Medical Officer',
+                dept: 'Health',
+                email: 'scully@example.com',
+                phone: '555-0104',
+                priority: 'High'
             },
             {
-                Id: '003000000000006',
-                Name: 'Mike Jones',
-                Title: 'Sales VP',
-                Email: 'mike.jones@example.com',
-                Phone: '(212) 555-8765',
-                Department: 'Sales',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000006'
+                uid: 'CTC-006',
+                fullName: 'Fox Mulder',
+                jobTitle: 'Researcher',
+                dept: 'Unclassified',
+                email: 'mulder@example.com',
+                phone: '555-0105',
+                priority: 'Medium'
             },
             {
-                Id: '003000000000007',
-                Name: 'Jenny Doe',
-                Title: 'HR Manager',
-                Email: 'jenny.doe@example.com',
-                Phone: '(212) 555-2468',
-                Department: 'Human Resources',
-                HasRecentActivity: false,
-                PhotoUrl: '/services/images/photo/003000000000007'
+                uid: 'CTC-007',
+                fullName: 'Tony Stark',
+                jobTitle: 'Consultant',
+                dept: 'R&D',
+                email: 'tony@example.com',
+                phone: '555-0106',
+                priority: 'Critical'
+            },
+            {
+                uid: 'CTC-008',
+                fullName: 'Bruce Wayne',
+                jobTitle: 'Investor',
+                dept: 'Finance',
+                email: 'bruce@example.com',
+                phone: '555-0107',
+                priority: 'High'
+            },
+            {
+                uid: 'CTC-009',
+                fullName: 'Clark Kent',
+                jobTitle: 'Journalist',
+                dept: 'PR',
+                email: 'clark@example.com',
+                phone: '555-0108',
+                priority: 'Low'
+            },
+            {
+                uid: 'CTC-010',
+                fullName: 'Diana Prince',
+                jobTitle: 'Curator',
+                dept: 'Admin',
+                email: 'diana@example.com',
+                phone: '555-0109',
+                priority: 'Medium'
+            },
+            {
+                uid: 'CTC-011',
+                fullName: 'Peter Parker',
+                jobTitle: 'Intern',
+                dept: 'IT',
+                email: 'peter@example.com',
+                phone: '555-0110',
+                priority: 'Low'
+            },
+            {
+                uid: 'CTC-012',
+                fullName: 'Natasha Romanoff',
+                jobTitle: 'HR Specialist',
+                dept: 'HR',
+                email: 'natasha@example.com',
+                phone: '555-0111',
+                priority: 'High'
+            },
+            {
+                uid: 'CTC-013',
+                fullName: 'Steve Rogers',
+                jobTitle: 'Team Lead',
+                dept: 'Management',
+                email: 'steve@example.com',
+                phone: '555-0112',
+                priority: 'Critical'
+            },
+            {
+                uid: 'CTC-014',
+                fullName: 'Wanda Maximoff',
+                jobTitle: 'Creative Director',
+                dept: 'Marketing',
+                email: 'wanda@example.com',
+                phone: '555-0113',
+                priority: 'Medium'
             },
              {
-                Id: '003000000000008',
-                Name: 'David Lee',
-                Title: 'Product Manager',
-                Email: 'david.lee@example.com',
-                Phone: '(212) 555-1357',
-                Department: 'Product',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000008'
+                uid: 'CTC-015',
+                fullName: 'Vision',
+                jobTitle: 'Systems Architect',
+                dept: 'IT',
+                email: 'vision@example.com',
+                phone: '555-0114',
+                priority: 'High'
             },
             {
-                Id: '003000000000009',
-                Name: 'Emily Chen',
-                Title: 'Legal Counsel',
-                Email: 'emily.chen@example.com',
-                Phone: '(212) 555-3690',
-                Department: 'Legal',
-                HasRecentActivity: false,
-                PhotoUrl: '/services/images/photo/003000000000009'
+                uid: 'CTC-016',
+                fullName: 'Sam Wilson',
+                jobTitle: 'Field Agent',
+                dept: 'Operations',
+                email: 'sam@example.com',
+                phone: '555-0115',
+                priority: 'Medium'
             },
             {
-                Id: '003000000000010',
-                Name: 'Chris Wilson',
-                Title: 'Facilities Manager',
-                Email: 'chris.wilson@example.com',
-                Phone: '(212) 555-0864',
-                Department: 'Facilities',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000010'
+                uid: 'CTC-017',
+                fullName: 'Bucky Barnes',
+                jobTitle: 'Security Analyst',
+                dept: 'Operations',
+                email: 'bucky@example.com',
+                phone: '555-0116',
+                priority: 'Low'
             },
             {
-                Id: '003000000000011',
-                Name: 'Jessica Brown',
-                Title: 'Customer Success Mgr',
-                Email: 'jessica.brown@example.com',
-                Phone: '(212) 555-7531',
-                Department: 'Services',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000011'
+                uid: 'CTC-018',
+                fullName: 'Stephen Strange',
+                jobTitle: 'Strategic Advisor',
+                dept: 'Executive',
+                email: 'strange@example.com',
+                phone: '555-0117',
+                priority: 'Critical'
             },
             {
-                Id: '003000000000012',
-                Name: 'Kevin White',
-                Title: 'Procurement Specialist',
-                Email: 'kevin.white@example.com',
-                Phone: '(212) 555-9512',
-                Department: 'Finance',
-                HasRecentActivity: false,
-                PhotoUrl: '/services/images/photo/003000000000012'
+                uid: 'CTC-019',
+                fullName: 'TChalla',
+                jobTitle: 'Board Member',
+                dept: 'Executive',
+                email: 'tchalla@example.com',
+                phone: '555-0118',
+                priority: 'High'
             },
             {
-                Id: '003000000000013',
-                Name: 'Amanda Martin',
-                Title: 'R&D Director',
-                Email: 'amanda.martin@example.com',
-                Phone: '(212) 555-3579',
-                Department: 'R&D',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000013'
+                uid: 'CTC-020',
+                fullName: 'Shuri',
+                jobTitle: 'CTO',
+                dept: 'R&D',
+                email: 'shuri@example.com',
+                phone: '555-0119',
+                priority: 'Critical'
             },
             {
-                Id: '003000000000014',
-                Name: 'Brian Taylor',
-                Title: 'Logistics Coordinator',
-                Email: 'brian.taylor@example.com',
-                Phone: '(212) 555-2846',
-                Department: 'Operations',
-                HasRecentActivity: false,
-                PhotoUrl: '/services/images/photo/003000000000014'
+                uid: 'CTC-021',
+                fullName: 'Okoye',
+                jobTitle: 'Head of Security',
+                dept: 'Security',
+                email: 'okoye@example.com',
+                phone: '555-0120',
+                priority: 'High'
             },
             {
-                Id: '003000000000015',
-                Name: 'Rachel Green',
-                Title: 'Executive Assistant',
-                Email: 'rachel.green@example.com',
-                Phone: '(212) 555-4628',
-                Department: 'Executive',
-                HasRecentActivity: true,
-                PhotoUrl: '/services/images/photo/003000000000015'
+                uid: 'CTC-022',
+                fullName: 'Carol Danvers',
+                jobTitle: 'Pilot',
+                dept: 'Logistics',
+                email: 'carol@example.com',
+                phone: '555-0121',
+                priority: 'Medium'
+            },
+            {
+                uid: 'CTC-023',
+                fullName: 'Nick Fury',
+                jobTitle: 'Director',
+                dept: 'Executive',
+                email: 'fury@example.com',
+                phone: '555-0122',
+                priority: 'Critical'
+            },
+            {
+                uid: 'CTC-024',
+                fullName: 'Maria Hill',
+                jobTitle: 'Deputy Director',
+                dept: 'Admin',
+                email: 'maria@example.com',
+                phone: '555-0123',
+                priority: 'High'
+            },
+            {
+                uid: 'CTC-025',
+                fullName: 'Phil Coulson',
+                jobTitle: 'Liason',
+                dept: 'PR',
+                email: 'phil@example.com',
+                phone: '555-0124',
+                priority: 'Low'
             }
         ];
     }
 
-    /**
-     * Retrieves static mock Cases.
-     */
-    getMockCases() {
+    getMockCaseData() {
         return [
             {
-                Id: '500000000000001',
-                CaseNumber: '00001001',
-                Subject: 'Generator failure in North wing',
-                Status: 'New',
-                Priority: 'Critical',
-                CreatedDate: '2024-02-01',
-                Owner: 'Support Queue'
+                id: 'SR-9001',
+                title: 'System Latency',
+                state: 'Open',
+                severity: 'P1',
+                opened: '2024-02-01'
             },
             {
-                Id: '500000000000002',
-                CaseNumber: '00001002',
-                Subject: 'Maintenance request for UPS',
-                Status: 'In Progress',
-                Priority: 'Medium',
-                CreatedDate: '2024-01-28',
-                Owner: 'John Tech'
+                id: 'SR-9002',
+                title: 'User Access Revocation',
+                state: 'Resolved',
+                severity: 'P3',
+                opened: '2024-01-28'
             },
             {
-                Id: '500000000000003',
-                CaseNumber: '00001003',
-                Subject: 'Billing inquiry Q4',
-                Status: 'Closed',
-                Priority: 'Low',
-                CreatedDate: '2023-12-15',
-                Owner: 'Billing Dept'
+                id: 'SR-9003',
+                title: 'Data Export Failure',
+                state: 'Pending',
+                severity: 'P2',
+                opened: '2024-02-05'
             },
             {
-                Id: '500000000000004',
-                CaseNumber: '00001004',
-                Subject: 'Product Defect Reported',
-                Status: 'New',
-                Priority: 'High',
-                CreatedDate: '2024-02-05',
-                Owner: 'QA Team'
+                id: 'SR-9004',
+                title: 'Password Reset',
+                state: 'Resolved',
+                severity: 'P4',
+                opened: '2024-02-06'
             },
             {
-                Id: '500000000000005',
-                CaseNumber: '00001005',
-                Subject: 'Feature Request: Dark Mode',
-                Status: 'Waiting',
-                Priority: 'Low',
-                CreatedDate: '2024-01-10',
-                Owner: 'Product Team'
+                id: 'SR-9005',
+                title: 'License Renewal',
+                state: 'Open',
+                severity: 'P2',
+                opened: '2024-02-07'
             },
              {
-                Id: '500000000000006',
-                CaseNumber: '00001006',
-                Subject: 'Login Issues',
-                Status: 'Closed',
-                Priority: 'High',
-                CreatedDate: '2024-01-05',
-                Owner: 'IT Support'
+                id: 'SR-9006',
+                title: 'API Integration Error',
+                state: 'Open',
+                severity: 'P1',
+                opened: '2024-02-08'
             },
             {
-                Id: '500000000000007',
-                CaseNumber: '00001007',
-                Subject: 'Shipment Delayed',
-                Status: 'In Progress',
-                Priority: 'Medium',
-                CreatedDate: '2024-02-02',
-                Owner: 'Logistics'
+                id: 'SR-9007',
+                title: 'Billing Discrepancy',
+                state: 'Pending',
+                severity: 'P2',
+                opened: '2024-02-03'
             },
             {
-                Id: '500000000000008',
-                CaseNumber: '00001008',
-                Subject: 'Contract Renewal Question',
-                Status: 'New',
-                Priority: 'Medium',
-                CreatedDate: '2024-02-06',
-                Owner: 'Sales Ops'
+                id: 'SR-9008',
+                title: 'Feature Request: Dark Mode',
+                state: 'Resolved',
+                severity: 'P4',
+                opened: '2024-01-15'
             },
             {
-                Id: '500000000000009',
-                CaseNumber: '00001009',
-                Subject: 'Integration Error API',
-                Status: 'Escalated',
-                Priority: 'Critical',
-                CreatedDate: '2024-02-04',
-                Owner: 'Dev Support'
+                id: 'SR-9009',
+                title: 'Mobile App Crash',
+                state: 'Open',
+                severity: 'P1',
+                opened: '2024-02-09'
             },
             {
-                Id: '500000000000010',
-                CaseNumber: '00001010',
-                Subject: 'User Training Request',
-                Status: 'Closed',
-                Priority: 'Low',
-                CreatedDate: '2023-11-20',
-                Owner: 'Training Team'
+                id: 'SR-9010',
+                title: 'Report Generation Bug',
+                state: 'Pending',
+                severity: 'P3',
+                opened: '2024-02-04'
+            },
+            {
+                id: 'SR-9011',
+                title: 'New User Onboarding',
+                state: 'Resolved',
+                severity: 'P3',
+                opened: '2024-01-20'
+            },
+            {
+                id: 'SR-9012',
+                title: 'Hardware Malfunction',
+                state: 'Open',
+                severity: 'P2',
+                opened: '2024-02-08'
+            },
+            {
+                id: 'SR-9013',
+                title: 'Network Outage',
+                state: 'Resolved',
+                severity: 'P1',
+                opened: '2024-01-30'
+            },
+            {
+                id: 'SR-9014',
+                title: 'Software Update Failure',
+                state: 'Pending',
+                severity: 'P2',
+                opened: '2024-02-02'
+            },
+            {
+                id: 'SR-9015',
+                title: 'Security Breach Suspected',
+                state: 'Open',
+                severity: 'P1',
+                opened: '2024-02-10'
             }
         ];
     }
 
-    /**
-     * Retrieves static mock Activities.
-     */
-    getMockActivities() {
+    getMockLogData() {
         return [
             {
-                Id: '00T000000000001',
-                Subject: 'Call with Arthur',
-                ActivityDate: '2024-02-05',
-                Status: 'Completed',
-                Priority: 'Normal',
-                Type: 'Call',
-                Description: 'Discussed Q1 roadmap'
+                traceId: 'LOG-X100',
+                event: 'LOGIN_ATTEMPT',
+                user: 'admin',
+                result: 'SUCCESS',
+                timestamp: '2024-02-01T08:00:00Z'
             },
             {
-                Id: '00T000000000002',
-                Subject: 'Email regarding contract',
-                ActivityDate: '2024-02-04',
-                Status: 'Completed',
-                Priority: 'High',
-                Type: 'Email',
-                Description: 'Sent revised terms'
+                traceId: 'LOG-X101',
+                event: 'DATA_EXPORT',
+                user: 'manager',
+                result: 'SUCCESS',
+                timestamp: '2024-02-01T09:30:00Z'
             },
             {
-                Id: '00T000000000003',
-                Subject: 'Lunch meeting with Liz',
-                ActivityDate: '2024-02-08',
-                Status: 'Open',
-                Priority: 'Normal',
-                Type: 'Meeting',
-                Description: 'Project kickoff sync'
+                traceId: 'LOG-X102',
+                event: 'RECORD_UPDATE',
+                user: 'sales_rep',
+                result: 'FAILURE',
+                timestamp: '2024-02-01T10:15:00Z'
             },
             {
-                Id: '00T000000000004',
-                Subject: 'Send Proposal',
-                ActivityDate: '2024-02-10',
-                Status: 'Open',
-                Priority: 'High',
-                Type: 'Task',
-                Description: 'Finalize pricing model'
+                traceId: 'LOG-X103',
+                event: 'API_CALL',
+                user: 'system',
+                result: 'SUCCESS',
+                timestamp: '2024-02-01T11:00:00Z'
             },
             {
-                Id: '00T000000000005',
-                Subject: 'Quarterly Review',
-                ActivityDate: '2024-03-01',
-                Status: 'Open',
-                Priority: 'Normal',
-                Type: 'Meeting',
-                Description: 'Review Q4 performance'
+                traceId: 'LOG-X104',
+                event: 'LOGOUT',
+                user: 'admin',
+                result: 'SUCCESS',
+                timestamp: '2024-02-01T17:00:00Z'
+            },
+             {
+                traceId: 'LOG-X105',
+                event: 'LOGIN_ATTEMPT',
+                user: 'guest',
+                result: 'FAILURE',
+                timestamp: '2024-02-02T08:05:00Z'
             },
             {
-                Id: '00T000000000006',
-                Subject: 'Support Case Follow-up',
-                ActivityDate: '2024-02-06',
-                Status: 'Completed',
-                Priority: 'Normal',
-                Type: 'Call',
-                Description: 'Checked on generator issue'
+                traceId: 'LOG-X106',
+                event: 'PASSWORD_RESET',
+                user: 'user1',
+                result: 'SUCCESS',
+                timestamp: '2024-02-02T09:00:00Z'
             },
             {
-                Id: '00T000000000007',
-                Subject: 'Demo Presentation',
-                ActivityDate: '2024-02-15',
-                Status: 'Open',
-                Priority: 'High',
-                Type: 'Meeting',
-                Description: 'Demo new features to stakeholders'
+                traceId: 'LOG-X107',
+                event: 'FILE_UPLOAD',
+                user: 'user2',
+                result: 'SUCCESS',
+                timestamp: '2024-02-02T10:30:00Z'
             },
             {
-                Id: '00T000000000008',
-                Subject: 'Budget Approval',
-                ActivityDate: '2024-02-12',
-                Status: 'Open',
-                Priority: 'Normal',
-                Type: 'Task',
-                Description: 'Get signature from CFO'
+                traceId: 'LOG-X108',
+                event: 'PERMISSION_CHANGE',
+                user: 'admin',
+                result: 'SUCCESS',
+                timestamp: '2024-02-02T13:00:00Z'
             },
             {
-                Id: '00T000000000009',
-                Subject: 'Newsletter Prep',
-                ActivityDate: '2024-02-20',
-                Status: 'Open',
-                Priority: 'Low',
-                Type: 'Task',
-                Description: 'Draft monthly update'
+                traceId: 'LOG-X109',
+                event: 'REPORT_RUN',
+                user: 'manager',
+                result: 'SUCCESS',
+                timestamp: '2024-02-02T14:45:00Z'
             },
             {
-                Id: '00T000000000010',
-                Subject: 'Client Appreciation Dinner',
-                ActivityDate: '2024-02-28',
-                Status: 'Open',
-                Priority: 'Normal',
-                Type: 'Meeting',
-                Description: 'Host at downtown venue'
+                traceId: 'LOG-X110',
+                event: 'SYSTEM_ERROR',
+                user: 'system',
+                result: 'FAILURE',
+                timestamp: '2024-02-02T16:20:00Z'
             }
         ];
-    }
-    
-    // =================================================================================
-    // SECTION 12: CHART DATA GENERATION
-    // =================================================================================
-
-    generateChartData() {
-        // Pipeline by Stage
-        const stages = {};
-        this.opportunities.forEach(opp => {
-            stages[opp.StageName] = (stages[opp.StageName] || 0) + opp.Amount;
-        });
-
-        this.chartData.pipeline = {
-            labels: Object.keys(stages),
-            datasets: [{
-                label: 'Pipeline Amount',
-                data: Object.values(stages),
-                backgroundColor: CHART_COLORS.pipeline.background,
-                borderColor: CHART_COLORS.pipeline.border
-            }]
-        };
-        
-        // Revenue Trend (Mock)
-        this.chartData.revenue = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Revenue',
-                data: [12000, 19000, 3000, 5000, 2000, 30000],
-                backgroundColor: CHART_COLORS.revenue.background,
-                borderColor: CHART_COLORS.revenue.border
-            }]
-        };
-    }
-
-    // =================================================================================
-    // SECTION 13: ADVANCED FILTERING UTILITIES
-    // =================================================================================
-
-    applyFilters() {
-        let results = [...this.getMockOpportunities()]; // Start fresh from source
-
-        // Filter by Search Key
-        if (this.searchKey) {
-            const lowerKey = this.searchKey.toLowerCase();
-            results = results.filter(opp => 
-                opp.Name.toLowerCase().includes(lowerKey) || 
-                opp.StageName.toLowerCase().includes(lowerKey)
-            );
-        }
-
-        // Filter by Stage
-        if (this.filters.stage !== 'All') {
-            results = results.filter(opp => opp.StageName === this.filters.stage);
-        }
-
-        // Filter by Date Range (Mock logic)
-        if (this.filters.dateRange === 'last_month') {
-            // logic would go here
-        }
-
-        this.opportunities = results;
-        this.pagination.currentPage = 1;
-        this.pagination.totalRecords = results.length;
-        this.updatePaginatedData();
     }
 }
