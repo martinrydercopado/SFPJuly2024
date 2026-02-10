@@ -1,0 +1,75 @@
+<template>
+    <lightning-card title="Account Management Dashboard" icon-name="standard:account">
+        <div slot="actions">
+            <lightning-button-icon 
+                icon-name="utility:refresh" 
+                alternative-text="Refresh" 
+                onclick={handleRefresh}
+                class="slds-m-right_small">
+            </lightning-button-icon>
+        </div>
+        
+        <div class="slds-p-around_medium">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+
+            <template if:false={isLoading}>
+                <!-- Metrics Section -->
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                        <div class="metric-card">
+                            <div class="metric-label">Total Revenue</div>
+                            <div class="metric-value">{formattedRevenue}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                        <div class="metric-card">
+                            <div class="metric-label">Open Opportunities</div>
+                            <div class="metric-value">{metrics.openOpportunities}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                        <div class="metric-card">
+                            <div class="metric-label">Win Rate</div>
+                            <div class="metric-value">{formattedWinRate}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                        <div class="metric-card">
+                            <div class="metric-label">Active Contacts</div>
+                            <div class="metric-value">{metrics.activeContacts}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Section -->
+                <lightning-tabset active-tab-value={activeTab} onselect={handleTabChange} class="slds-m-top_large">
+                    <lightning-tab label="Overview" value="overview">
+                        <div class="slds-p-around_medium">
+                            <h3 class="slds-text-heading_small">Account Overview</h3>
+                            <p>Account Name: {accountData.name}</p>
+                            <p>Industry: {accountData.industry}</p>
+                        </div>
+                    </lightning-tab>
+                    
+                    <lightning-tab label="Opportunities" value="opportunities">
+                        <div class="slds-p-around_medium">
+                            <template if:true={hasOpportunities}>
+                                <p>{opportunities.length} opportunities found</p>
+                            </template>
+                        </div>
+                    </lightning-tab>
+                    
+                    <lightning-tab label="Contacts" value="contacts">
+                        <div class="slds-p-around_medium">
+                            <template if:true={hasContacts}>
+                                <p>{contacts.length} contacts found</p>
+                            </template>
+                        </div>
+                    </lightning-tab>
+                </lightning-tabset>
+            </template>
+        </div>
+    </lightning-card>
+</template>
