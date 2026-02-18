@@ -9,6 +9,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ObjectFeb26__c.ObjectFeb26_Checkbox__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ObjectFeb26__c.ObjectFeb26_Picklist__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ObjectFeb26__c.ObjectFeb26_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ObjectNov24__c.ObjectNov24_Date_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -124,6 +139,9 @@
         <layout>July29Object__c-July29Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>ObjectFeb26__c-ObjectFeb26 Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Store_Inventory__c-Store Inventory Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -196,6 +214,10 @@
         <object>Support_Ticket__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabVisibilities>
+        <tab>ObjectFeb26__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Support_Ticket__c</tab>
         <visibility>DefaultOn</visibility>
