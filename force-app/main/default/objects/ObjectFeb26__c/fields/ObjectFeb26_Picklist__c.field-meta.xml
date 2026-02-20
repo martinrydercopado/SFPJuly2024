@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ObjectFeb26_Picklist__c</fullName>
+    <description>This is a description for the field ObjectFeb26 Picklist</description>
     <label>ObjectFeb26 Picklist</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
