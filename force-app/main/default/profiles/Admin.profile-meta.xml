@@ -74,6 +74,9 @@
         <layout>July29Object__c-July29Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>ObjectMarch4__c-ObjectMarch4 Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Support_Ticket__c-Support Ticket Layout</layout>
     </layoutAssignments>
     <loginHours n1:nil="true" />
@@ -93,6 +96,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>July29Object__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ObjectMarch4__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
