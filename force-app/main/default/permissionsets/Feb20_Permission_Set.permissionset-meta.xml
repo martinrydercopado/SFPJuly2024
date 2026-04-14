@@ -4,11 +4,6 @@
     <hasActivationRequired>false</hasActivationRequired>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ObjectFeb26__c.ObjectFeb26_Checkbox__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ObjectFeb26__c.ObjectFeb26_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
