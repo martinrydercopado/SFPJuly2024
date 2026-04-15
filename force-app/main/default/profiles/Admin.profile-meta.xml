@@ -12,6 +12,11 @@
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CustomObject_Apr15__c.CustomObject_Apr15_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event_Registration__c.Actual_Cost__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -114,6 +119,9 @@
         <layout>CustomObjectJan28__c-CustomObjectJan28 Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CustomObject_Apr15__c-CustomObject Apr15 Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Event_Registration__c-Event Registration Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -127,6 +135,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>CustomObjectJan28__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>CustomObject_Apr15__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -156,6 +173,10 @@
         <object>ObjectNov24__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabVisibilities>
+        <tab>CustomObject_Apr15__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Event_Registration__c</tab>
         <visibility>DefaultOn</visibility>
