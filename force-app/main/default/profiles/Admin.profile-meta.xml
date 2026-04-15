@@ -4,6 +4,11 @@
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CustomObject_Apr15__c.CustomObject_Apr15_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>July29Object__c.July29_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -71,6 +76,9 @@
         <layout>CustomObjectJan28__c-CustomObjectJan28 Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CustomObject_Apr15__c-CustomObject Apr15 Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>July29Object__c-July29Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -84,6 +92,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>CustomObjectJan28__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>CustomObject_Apr15__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -113,6 +130,10 @@
         <object>Support_Ticket__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabVisibilities>
+        <tab>CustomObject_Apr15__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Support_Ticket__c</tab>
         <visibility>DefaultOn</visibility>
