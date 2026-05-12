@@ -1,108 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata"
       xmlns:n1="http://www.w3.org/2001/XMLSchema-instance">
-    <classAccesses>
-        <apexClass>AccountService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>AccountServiceTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event_Registration__c.Actual_Cost__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Event_Registration__c.Available_Spots__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Budget_Amount__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Event_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Event_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Event_Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Event_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Is_Virtual__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Location__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Max_Capacity__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Meeting_Link__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Registered_Attendees__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Registration_Deadline__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event_Registration__c.Status__c</field>
+        <field>CustomObject_Apr15__c.CustomObject_Apr15_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>July29Object__c.July29_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ObjectFeb26__c.ObjectFeb26_Checkbox__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ObjectFeb26__c.ObjectFeb26_Picklist__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ObjectFeb26__c.ObjectFeb26_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -123,56 +30,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ObjectNov24__c.ObjectNov24_URL__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store_Inventory__c.Last_Updated__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store_Inventory__c.Product__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store_Inventory__c.Quantity__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store__c.Address__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store__c.City__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store__c.Latitude__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store__c.Longitude__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store__c.Phone__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store__c.State__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Store__c.Zip__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -219,19 +76,10 @@
         <layout>CustomObjectJan28__c-CustomObjectJan28 Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Event_Registration__c-Event Registration Layout</layout>
+        <layout>CustomObject_Apr15__c-CustomObject Apr15 Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>July29Object__c-July29Object Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ObjectFeb26__c-ObjectFeb26 Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Store_Inventory__c-Store Inventory Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Store__c-Store Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Support_Ticket__c-Support Ticket Layout</layout>
@@ -252,7 +100,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Event_Registration__c</object>
+        <object>CustomObject_Apr15__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -270,34 +118,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>ObjectFeb26__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>ObjectNov24__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Store_Inventory__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Store__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -310,11 +131,7 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <tabVisibilities>
-        <tab>Event_Registration__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>ObjectFeb26__c</tab>
+        <tab>CustomObject_Apr15__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
