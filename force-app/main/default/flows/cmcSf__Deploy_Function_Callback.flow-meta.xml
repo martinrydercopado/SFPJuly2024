@@ -3,9 +3,5 @@
     <apiVersion>58.0</apiVersion>
     <environments>Default</environments>
     <label>Deploy Function Callback</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

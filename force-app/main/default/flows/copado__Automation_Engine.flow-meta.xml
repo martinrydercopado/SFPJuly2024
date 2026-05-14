@@ -3,9 +3,5 @@
     <apiVersion>54.0</apiVersion>
     <environments>Default</environments>
     <label>Automation Engine</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

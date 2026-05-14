@@ -4,9 +4,5 @@
     <description>Flow to update package version</description>
     <environments>Default</environments>
     <label>Update Package Version</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

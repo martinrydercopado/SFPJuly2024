@@ -3,9 +3,5 @@
     <apiVersion>49.0</apiVersion>
     <description>Updates Value Stream Start Data to the current date and time when it&apos;s activated if its empty.</description>
     <label>Update Value Stream Map Activation Date Time</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>Workflow</processType>
 </Flow>

@@ -3,9 +3,5 @@
     <apiVersion>59.0</apiVersion>
     <environments>Default</environments>
     <label>Persona Definition Delete Trigger</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

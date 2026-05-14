@@ -30,9 +30,9 @@
             </value>
         </inputParameters>
         <nameSegment>copadoCrtRpa__RunCrtAutomation</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <description>This variable assignment is introduced to use the output variable in the assert statement (RunCrtTestsActionTest.callForApexException()) to capture the fault flow scenario when apex error is thrown from previous apex action.</description>
         <name>AssignFaultErrorMessage</name>

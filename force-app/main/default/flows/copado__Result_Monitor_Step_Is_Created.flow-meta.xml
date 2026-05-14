@@ -3,9 +3,5 @@
     <apiVersion>54.0</apiVersion>
     <description>Publish an event whenever the step is created. So live message component can listen it.</description>
     <label>Result Monitor Step Is Created</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

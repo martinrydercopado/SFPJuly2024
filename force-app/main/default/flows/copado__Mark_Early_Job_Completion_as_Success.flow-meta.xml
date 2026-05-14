@@ -5,9 +5,5 @@
 Workflow rule description: &quot;</description>
     <environments>Default</environments>
     <label>Mark Early Job Completion as Success</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

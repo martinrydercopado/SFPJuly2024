@@ -3,9 +3,5 @@
     <apiVersion>53.0</apiVersion>
     <environments>Default</environments>
     <label>Manual Task Orchestrator</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

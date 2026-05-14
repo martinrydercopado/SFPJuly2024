@@ -3,9 +3,5 @@
     <apiVersion>52.0</apiVersion>
     <description>Flow for installing packages</description>
     <label>Distribute Package</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>Flow</processType>
 </Flow>

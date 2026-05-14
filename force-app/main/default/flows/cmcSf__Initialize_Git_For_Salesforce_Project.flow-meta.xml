@@ -3,9 +3,5 @@
     <apiVersion>57.0</apiVersion>
     <environments>Default</environments>
     <label>Initialize Git For Salesforce Project</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>Flow</processType>
 </Flow>

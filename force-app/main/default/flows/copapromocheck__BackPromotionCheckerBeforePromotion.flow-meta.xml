@@ -31,7 +31,6 @@
         </inputParameters>
         <nameSegment>copado__UserStoryCounter</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Update_Test_Result_From_Result</name>
@@ -66,9 +65,9 @@
             </value>
         </inputParameters>
         <nameSegment>copapromocheck__UpdateTestResultFromResult</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>You_cannot_promote_because_there_are_back_promotions_pending</name>
         <label>You cannot promote because there are back-promotions pending</label>
@@ -186,7 +185,7 @@
         <inputAssignments>
             <field>copado__Payload__c</field>
             <value>
-                <stringValue>{ &quot;isSuccess&quot;: {!isSuccess}, &quot;error&quot;: &quot;{!$Flow.FaultMessage}{!testErrorMessage}&quot; }</stringValue>
+                <stringValue>{ &quot;isSuccess&quot;: {!isSuccess}, &quot;errorMessage&quot;: &quot;{!$Flow.FaultMessage}{!testErrorMessage}&quot; }</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>

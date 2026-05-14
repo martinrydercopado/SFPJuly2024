@@ -31,7 +31,6 @@
         </inputParameters>
         <nameSegment>copado__UserStoryCounter</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Throw_error</name>
@@ -48,9 +47,9 @@
             </value>
         </inputParameters>
         <nameSegment>copapromocheck__FlowCustomError</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Check_the_number_of_user_stories_behind</name>
         <label>Check the number of user stories behind</label>

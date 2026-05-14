@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <description>Updates Value Stream Start Data to the current date and time when it&apos;s activated if it&apos;s empty.</description>
+    <label>Update VSM Activation Date Time</label>
+    <processType>AutoLaunchedFlow</processType>
+</Flow>

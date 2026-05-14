@@ -26,7 +26,7 @@
             <name>copado__Set_DJ_Status_to_Failed</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>copado__Deployment_Job__c.copado__Status__c</field>
             <operation>equals</operation>
@@ -45,7 +45,7 @@
             <name>copado__Set_DJ_Status_to_Success</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>copado__Deployment_Job__c.copado__Status__c</field>
             <operation>equals</operation>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <description>This autolaunched flow checks whether a pull request job execution already exists. If an execution is found, the flow updates the current status based on the latest result.</description>
+    <environments>Default</environments>
+    <label>Pull Request Review Job Service</label>
+    <processType>AutoLaunchedFlow</processType>
+</Flow>

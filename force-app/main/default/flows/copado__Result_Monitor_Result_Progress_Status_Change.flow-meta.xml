@@ -4,9 +4,5 @@
     <description>Publish an event whenever the progress status of the result is changed. So live message component can listen it.</description>
     <environments>Default</environments>
     <label>Result Monitor Result Progress Status Change</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

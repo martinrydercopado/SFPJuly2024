@@ -3,9 +3,5 @@
     <apiVersion>52.0</apiVersion>
     <environments>Default</environments>
     <label>Import Package and Versions</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

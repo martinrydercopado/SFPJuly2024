@@ -5,9 +5,5 @@
 Workflow rule description: &quot;</description>
     <environments>Default</environments>
     <label>Set User Story Commit Name</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

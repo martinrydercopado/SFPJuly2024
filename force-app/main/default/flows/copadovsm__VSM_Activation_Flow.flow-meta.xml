@@ -3,9 +3,5 @@
     <apiVersion>50.0</apiVersion>
     <description>Activates/Deactives current VSM record based on the state</description>
     <label>VSM Activation Flow</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>Flow</processType>
 </Flow>

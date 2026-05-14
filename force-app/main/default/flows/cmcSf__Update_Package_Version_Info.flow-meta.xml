@@ -4,9 +4,5 @@
     <description>Removed Custom Label References</description>
     <environments>Default</environments>
     <label>Update Package Version Info</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>Flow</processType>
 </Flow>

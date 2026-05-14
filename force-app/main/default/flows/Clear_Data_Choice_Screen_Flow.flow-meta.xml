@@ -25,7 +25,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message1</name>
@@ -53,7 +52,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message2</name>
@@ -81,7 +79,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message3</name>
@@ -109,7 +106,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message4</name>
@@ -137,7 +133,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message5</name>
@@ -165,7 +160,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message6</name>
@@ -193,7 +187,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message7</name>
@@ -221,7 +214,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message8</name>
@@ -249,7 +241,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message9</name>
@@ -277,7 +268,6 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Toast_Message</name>
@@ -301,9 +291,9 @@
         </inputParameters>
         <nameSegment>c:showToast</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <choices>
         <name>ClearAllData</name>
         <choiceText>Clear All Data</choiceText>
@@ -986,6 +976,14 @@
             <name>AllWarning</name>
             <fieldText>&lt;p&gt;You have selected to delete all data.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;With this selection, Copado will be deleting Git Repositories, Projects, Releases, Pipelines, &lt;/span&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;Non-Prod &lt;/strong&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;Environment, &lt;/span&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;Non-Prod&lt;/strong&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt; Credentials along with the instances(User Stories, Promotions, and Git Commits data) &lt;/span&gt;&lt;strong&gt;trial data, created within the last 90 days&lt;/strong&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;Click on the finish button if you want to proceed! If you want to change your selection, please click the Previous button.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1010,6 +1008,14 @@
             <fieldType>RadioButtons</fieldType>
             <helpText>&lt;p&gt;Clear All Data will delete all Copado data including Pipelines, Environments, Credentials, and Git Repositories including the instances whereas Clear Instances will only delete records like User Stories, Commits, and Promotions.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <nextOrFinishButtonLabel>Continue</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -1032,6 +1038,14 @@ Details:
 {!$Flow.FaultMessage}
 &lt;/pre&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1051,6 +1065,14 @@ Details:
             <name>InstancesWarningMessage</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;You have selected to delete Instance data. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;With this selection, Copado will be deleting User Stories, Promotions, and Git Commits &lt;/span&gt;&lt;strong&gt;trial data, created within the last 90 days&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;. Click on the finish button if you want to proceed! If you want to change your selection, please click the Previous button.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>

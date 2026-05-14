@@ -3,9 +3,5 @@
     <apiVersion>60.0</apiVersion>
     <environments>Default</environments>
     <label>Enable MCDD Data Set</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

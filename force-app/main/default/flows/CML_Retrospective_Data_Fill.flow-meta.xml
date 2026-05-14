@@ -30,9 +30,9 @@
         </inputParameters>
         <nameSegment>cmlConvertRecordsToCSVQueueable</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>55.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>AddToCollection</name>
         <label>AddToCollection</label>
@@ -496,6 +496,14 @@
             <name>NothingToUpdateMessage</name>
             <fieldText>&lt;p&gt;&lt;strong&gt;Nothing to do here!&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;All Users Stories created on or after &lt;strong&gt;{!From_Date} &lt;/strong&gt;already have the best values for DORA timestamps.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Try again with an earlier date if you want to find more User Stories to update.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -515,11 +523,27 @@
             <name>ResultText_0</name>
             <fieldText>&lt;p&gt;A total of &lt;strong&gt;{!SizeUSToUpdate} User Stories &lt;/strong&gt;are ready to be updated with timestamps for DORA metric reporting.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>ConfirmationWarningText</name>
             <fieldText>&lt;p&gt;&lt;strong&gt;IMPORTANT:&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Slide to Accept and click Next to apply the updates.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;This action is not reversible&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;However, you can reference this &lt;a href=&quot;/{!CML_Generate_CSV.contentDocumentId}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;CSV file&lt;/a&gt; of all records which will be updated and use it as the basis of a reversing data load.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>AcceptAndProceed</name>
@@ -546,6 +570,14 @@
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -565,6 +597,14 @@
             <name>DefineDateText</name>
             <fieldText>&lt;p&gt;This screen-flow helps to retrospectively populate two DateTime fields on User Story records that drive the&lt;strong&gt; DORA Lead Time &lt;/strong&gt;metrics.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;It does this by querying related Promotion records to find relevant (and approximate) timestamps that can be applied to these fields.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Please select Date below. &lt;/strong&gt;All User Stories created on or after that date will be updated.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>From_Date</name>
@@ -572,6 +612,14 @@
             <fieldText>Update User Stories Created on or After</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <nextOrFinishButtonLabel>Calculate DORA Timestamps</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>

@@ -3,9 +3,5 @@
     <apiVersion>52.0</apiVersion>
     <description>As Field Mapping Object is a Junction object, hence Field Value Mapping can only have Lookup to Field Mapping and using this for cascade delete.</description>
     <label>Delete Child Field Value Mappings</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>

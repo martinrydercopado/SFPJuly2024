@@ -4,9 +4,5 @@
     <description>This flow is deprecated and the new flow which will have this functionality is named as Deploy_Function_Callback</description>
     <environments>Default</environments>
     <label>Update Validation Id on Promotion (Deprecated)</label>
-    <processMetadataValues>
-        <name>AssociatedRecord</name>
-        <value/>
-    </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 </Flow>
