@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set for the Certification Quiz Agent user. Grants access to Knowledge articles and other objects needed for quiz functionality.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Cert Quiz Agent User</label>
+</PermissionSet>
