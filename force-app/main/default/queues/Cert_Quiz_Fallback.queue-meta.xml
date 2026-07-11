@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesIncludeBosses>true</doesIncludeBosses>
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>Cert Quiz Fallback</name>
+    <queueMembers>
+        <users>
+            <user>mryder@copado.com.mysfp</user>
+        </users>
+    </queueMembers>
+    <queueRoutingConfig>Cert_Quiz_Routing</queueRoutingConfig>
+    <queueSobject>
+        <sobjectType>MessagingSession</sobjectType>
+    </queueSobject>
+</Queue>

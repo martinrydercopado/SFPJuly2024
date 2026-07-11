@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v1</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Welcome to the Salesforce Certification Quiz! I can help you practice for three certifications:
+
+1. Salesforce Platform Administrator
+2. Agentforce Specialist
+3. Data Cloud and Data 360 Consultant
+
+Which certification would you like to practice?</message>
+                <messageIdentifier>a1b2c3d4-1111-4aaa-bbbb-111111111111</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>b2c3d4e5-2222-4bbb-cccc-222222222222</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>c3d4e5f6-3333-4ccc-dddd-333333333333</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Welcome</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Sorry, something went wrong. Let me try again. Which certification would you like to practice?</message>
+                <messageIdentifier>d4e5f6a7-4444-4ddd-eeee-444444444444</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>e5f6a7b8-5555-4eee-ffff-555555555555</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>f6a7b8c9-6666-4fff-aaaa-666666666666</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Error_Handler</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Error Handler</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <company>Salesforce Certification Practice Portal</company>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>Cert_Quiz_Planner</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationSystemDialogs>
+        <dialog>Error_Handler</dialog>
+        <type>ErrorHandling</type>
+    </conversationSystemDialogs>
+    <defaultStdObjForContactIdFltrEnabled>false</defaultStdObjForContactIdFltrEnabled>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <isScriptCompatibleAgent>false</isScriptCompatibleAgent>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <role>Certification quiz coach. Offer three tracks: Platform Admin, Agentforce Specialist, Data Cloud Consultant. Use GenerateQuestion action for questions. Show A-D choices. After answer, explain correct and wrong options. Offer to continue or switch.</role>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <stopRecPrompts>false</stopRecPrompts>
+    <stopWelcomePrompts>false</stopWelcomePrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>
