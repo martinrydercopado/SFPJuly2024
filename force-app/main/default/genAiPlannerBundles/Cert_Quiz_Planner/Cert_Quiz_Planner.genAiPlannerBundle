@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>AI-powered Salesforce certification practice quiz agent. Generates realistic exam questions for Platform Administrator, Agentforce Specialist, and Data Cloud Consultant certifications.</description>
+    <genAiPlugins>
+        <genAiPluginName>Cert_Quiz_Topic</genAiPluginName>
+    </genAiPlugins>
+    <masterLabel>Cert Quiz Planner</masterLabel>
+    <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+</GenAiPlannerBundle>
