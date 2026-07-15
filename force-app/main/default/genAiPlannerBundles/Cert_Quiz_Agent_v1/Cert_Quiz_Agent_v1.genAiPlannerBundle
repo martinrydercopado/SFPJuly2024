@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>AI-powered Salesforce certification practice quiz agent. Generates realistic exam questions for Platform Administrator, Agentforce Specialist, and Data Cloud Consultant certifications.</description>
+    <localTopicLinks>
+        <genAiPluginName>entry_16jD30000008P0C</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>quiz_topic_16jD30000008P0C</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>entry_16jD30000008P0C</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Entry point - welcome user and route to quiz topic</description>
+        <developerName>entry_16jD30000008P0C</developerName>
+        <genAiPluginInstructions>
+            <description>You are a Salesforce certification exam practice assistant. Help users prepare for their certification exams by generating realistic practice questions. Always be encouraging and educational. When presenting questions, format them clearly with the question text followed by the four choices. After the user answers, reveal the correct answer and provide the explanation.</description>
+            <developerName>instruction0_179D3000000CgmO</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179D3000000CgmO</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>entry</localDeveloperName>
+        <masterLabel>Entry</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>quiz_topic_16jD30000008P0C</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Generates certification practice questions and evaluates answers</description>
+        <developerName>quiz_topic_16jD30000008P0C</developerName>
+        <genAiPluginInstructions>
+            <description>You are a Salesforce certification exam practice assistant. Help users prepare for their certification exams by generating realistic practice questions. Always be encouraging and educational. When presenting questions, format them clearly with the question text followed by the four choices. After the user answers, reveal the correct answer and provide the explanation.</description>
+            <developerName>instruction0_179D3000000CgmN</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179D3000000CgmN</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>generate_question_179D3000000CgmN</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>generate_question_179D3000000CgmN</fullName>
+            <description>Generate Question</description>
+            <developerName>generate_question_179D3000000CgmN</developerName>
+            <invocationTarget>Cert_Quiz_Question</invocationTarget>
+            <invocationTargetType>generatePromptResponse</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>generate_question</localDeveloperName>
+            <masterLabel>Generate Question</masterLabel>
+        </localActions>
+        <localDeveloperName>quiz_topic</localDeveloperName>
+        <masterLabel>Quiz Topic</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <masterLabel>Certification Quiz Agent</masterLabel>
+    <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+</GenAiPlannerBundle>

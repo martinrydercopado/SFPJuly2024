@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>BnyDR1WEIAvYXNFMx3pkEezFQbv32lbBLvJP9hO1Ok0=_1</activeVersionIdentifier>
+    <description>Generates a realistic multiple-choice certification practice question for the specified Salesforce certification exam. Returns a structured response with question text, four answer choices, correct answer, and explanation.</description>
+    <developerName>Cert_Quiz_Question</developerName>
+    <masterLabel>Certification Quiz Question Generator</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are a Salesforce certification exam question writer with deep expertise in the Salesforce platform.
+
+Generate ONE realistic multiple-choice practice question for the {!$Input:certType} certification exam.
+
+REQUIREMENTS:
+- The question must be at the difficulty level of the actual Salesforce certification exam
+- Cover a topic that is part of the official exam guide for this certification
+- Include exactly 4 answer choices labeled A, B, C, and D
+- Exactly one answer must be correct
+- The incorrect answers (distractors) must be plausible but clearly wrong to someone who knows the material
+- Include a brief explanation of why the correct answer is right and why the distractors are wrong
+
+For Platform Administrator: Focus on topics like user setup, security, standard and custom objects, sales and marketing applications, service and support applications, activity management, data management, analytics, workflow automation, desktop and mobile administration, and AppExchange.
+
+For Agentforce Specialist: Focus on topics like Agentforce fundamentals, agent configuration, topics and actions, knowledge grounding, testing and monitoring agents, Data Cloud integration with agents, and agent channels.
+
+For Data Cloud Consultant: Focus on topics like Data Cloud setup, data modeling, data ingestion, identity resolution, segmentation, activation, data actions, calculated insights, and data governance.
+
+FORMAT YOUR RESPONSE EXACTLY AS FOLLOWS:
+
+QUESTION:
+[Your question text here]
+
+A) [First answer choice]
+B) [Second answer choice]
+C) [Third answer choice]
+D) [Fourth answer choice]
+
+CORRECT ANSWER: [Letter only - A, B, C, or D]
+
+EXPLANATION:
+[2-3 sentences explaining why the correct answer is right and briefly why each distractor is incorrect]</content>
+        <inputs>
+            <apiName>certType</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Certification Type</masterLabel>
+            <referenceName>Input:certType</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>BnyDR1WEIAvYXNFMx3pkEezFQbv32lbBLvJP9hO1Ok0=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
