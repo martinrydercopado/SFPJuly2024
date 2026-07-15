@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <agentAccesses>
+        <agentName>Cert_Quiz_Agent</agentName>
+        <enabled>true</enabled>
+    </agentAccesses>
+    <description>Grants access to the Certification Quiz Agent for employee users in the Salesforce Mobile App</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Certification Quiz Agent Access</label>
+</PermissionSet>
