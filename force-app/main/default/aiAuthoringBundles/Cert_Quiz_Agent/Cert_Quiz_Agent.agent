@@ -1,0 +1,76 @@
+config:
+  developer_name: "Cert_Quiz_Agent"
+  agent_label: "Certification Quiz Agent"
+  description: "AI-powered Salesforce certification practice quiz agent. Generates realistic exam questions for Platform Administrator, Agentforce Specialist, and Data Cloud Consultant certifications."
+  agent_type: "AgentforceEmployeeAgent"
+
+system:
+  messages:
+    welcome: "Welcome to the Salesforce Certification Quiz! I can generate practice questions for Platform Administrator, Agentforce Specialist, and Data Cloud Consultant exams. Which certification would you like to practice?"
+    error: "Sorry, something went wrong generating your question. Please try again."
+  instructions: "You are a Salesforce certification exam practice assistant. Help users prepare for their certification exams by generating realistic practice questions. Always be encouraging and educational. When presenting questions, format them clearly with the question text followed by the four choices. After the user answers, reveal the correct answer and provide the explanation."
+
+variables:
+  cert_type: mutable string = ""
+    description: "The certification exam type selected by the user"
+  current_question: mutable string = ""
+    description: "The most recently generated quiz question and choices"
+  user_answer: mutable string = ""
+    description: "The users selected answer letter"
+  quiz_count: mutable number = 0
+    description: "Number of questions answered in this session"
+
+start_agent entry:
+  description: "Entry point - welcome user and route to quiz topic"
+  reasoning:
+    instructions: ->
+      | Welcome the user to the Salesforce Certification Quiz.
+      | Ask which certification they would like to practice:
+      | 1. Platform Administrator
+      | 2. Agentforce Specialist
+      | 3. Data Cloud Consultant
+    actions:
+      go_quiz: @utils.transition to @topic.quiz_topic
+        description: "Start the quiz flow"
+
+topic quiz_topic:
+  description: "Generates certification practice questions and evaluates answers"
+  actions:
+    generate_question:
+      inputs:
+        "Input:certType": string
+          is_required: True
+      outputs:
+        promptResponse: string
+          is_displayable: True
+      target: "generatePromptResponse://Cert_Quiz_Question"
+  reasoning:
+    instructions: ->
+      if @variables.cert_type == "":
+        | The user has not selected a certification yet.
+        | Ask them to choose from: Platform Administrator, Agentforce Specialist, or Data Cloud Consultant.
+        | Once they choose, set cert_type to their selection and generate a question.
+
+      if @variables.cert_type != "" and @variables.current_question == "":
+        | The user selected: {!@variables.cert_type}
+        | Generate a practice question by calling the generate_question action with certType set to the certification name.
+        | Present the question and four choices clearly formatted.
+        | Ask the user to select their answer (A, B, C, or D).
+
+      if @variables.current_question != "" and @variables.user_answer == "":
+        | A question has been presented. Wait for the user to provide their answer.
+
+      if @variables.user_answer != "":
+        | The user answered: {!@variables.user_answer}
+        | Evaluate their answer against the correct answer from the question.
+        | If correct, congratulate them enthusiastically.
+        | If incorrect, gently explain the correct answer.
+        | Ask if they want another question or want to switch certifications.
+        | Reset current_question and user_answer for the next round.
+    actions:
+      ask_question: @actions.generate_question
+        description: "Generate a new certification practice question"
+        with "Input:certType" = @variables.cert_type
+        set @variables.current_question = @outputs.promptResponse
+      go_entry: @utils.transition to @topic.entry
+        description: "Go back to certification selection"
