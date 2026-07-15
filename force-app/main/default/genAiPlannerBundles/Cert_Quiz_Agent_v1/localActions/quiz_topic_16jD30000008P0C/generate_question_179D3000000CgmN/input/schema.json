@@ -1,0 +1,14 @@
+{
+  "required" : [ "Input:certType" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "Input:certType" : {
+      "title" : "Input:Cert Type",
+      "description" : "Input:Cert Type",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

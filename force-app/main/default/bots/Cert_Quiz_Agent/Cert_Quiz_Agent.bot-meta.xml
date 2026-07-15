@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bot xmlns="http://soap.sforce.com/2006/04/metadata">
+    <agentDSLEnabled>true</agentDSLEnabled>
+    <agentType>AgentforceEmployeeAgent</agentType>
+    <botMlDomain>
+        <label>Certification Quiz Agent</label>
+        <name>Cert_Quiz_Agent</name>
+    </botMlDomain>
+    <botSource>None</botSource>
+    <description>AI-powered Salesforce certification practice quiz agent. Generates realistic exam questions for Platform Administrator, Agentforce Specialist, and Data Cloud Consultant certifications.</description>
+    <label>Certification Quiz Agent</label>
+    <logPrivateConversationData>false</logPrivateConversationData>
+    <richContentEnabled>true</richContentEnabled>
+    <sessionTimeout>0</sessionTimeout>
+    <type>InternalCopilot</type>
+</Bot>
