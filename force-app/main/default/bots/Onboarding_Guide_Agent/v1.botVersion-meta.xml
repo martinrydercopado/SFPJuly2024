@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v1</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Welcome to the Salesforce Admin Onboarding Guide! I&apos;ll walk you through a structured checklist to make sure your org is set up for success. Let&apos;s get started!</message>
+                <messageIdentifier>1026658b-4c5b-402a-af8b-95464e090f09</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>d573f75b-123a-4ccd-a8d7-58ffbd1463d8</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>e77f904b-8326-4167-8405-5d247ecd3b59</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Welcome</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>I encountered an issue. Let me try to continue from where we left off.</message>
+                <messageIdentifier>adcd43f8-b754-4469-95a2-ff041bc01e29</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>dec52abe-67e0-456c-b8e7-14d2d55c3a52</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>b9937d98-e455-46a7-b0e5-0d0a06be32b3</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Rich_Content_Error_Handling</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Error Handler</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <conversationSystemMessage>
+                <type>Transfer</type>
+            </conversationSystemMessage>
+            <stepIdentifier>b4aa14b2-0f57-4e05-9af1-e57d785caf22</stepIdentifier>
+            <type>SystemMessage</type>
+        </botSteps>
+        <developerName>Transfer_To_Agent</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Transfer To Agent</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>Onboarding_Guide_Agent_v1</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationSystemDialogs>
+        <dialog>Rich_Content_Error_Handling</dialog>
+        <type>ErrorHandling</type>
+    </conversationSystemDialogs>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The agent instructions</description>
+        <developerName>AgentScriptInternal_agent_instructions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Agent Instructions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Boolean</dataType>
+        <description>Runtime condition evaluation for if statements</description>
+        <developerName>AgentScriptInternal_condition_1</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Runtime Condition 1</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The next topic to be visited</description>
+        <developerName>AgentScriptInternal_next_topic</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Next Topic</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user configured business hours</description>
+        <developerName>ans_business_hours</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Business Hours</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user completed company profile setup</description>
+        <developerName>ans_company_profile</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Company Profile</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user created a custom field</description>
+        <developerName>ans_custom_field</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Custom Field</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user created a custom object</description>
+        <developerName>ans_custom_object</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Custom Object</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user created their first user</description>
+        <developerName>ans_first_user_created</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans First User Created</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user configured the fiscal year</description>
+        <developerName>ans_fiscal_year</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Fiscal Year</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user configured holidays</description>
+        <developerName>ans_holidays</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Holidays</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user reviewed login IP ranges</description>
+        <developerName>ans_login_ip_ranges</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Login Ip Ranges</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user completed MFA setup</description>
+        <developerName>ans_mfa_setup</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Mfa Setup</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user reviewed password policies</description>
+        <developerName>ans_password_policies</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Password Policies</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user assigned a permission set</description>
+        <developerName>ans_permission_set_assigned</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Permission Set Assigned</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user assigned a profile</description>
+        <developerName>ans_profile_assigned</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Profile Assigned</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user reviewed session settings</description>
+        <developerName>ans_session_settings</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Session Settings</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Has the user created a validation rule</description>
+        <developerName>ans_validation_rule</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Ans Validation Rule</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>ID of the created Onboarding Checklist record</description>
+        <developerName>checklist_record_id</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Checklist Record Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Number</dataType>
+        <description>Current stage number (1-6)</description>
+        <developerName>current_step</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Current Step</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Boolean</dataType>
+        <description>Whether the checklist was saved successfully</description>
+        <developerName>save_success</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Save Success</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>User&apos;s role: Admin, Developer, or Business Analyst</description>
+        <developerName>user_role</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>User Role</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <copilotPrimaryLanguage>en_US</copilotPrimaryLanguage>
+    <defaultStdObjForContactIdFltrEnabled>false</defaultStdObjForContactIdFltrEnabled>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <isScriptCompatibleAgent>true</isScriptCompatibleAgent>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <stopRecPrompts>false</stopRecPrompts>
+    <stopWelcomePrompts>false</stopWelcomePrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>
