@@ -1,0 +1,112 @@
+{
+  "required" : [ "user_role", "company_profile", "fiscal_year", "business_hours", "holidays", "password_policies", "session_settings", "login_ip_ranges", "mfa_setup", "first_user_created", "profile_assigned", "permission_set_assigned", "custom_object_created", "custom_field_created", "validation_rule_created" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "business_hours" : {
+      "title" : "Business Hours",
+      "description" : "Whether business hours are configured",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "company_profile" : {
+      "title" : "Company Profile",
+      "description" : "Whether company profile is completed",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "custom_field_created" : {
+      "title" : "Custom Field Created",
+      "description" : "Whether custom field is created",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "custom_object_created" : {
+      "title" : "Custom Object Created",
+      "description" : "Whether custom object is created",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "first_user_created" : {
+      "title" : "First User Created",
+      "description" : "Whether first user is created",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "fiscal_year" : {
+      "title" : "Fiscal Year",
+      "description" : "Whether fiscal year is configured",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "holidays" : {
+      "title" : "Holidays",
+      "description" : "Whether holidays are configured",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "login_ip_ranges" : {
+      "title" : "Login Ip Ranges",
+      "description" : "Whether login IP ranges are reviewed",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "mfa_setup" : {
+      "title" : "Mfa Setup",
+      "description" : "Whether MFA setup is completed",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "password_policies" : {
+      "title" : "Password Policies",
+      "description" : "Whether password policies are reviewed",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "permission_set_assigned" : {
+      "title" : "Permission Set Assigned",
+      "description" : "Whether permission set is assigned",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "profile_assigned" : {
+      "title" : "Profile Assigned",
+      "description" : "Whether profile is assigned",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "session_settings" : {
+      "title" : "Session Settings",
+      "description" : "Whether session settings are reviewed",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "user_role" : {
+      "title" : "User Role",
+      "description" : "The admin's role",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "validation_rule_created" : {
+      "title" : "Validation Rule Created",
+      "description" : "Whether validation rule is created",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}
