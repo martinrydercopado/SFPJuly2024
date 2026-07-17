@@ -1,0 +1,532 @@
+# Onboarding Guide Agent (v2)
+# Walks new Salesforce Admins/Developers/Business Analysts through a structured
+# post-certification checklist. Tailors stages to role, confirms before saving,
+# and handles save failures with a retry path.
+
+config:
+    developer_name: "Onboarding_Guide_Agent"
+    agent_type: "AgentforceServiceAgent"
+    agent_label: "Onboarding Guide Agent"
+    description: "Guides new Salesforce Admins, Developers, and Business Analysts through a role-tailored onboarding checklist covering org setup, security, user management, and data model configuration."
+
+access:
+    default_agent_user: "onboarding.agent@00dd30000001y0umau.sandbox"
+variables:
+	# Standard linked variables for Messaging
+	EndUserId: linked string
+		source: @MessagingSession.MessagingEndUserId
+		description: "Messaging End User ID"
+	RoutableId: linked string
+		source: @MessagingSession.Id
+		description: "Messaging Session ID"
+
+	# Stage tracking
+	# 1 = role, 2 = org setup, 3 = security, 4 = user mgmt,
+	# 5 = data model, 6 = review/confirm, 7 = save
+	current_step: mutable number = 1
+		description: "Current stage number (1-7)"
+
+	# User role - constrained to exactly one of: Admin, Developer, Business Analyst
+	user_role: mutable string = ""
+		description: "User's role. Must be stored as exactly one of: 'Admin', 'Developer', 'Business Analyst'."
+
+	# Stage 2: Org Setup — all values must be stored as exactly 'yes' or 'no'
+	ans_company_profile: mutable string = ""
+		description: "Company profile setup complete. Must be exactly 'yes' or 'no'."
+	ans_fiscal_year: mutable string = ""
+		description: "Fiscal year configured. Must be exactly 'yes' or 'no'."
+	ans_business_hours: mutable string = ""
+		description: "Business hours configured. Must be exactly 'yes' or 'no'."
+	ans_holidays: mutable string = ""
+		description: "Holidays configured. Must be exactly 'yes' or 'no'."
+
+	# Stage 3: Security Baseline (Admin, Developer only)
+	ans_password_policies: mutable string = ""
+		description: "Password policies reviewed. Must be exactly 'yes' or 'no'."
+	ans_session_settings: mutable string = ""
+		description: "Session settings reviewed. Must be exactly 'yes' or 'no'."
+	ans_login_ip_ranges: mutable string = ""
+		description: "Login IP ranges reviewed. Must be exactly 'yes' or 'no'."
+	ans_mfa_setup: mutable string = ""
+		description: "MFA setup complete. Must be exactly 'yes' or 'no'."
+
+	# Stage 4: User Management (Admin, Developer only)
+	ans_first_user_created: mutable string = ""
+		description: "First additional user created. Must be exactly 'yes' or 'no'."
+	ans_profile_assigned: mutable string = ""
+		description: "Profile assigned. Must be exactly 'yes' or 'no'."
+	ans_permission_set_assigned: mutable string = ""
+		description: "Permission set assigned. Must be exactly 'yes' or 'no'."
+
+	# Stage 5: Data Model (Admin, Developer only)
+	ans_custom_object: mutable string = ""
+		description: "Custom object created. Must be exactly 'yes' or 'no'."
+	ans_custom_field: mutable string = ""
+		description: "Custom field created. Must be exactly 'yes' or 'no'."
+	ans_validation_rule: mutable string = ""
+		description: "Validation rule created. Must be exactly 'yes' or 'no'."
+
+	# Stage 6: Review/confirm
+	summary_confirmed: mutable string = ""
+		description: "Whether the user confirmed the summary is ready to save. 'yes' or 'revise'."
+
+	# Save tracking
+	checklist_record_id: mutable string = ""
+		description: "ID of the created/updated Onboarding Checklist record"
+	save_success: mutable boolean = False
+		description: "Whether the checklist was saved successfully"
+	save_attempted: mutable boolean = False
+		description: "Whether a save has been attempted at least once (for retry messaging)"
+
+system:
+	instructions: "You are the Onboarding Guide Agent. You walk new Salesforce users through a role-tailored, post-certification onboarding checklist. Guide them through each stage sequentially, one question at a time. When capturing a yes/no answer, you MUST normalize the user's response and store the variable as exactly the lowercase string 'yes' or 'no' — never store the user's literal wording (e.g. 'yep', 'done', 'not yet', 'skip' must all be normalized to 'yes' or 'no' before storing). When capturing role, normalize to exactly one of 'Admin', 'Developer', or 'Business Analyst'; if the user's answer doesn't clearly match one of these, ask them to pick one of the three. Be encouraging and provide brief tips when items are not yet completed. Never re-ask a question whose answer variable is already set to a non-empty value."
+	messages:
+		welcome: "Welcome to the Salesforce Onboarding Guide! I'll walk you through a checklist tailored to your role. Let's get started!"
+		error: "I ran into an issue on my end. Let's pick back up where we left off."
+
+language:
+	default_locale: "en_US"
+
+start_agent onboarding:
+	description: "Onboarding checklist multi-step workflow"
+
+	actions:
+		# Flow action to save (insert or update) the checklist record
+		save_checklist:
+			description: "Save or update the onboarding checklist results in Salesforce"
+			inputs:
+				user_role: string
+					description: "The user's role"
+					is_required: True
+				company_profile: string
+					description: "Whether company profile is completed"
+					is_required: True
+				fiscal_year: string
+					description: "Whether fiscal year is configured"
+					is_required: True
+				business_hours: string
+					description: "Whether business hours are configured"
+					is_required: True
+				holidays: string
+					description: "Whether holidays are configured"
+					is_required: True
+				password_policies: string
+					description: "Whether password policies are reviewed"
+					is_required: False
+				session_settings: string
+					description: "Whether session settings are reviewed"
+					is_required: False
+				login_ip_ranges: string
+					description: "Whether login IP ranges are reviewed"
+					is_required: False
+				mfa_setup: string
+					description: "Whether MFA setup is completed"
+					is_required: False
+				first_user_created: string
+					description: "Whether first user is created"
+					is_required: False
+				profile_assigned: string
+					description: "Whether profile is assigned"
+					is_required: False
+				permission_set_assigned: string
+					description: "Whether permission set is assigned"
+					is_required: False
+				custom_object_created: string
+					description: "Whether custom object is created"
+					is_required: False
+				custom_field_created: string
+					description: "Whether custom field is created"
+					is_required: False
+				validation_rule_created: string
+					description: "Whether validation rule is created"
+					is_required: False
+			outputs:
+				record_id: string
+					description: "ID of the created or updated checklist record"
+				success: boolean
+					description: "Whether the record was saved successfully"
+			target: "flow://Save_Onboarding_Checklist"
+
+	reasoning:
+		instructions: ->
+			# ============================
+			# STAGE 1: Role Confirmation
+			# ============================
+			if @variables.current_step == 1 and @variables.user_role == "":
+				| **Step 1: Role Confirmation**
+				|
+				| What best describes your role?
+				| - **Admin** (System Administrator)
+				| - **Developer**
+				| - **Business Analyst**
+
+			# ============================
+			# STAGE 2: Org Setup Check (all roles)
+			# ============================
+			if @variables.current_step == 2 and @variables.ans_company_profile == "":
+				| **Stage 2: Org Setup** ({!@variables.user_role} checklist)
+				|
+				| **1. Company Profile** - Have you configured your Company Profile in Setup? (Company name, address, locale, currency)
+
+			if @variables.current_step == 2 and @variables.ans_company_profile != "" and @variables.ans_fiscal_year == "":
+				| **2. Fiscal Year** - Have you configured your Fiscal Year settings?
+				| (Setup > Company Settings > Fiscal Year)
+
+			if @variables.current_step == 2 and @variables.ans_fiscal_year != "" and @variables.ans_business_hours == "":
+				| **3. Business Hours** - Have you set up Business Hours?
+				| (Setup > Company Settings > Business Hours)
+
+			if @variables.current_step == 2 and @variables.ans_business_hours != "" and @variables.ans_holidays == "":
+				| **4. Holidays** - Have you configured company Holidays?
+				| (Setup > Company Settings > Holidays)
+
+			if @variables.current_step == 2 and @variables.ans_holidays != "" and @variables.user_role == "Business Analyst":
+				| Org setup complete! As a Business Analyst, the remaining sections (security, user management, data model) are typically owned by your Admin team, so I'll take you straight to your summary.
+
+			if @variables.current_step == 2 and @variables.ans_holidays != "" and @variables.user_role != "Business Analyst":
+				| Org setup complete! Moving to security.
+
+			# ============================
+			# STAGE 3: Security Baseline (Admin, Developer only)
+			# ============================
+			if @variables.current_step == 3 and @variables.ans_password_policies == "":
+				| **Stage 3: Security Baseline**
+				|
+				| **1. Password Policies** - Have you reviewed and configured your Password Policies?
+				| (Setup > Security > Password Policies)
+
+			if @variables.current_step == 3 and @variables.ans_password_policies != "" and @variables.ans_session_settings == "":
+				| **2. Session Settings** - Have you reviewed Session Settings?
+				| (Setup > Security > Session Settings)
+
+			if @variables.current_step == 3 and @variables.ans_session_settings != "" and @variables.ans_login_ip_ranges == "":
+				| **3. Login IP Ranges** - Have you configured Login IP Ranges for your profiles?
+				| (Setup > Profiles > select profile > Login IP Ranges)
+
+			if @variables.current_step == 3 and @variables.ans_login_ip_ranges != "" and @variables.ans_mfa_setup == "":
+				| **4. MFA Setup** - Have you enabled and configured Multi-Factor Authentication?
+				| (Setup > Identity > Multi-Factor Authentication)
+
+			if @variables.current_step == 3 and @variables.ans_mfa_setup != "":
+				| Security baseline complete! Moving to user management.
+
+			# ============================
+			# STAGE 4: User Management (Admin, Developer only)
+			# ============================
+			if @variables.current_step == 4 and @variables.ans_first_user_created == "":
+				| **Stage 4: User Management**
+				|
+				| **1. First User Created** - Have you created at least one additional user besides yourself?
+				| (Setup > Users > New User)
+
+			if @variables.current_step == 4 and @variables.ans_first_user_created != "" and @variables.ans_profile_assigned == "":
+				| **2. Profile Assignment** - Have you assigned the appropriate Profile to your users?
+				| (Setup > Profiles)
+
+			if @variables.current_step == 4 and @variables.ans_profile_assigned != "" and @variables.ans_permission_set_assigned == "":
+				| **3. Permission Set Assignment** - Have you created and assigned at least one Permission Set?
+				| (Setup > Permission Sets)
+
+			if @variables.current_step == 4 and @variables.ans_permission_set_assigned != "":
+				| User management complete! Moving to data model.
+
+			# ============================
+			# STAGE 5: Data Model (Admin, Developer only)
+			# ============================
+			if @variables.current_step == 5 and @variables.ans_custom_object == "":
+				| **Stage 5: Data Model**
+				|
+				| **1. Custom Object** - Have you created at least one Custom Object?
+				| (Setup > Object Manager > Create > Custom Object)
+
+			if @variables.current_step == 5 and @variables.ans_custom_object != "" and @variables.ans_custom_field == "":
+				| **2. Custom Field** - Have you created at least one Custom Field on any object?
+				| (Object Manager > select object > Fields & Relationships > New)
+
+			if @variables.current_step == 5 and @variables.ans_custom_field != "" and @variables.ans_validation_rule == "":
+				| **3. Validation Rule** - Have you created at least one Validation Rule?
+				| (Object Manager > select object > Validation Rules > New)
+
+			if @variables.current_step == 5 and @variables.ans_validation_rule != "":
+				| Data model section complete! Let's review your summary before saving.
+
+			# ============================
+			# STAGE 6: Review & Confirm
+			# ============================
+			if @variables.current_step == 6 and @variables.summary_confirmed == "":
+				| **Your Onboarding Checklist Summary** (Role: {!@variables.user_role})
+				|
+				| **Org Setup:**
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_company_profile == "yes":
+				| Company Profile: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_company_profile == "no":
+				| Company Profile: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_fiscal_year == "yes":
+				| Fiscal Year: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_fiscal_year == "no":
+				| Fiscal Year: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_business_hours == "yes":
+				| Business Hours: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_business_hours == "no":
+				| Business Hours: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_holidays == "yes":
+				| Holidays: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_holidays == "no":
+				| Holidays: Not yet
+
+			# The following sections only print when the item was actually asked (non-blank),
+			# so Business Analysts — who skip stages 3-5 — see a shorter summary automatically.
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_password_policies == "yes":
+				| **Security:**
+				| Password Policies: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_password_policies == "no":
+				| **Security:**
+				| Password Policies: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_session_settings == "yes":
+				| Session Settings: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_session_settings == "no":
+				| Session Settings: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_login_ip_ranges == "yes":
+				| Login IP Ranges: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_login_ip_ranges == "no":
+				| Login IP Ranges: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_mfa_setup == "yes":
+				| MFA Setup: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_mfa_setup == "no":
+				| MFA Setup: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_first_user_created == "yes":
+				| **User Management:**
+				| First User Created: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_first_user_created == "no":
+				| **User Management:**
+				| First User Created: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_profile_assigned == "yes":
+				| Profile Assigned: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_profile_assigned == "no":
+				| Profile Assigned: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_permission_set_assigned == "yes":
+				| Permission Set Assigned: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_permission_set_assigned == "no":
+				| Permission Set Assigned: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_custom_object == "yes":
+				| **Data Model:**
+				| Custom Object Created: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_custom_object == "no":
+				| **Data Model:**
+				| Custom Object Created: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_custom_field == "yes":
+				| Custom Field Created: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_custom_field == "no":
+				| Custom Field Created: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_validation_rule == "yes":
+				| Validation Rule Created: Done
+			if @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.ans_validation_rule == "no":
+				| Validation Rule Created: Not yet
+
+			if @variables.current_step == 6 and @variables.summary_confirmed == "":
+				|
+				| Does this look right? Reply **save** to submit it, or tell me a section to revisit (org setup, security, users, or data model).
+
+			# ============================
+			# STAGE 7: Save
+			# ============================
+			if @variables.current_step == 7 and @variables.save_success == False and @variables.save_attempted == False:
+				| Saving your checklist now...
+
+			if @variables.current_step == 7 and @variables.save_success == False and @variables.save_attempted == True:
+				| I wasn't able to save your checklist. Nothing you've entered is lost — reply **retry** and I'll try again, or let me know if you'd like to flag this for IT support.
+
+			if @variables.current_step == 7 and @variables.save_success == True:
+				| Your onboarding checklist has been saved successfully!
+				| Record ID: {!@variables.checklist_record_id}
+				|
+				| **Recommended Next Steps:**
+				| - Review any items marked "Not yet" and complete them
+				| - Explore Salesforce Trailhead for advanced topics
+				| - Set up Data Loader for bulk data imports
+				| - Configure email deliverability settings
+				| - Set up your sandbox refresh schedule
+				|
+				| Great job getting started!
+
+		actions:
+			# --- Stage 1: Role capture ---
+			capture_role: @utils.setVariables
+				description: "Set the user's role to exactly 'Admin', 'Developer', or 'Business Analyst' and advance to org setup"
+				with user_role = ...
+				with current_step = 2
+				available when @variables.current_step == 1 and @variables.user_role == ""
+
+			# --- Stage 2: Org Setup (all roles) ---
+			set_company_profile: @utils.setVariables
+				description: "Record whether company profile is completed. Store exactly 'yes' or 'no'."
+				with ans_company_profile = ...
+				available when @variables.current_step == 2 and @variables.ans_company_profile == ""
+
+			set_fiscal_year: @utils.setVariables
+				description: "Record whether fiscal year is configured. Store exactly 'yes' or 'no'."
+				with ans_fiscal_year = ...
+				available when @variables.current_step == 2 and @variables.ans_company_profile != "" and @variables.ans_fiscal_year == ""
+
+			set_business_hours: @utils.setVariables
+				description: "Record whether business hours are configured. Store exactly 'yes' or 'no'."
+				with ans_business_hours = ...
+				available when @variables.current_step == 2 and @variables.ans_fiscal_year != "" and @variables.ans_business_hours == ""
+
+			# Two exit paths out of Stage 2, gated on role — this is the tailoring point.
+			set_holidays_continue_full: @utils.setVariables
+				description: "Record holidays answer and advance to Security stage (Admin/Developer path)"
+				with ans_holidays = ...
+				with current_step = 3
+				available when @variables.current_step == 2 and @variables.ans_business_hours != "" and @variables.ans_holidays == "" and @variables.user_role != "Business Analyst"
+
+			set_holidays_skip_to_review: @utils.setVariables
+				description: "Record holidays answer and skip directly to review (Business Analyst path — security, user mgmt, and data model are out of scope for this role)"
+				with ans_holidays = ...
+				with current_step = 6
+				available when @variables.current_step == 2 and @variables.ans_business_hours != "" and @variables.ans_holidays == "" and @variables.user_role == "Business Analyst"
+
+			# --- Stage 3: Security Baseline ---
+			set_password_policies: @utils.setVariables
+				description: "Record whether password policies are reviewed. Store exactly 'yes' or 'no'."
+				with ans_password_policies = ...
+				available when @variables.current_step == 3 and @variables.ans_password_policies == ""
+
+			set_session_settings: @utils.setVariables
+				description: "Record whether session settings are reviewed. Store exactly 'yes' or 'no'."
+				with ans_session_settings = ...
+				available when @variables.current_step == 3 and @variables.ans_password_policies != "" and @variables.ans_session_settings == ""
+
+			set_login_ip_ranges: @utils.setVariables
+				description: "Record whether login IP ranges are reviewed. Store exactly 'yes' or 'no'."
+				with ans_login_ip_ranges = ...
+				available when @variables.current_step == 3 and @variables.ans_session_settings != "" and @variables.ans_login_ip_ranges == ""
+
+			set_mfa_setup: @utils.setVariables
+				description: "Record whether MFA setup is completed. Store exactly 'yes' or 'no'. Advance to User Management."
+				with ans_mfa_setup = ...
+				with current_step = 4
+				available when @variables.current_step == 3 and @variables.ans_login_ip_ranges != "" and @variables.ans_mfa_setup == ""
+
+			# --- Stage 4: User Management ---
+			set_first_user: @utils.setVariables
+				description: "Record whether first user is created. Store exactly 'yes' or 'no'."
+				with ans_first_user_created = ...
+				available when @variables.current_step == 4 and @variables.ans_first_user_created == ""
+
+			set_profile_assigned: @utils.setVariables
+				description: "Record whether profile is assigned. Store exactly 'yes' or 'no'."
+				with ans_profile_assigned = ...
+				available when @variables.current_step == 4 and @variables.ans_first_user_created != "" and @variables.ans_profile_assigned == ""
+
+			set_permission_set: @utils.setVariables
+				description: "Record whether permission set is assigned. Store exactly 'yes' or 'no'. Advance to Data Model."
+				with ans_permission_set_assigned = ...
+				with current_step = 5
+				available when @variables.current_step == 4 and @variables.ans_profile_assigned != "" and @variables.ans_permission_set_assigned == ""
+
+			# --- Stage 5: Data Model ---
+			set_custom_object: @utils.setVariables
+				description: "Record whether custom object is created. Store exactly 'yes' or 'no'."
+				with ans_custom_object = ...
+				available when @variables.current_step == 5 and @variables.ans_custom_object == ""
+
+			set_custom_field: @utils.setVariables
+				description: "Record whether custom field is created. Store exactly 'yes' or 'no'."
+				with ans_custom_field = ...
+				available when @variables.current_step == 5 and @variables.ans_custom_object != "" and @variables.ans_custom_field == ""
+
+			set_validation_rule: @utils.setVariables
+				description: "Record whether validation rule is created. Store exactly 'yes' or 'no'. Advance to Review."
+				with ans_validation_rule = ...
+				with current_step = 6
+				available when @variables.current_step == 5 and @variables.ans_custom_field != "" and @variables.ans_validation_rule == ""
+
+			# --- Stage 6: Review & Confirm ---
+			confirm_and_save: @utils.setVariables
+				description: "User confirmed the summary is accurate ('save'). Advance to the save stage."
+				with summary_confirmed = "yes"
+				with current_step = 7
+				available when @variables.current_step == 6 and @variables.summary_confirmed == ""
+
+			revise_org_setup: @utils.setVariables
+				description: "User wants to redo the Org Setup section before saving"
+				with ans_company_profile = ""
+				with ans_fiscal_year = ""
+				with ans_business_hours = ""
+				with ans_holidays = ""
+				with summary_confirmed = ""
+				with current_step = 2
+				available when @variables.current_step == 6 and @variables.summary_confirmed == ""
+
+			revise_security: @utils.setVariables
+				description: "User wants to redo the Security section before saving"
+				with ans_password_policies = ""
+				with ans_session_settings = ""
+				with ans_login_ip_ranges = ""
+				with ans_mfa_setup = ""
+				with summary_confirmed = ""
+				with current_step = 3
+				available when @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.user_role != "Business Analyst"
+
+			revise_user_management: @utils.setVariables
+				description: "User wants to redo the User Management section before saving"
+				with ans_first_user_created = ""
+				with ans_profile_assigned = ""
+				with ans_permission_set_assigned = ""
+				with summary_confirmed = ""
+				with current_step = 4
+				available when @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.user_role != "Business Analyst"
+
+			revise_data_model: @utils.setVariables
+				description: "User wants to redo the Data Model section before saving"
+				with ans_custom_object = ""
+				with ans_custom_field = ""
+				with ans_validation_rule = ""
+				with summary_confirmed = ""
+				with current_step = 5
+				available when @variables.current_step == 6 and @variables.summary_confirmed == "" and @variables.user_role != "Business Analyst"
+
+			# --- Stage 7: Save (with retry on failure) ---
+			do_save_checklist: @actions.save_checklist
+				description: "Save the completed onboarding checklist to Salesforce"
+				with user_role = @variables.user_role
+				with company_profile = @variables.ans_company_profile
+				with fiscal_year = @variables.ans_fiscal_year
+				with business_hours = @variables.ans_business_hours
+				with holidays = @variables.ans_holidays
+				with password_policies = @variables.ans_password_policies
+				with session_settings = @variables.ans_session_settings
+				with login_ip_ranges = @variables.ans_login_ip_ranges
+				with mfa_setup = @variables.ans_mfa_setup
+				with first_user_created = @variables.ans_first_user_created
+				with profile_assigned = @variables.ans_profile_assigned
+				with permission_set_assigned = @variables.ans_permission_set_assigned
+				with custom_object_created = @variables.ans_custom_object
+				with custom_field_created = @variables.ans_custom_field
+				with validation_rule_created = @variables.ans_validation_rule
+				set @variables.checklist_record_id = @outputs.record_id
+				set @variables.save_success = @outputs.success
+				set @variables.save_attempted = True
+				available when @variables.current_step == 7 and @variables.save_success == False
+
+subagent off_topic:
+	description: "Redirect off-topic conversations back to the onboarding checklist"
+
+	reasoning:
+		instructions: ->
+			| I'm here to help you with your onboarding checklist.
+			| Would you like to continue where we left off?
