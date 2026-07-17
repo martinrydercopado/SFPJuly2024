@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Guides new Salesforce Administrators through a structured onboarding checklist covering org setup, security, user management, and data model configuration.</description>
+    <localTopicLinks>
+        <genAiPluginName>off_topic_16jD30000008P0W</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>onboarding_16jD30000008P0W</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>off_topic_16jD30000008P0W</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Redirect off-topic conversations back to the onboarding checklist</description>
+        <developerName>off_topic_16jD30000008P0W</developerName>
+        <genAiPluginInstructions>
+            <description>You are the Onboarding Guide Agent. You walk new Salesforce Administrators through a structured post-certification onboarding checklist. Guide them through each stage sequentially. For each yes/no question, accept variations like &apos;yes&apos;, &apos;done&apos;, &apos;completed&apos;, &apos;yep&apos; as yes, and &apos;no&apos;, &apos;not yet&apos;, &apos;nope&apos;, &apos;skip&apos; as no. Be encouraging and provide brief tips when items are not yet completed.</description>
+            <developerName>instruction0_179D3000000Cgmm</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179D3000000Cgmm</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>off_topic</localDeveloperName>
+        <masterLabel>Off Topic</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>onboarding_16jD30000008P0W</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Onboarding checklist multi-step workflow</description>
+        <developerName>onboarding_16jD30000008P0W</developerName>
+        <genAiPluginInstructions>
+            <description>You are the Onboarding Guide Agent. You walk new Salesforce Administrators through a structured post-certification onboarding checklist. Guide them through each stage sequentially. For each yes/no question, accept variations like &apos;yes&apos;, &apos;done&apos;, &apos;completed&apos;, &apos;yep&apos; as yes, and &apos;no&apos;, &apos;not yet&apos;, &apos;nope&apos;, &apos;skip&apos; as no. Be encouraging and provide brief tips when items are not yet completed.</description>
+            <developerName>instruction0_179D3000000Cgmn</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179D3000000Cgmn</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>save_checklist_179D3000000Cgmn</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>save_checklist_179D3000000Cgmn</fullName>
+            <description>Save the onboarding checklist results to Salesforce</description>
+            <developerName>save_checklist_179D3000000Cgmn</developerName>
+            <invocationTarget>Save_Onboarding_Checklist</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>save_checklist</localDeveloperName>
+            <masterLabel>Save Checklist</masterLabel>
+        </localActions>
+        <localDeveloperName>onboarding</localDeveloperName>
+        <masterLabel>Onboarding</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <masterLabel>Onboarding Guide Agent</masterLabel>
+    <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+</GenAiPlannerBundle>
